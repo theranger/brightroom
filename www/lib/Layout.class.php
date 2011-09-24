@@ -11,6 +11,8 @@ class Layout {
 	}
 
 	public function folderListing($url) {
+		$url=rtrim($url,'/');
+		
 		if(!$this->fileSystemHandler->isDirectory($url)) {
 			$url = dirname($url);
 		}
@@ -26,7 +28,10 @@ class Layout {
 		print '<ul>';
 
 		for($i=0;$i<$k;$i++) {
-			print '<li><a href="'.$url."/".$files[$i].'"><img src="/img'.$url."/".$files[$i].'?size=70" /></a></li>';
+			if($files[$i]["type"]=="directory")
+				print '<li><a href="'.$url."/".$files[$i]["name"].'"><img src="/directory.jpg" /></a></li>';
+			else
+				print '<li><a href="'.$url."/".$files[$i]["name"].'"><img src="/img'.$url."/".$files[$i]["name"].'?size=70" /></a></li>';
 		}
 		print '</ul>';
 	}

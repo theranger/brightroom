@@ -6,7 +6,6 @@ include ("lib/Layout.class.php");
 define("DATA_DIR", "/files");
 define("IMG_PREFIX", "/img");
 
-
 $fsh = new FileSystemHandler(dirname(__FILE__).DATA_DIR);
 $layout = new Layout($fsh);
 
@@ -20,6 +19,11 @@ if(strncmp($_GET["q"], IMG_PREFIX, strlen(IMG_PREFIX)) == 0) {
 }
 
 $url = $_GET["q"];
+if(!$fsh->exists($url)) {
+	echo "Folder does not exist or is not readable";
+	return;
+}
+
 
 ?>
 

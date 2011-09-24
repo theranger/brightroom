@@ -10,15 +10,16 @@ class FileSystemHandler {
 
 
 	public function getFilesArray($url) {
-		if(empty($url)) return;
-
 		$dh = opendir($this->dataPath.'/'.$url);
 		if($dh == false) return;
 
 		$files = array();
 		while(($entry = readdir($dh)) !== false) {
 			if($entry[0]=='.') continue;
-			$files[] = $entry;
+			$files[] = array(
+				"type"	=> is_dir($this->dataPath.'/'.$url.'/'.$entry)?"directory":"file",
+				"name"	=> $entry,
+			);
 		}
 
 		closedir($dh);
@@ -52,6 +53,10 @@ class FileSystemHandler {
 
 	public function getFullPath($url) {
 		return $this->dataPath.'/'.$url;
+	}
+	
+	public function exists($url) {
+		return is_readable($this->dataPath.'/'.$url);
 	}
 }
 
