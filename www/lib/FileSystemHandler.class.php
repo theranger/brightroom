@@ -28,15 +28,16 @@ class FileSystemHandler {
 
 
 	public function getFile($url) {
-		if(empty($url)) return;
+		if(empty($url)) return false;
 
 		$fp = fopen($this->dataPath.'/'.$url, "rb");
-		if($fp == false) return;
+		if($fp == false) return false;
 
 		header("Content-Type:" . $this->getMimeType($url) ."\r\n");
 		fpassthru($fp);
 
 		fclose($fp);
+		return true;
 	}
 
 	public function getMimeType($url) {
@@ -55,8 +56,24 @@ class FileSystemHandler {
 		return $this->dataPath.'/'.$url;
 	}
 	
-	public function exists($url) {
+	public function exists($url = "") {
 		return is_readable($this->dataPath.'/'.$url);
+	}
+	
+	public function createDirectory($url = "") {
+		return mkdir($this->dataPath.'/'.$url);
+	}
+	
+	public function saveFile($url, $data) {
+		if(empty($url)) return false;
+		
+		$fp = fopen($this->dataPath.'/'.$url, "wb");
+		if($fp == false) return false;
+		
+		$ret = fputs($fp, $data);
+		fclose($fp);
+		
+		return $ret !== false;
 	}
 }
 

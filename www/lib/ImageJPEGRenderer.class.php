@@ -9,9 +9,11 @@ class ImageJPEGRenderer implements ImageRenderer {
 		return $this->img;
 	}
 
-	public function outputImage() {
-		header('Content-Type: image/jpeg');
-		imagejpeg($this->img);
+	public function outputImage($img) {
+		if($img != NULL)
+			header('Content-Type: image/jpeg');
+		
+		imagejpeg($this->img, $img);
 		imagedestroy($this->img);
 	}
 

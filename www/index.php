@@ -5,6 +5,7 @@ include ("lib/Layout.class.php");
 
 define("DATA_DIR", "/files");
 define("IMG_PREFIX", "/img");
+define("CACHE_FOLDER", ".cache");
 
 $fsh = new FileSystemHandler(dirname(__FILE__).DATA_DIR);
 $layout = new Layout($fsh);

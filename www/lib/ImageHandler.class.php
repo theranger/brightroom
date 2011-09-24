@@ -1,10 +1,11 @@
 <?php
 
 include ("ImageJPEGRenderer.class.php");
+include ("ImageCache.class.php");
 
 interface ImageRenderer {
 	public function loadFile($path);
-	public function outputImage();
+	public function outputImage($img);
 	public function getHandle();
 	public function setHandle($img);
 }
@@ -20,15 +21,42 @@ class ImageHandler {
 		}
 	}
 
-	public function resizeImage($path, $height, $width) {
+	public function resizeImage($path, $size) {
 		if(!$this->imageRenderer) return;
-
+		$cachedImgPath = NULL;
+		$cache = NULL;
+		
+		if(defined("CACHE_FOLDER")) {
+			$cache = new ImageCache(dirname($path).'/'.CACHE_FOLDER);
+			$cachedImgName = $size.'_'.basename($path);
+			if($cache->getFromCache($cachedImgName)) return;
+			
+			//Cache was empty, prepare it
+			if($cache->prepareCache())
+				$cachedImgPath = $cache->getFullPath($cachedImgName);
+		}
+		
 		$orig = $this->imageRenderer->loadFile($path);
-		$img = imagecreatetruecolor($height,$width);
-		imagecopyresampled($img, $orig, 0, 0, 0, 0, $height, $width, imagesx($orig), imagesy($orig));
+		$origH = imagesx($orig);
+		$origW = imagesy($orig);
+		$ratio = $origW/$origH;
+		
+		if($ratio<1) {
+			$newH = $size;
+			$newW = $size * $ratio;
+		}
+		else {
+			$newW = $size;
+			$newH = $size * $ratio;
+		}
+		
+		$img = imagecreatetruecolor($newH,$newW);
+		imagecopyresampled($img, $orig, 0, 0, 0, 0, $newH, $newW, $origH, $origW);
 
 		$this->imageRenderer->setHandle($img);
-		$this->imageRenderer->outputImage();
+		$this->imageRenderer->outputImage($cachedImgPath);
+
+		if($cache != NULL) $cache->getFromCache($cachedImgName);
 	}
 }
 
