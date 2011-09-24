@@ -19,17 +19,17 @@ class Layout {
 
 		$files = $this->fileSystemHandler->getFilesArray($url);
 
-		$k=count($files);
-		if($k==0) {
-			echo "No files found";
-			return;
-		}
-
 		print '<ul>';
 
+		// If url is not empty, we are in a subgallery. Show link to parent gallery
+		if(!empty($url)) {
+			print '<li><a href="'.dirname($url).'"><img src="/upfolder.png" /></a></li>';
+		}
+		
+		$k=count($files);
 		for($i=0;$i<$k;$i++) {
 			if($files[$i]["type"]=="directory")
-				print '<li><a id="'.$i.'" href="'.$url."/".$files[$i]["name"].'"><img src="/directory.jpg" /></a></li>';
+				print '<li><a href="'.$url."/".$files[$i]["name"].'"><img src="/directory.jpg" /></a></li>';
 			else
 				print '<li><a id="'.$i.'" href="'.$url."/".$files[$i]["name"].'#'.$i.'"><img src="/img'.$url."/".$files[$i]["name"].'?size=70" /></a></li>';
 		}
