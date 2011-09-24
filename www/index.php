@@ -12,14 +12,14 @@ $layout = new Layout($fsh);
 
 // detect /img prefix
 if(strncmp($_GET["q"], IMG_PREFIX, strlen(IMG_PREFIX)) == 0) {
-	$url = substr($_GET["q"], strlen(IMG_PREFIX));
+	$url = $fsh->clearPath(substr($_GET["q"], strlen(IMG_PREFIX)));
 	if(!$fsh->isDirectory($url)) {
 		$layout->getFile($url, $_GET["size"]);
 	}
 	return;
 }
 
-$url = $_GET["q"];
+$url = $fsh->clearPath($_GET["q"]);
 if(!$fsh->exists($url) || (defined("CACHE_FOLDER") && basename($url) == CACHE_FOLDER)) {
 	echo "Folder does not exist or is not readable";
 	return;

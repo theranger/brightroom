@@ -1,11 +1,12 @@
 <?php
 
-include ("lib/ImageHandler.class.php");
+include ("ImageHandler.class.php");
+include ("ExifParser.class.php");
 
 class Layout {
 
 	private $fileSystemHandler;
-
+	
 	public function __construct($fileSystemHandler) {
 		$this->fileSystemHandler = $fileSystemHandler;
 	}
@@ -39,9 +40,18 @@ class Layout {
 	public function getImage($url, $size) {
 		if($this->fileSystemHandler->isDirectory($url)) return;
 
-		print '<img src="/img'.$url.'?size=600" />';
+		$exifParser = new ExifParser($this->fileSystemHandler->getFullPath($url));
+		
+		print '<h1>'.$exifParser->getTitle().'</h1>';
+		print '<img src="/img'.$url.'?size=600" /><br />';
+		print 'File size: '.round($exifParser->getFileSize()/1024).' kB <br />';
+		print $exifParser->getDescription().'<br />';
+		print '<i>'.$exifParser->getComment().'</i><br />';
+		
 	}
 
+	// Always returns Content-Type: image/...
+	// Not for regular HTML output!
 	public function getFile($url, $size) {
 		if(is_numeric($size) && $size > 0) {
 			$ih = new ImageHandler($this->fileSystemHandler->getMimeType($url));

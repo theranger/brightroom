@@ -75,6 +75,10 @@ class FileSystemHandler {
 		
 		return $ret !== false;
 	}
+	
+	public function clearPath($url) {
+		return preg_replace('/\w+\/\.\.\//', '', $url);
+	}
 }
 
 
