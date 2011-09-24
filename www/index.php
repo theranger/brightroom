@@ -20,7 +20,7 @@ if(strncmp($_GET["q"], IMG_PREFIX, strlen(IMG_PREFIX)) == 0) {
 }
 
 $url = $_GET["q"];
-if(!$fsh->exists($url)) {
+if(!$fsh->exists($url) || (defined("CACHE_FOLDER") && basename($url) == CACHE_FOLDER)) {
 	echo "Folder does not exist or is not readable";
 	return;
 }
