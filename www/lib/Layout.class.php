@@ -29,9 +29,9 @@ class Layout {
 
 		for($i=0;$i<$k;$i++) {
 			if($files[$i]["type"]=="directory")
-				print '<li><a href="'.$url."/".$files[$i]["name"].'"><img src="/directory.jpg" /></a></li>';
+				print '<li><a id="img_'.$i.'" href="'.$url."/".$files[$i]["name"].'#img_'.$i.'"><img src="/directory.jpg" /></a></li>';
 			else
-				print '<li><a href="'.$url."/".$files[$i]["name"].'"><img src="/img'.$url."/".$files[$i]["name"].'?size=70" /></a></li>';
+				print '<li><a id="img_'.$i.'" href="'.$url."/".$files[$i]["name"].'#img_'.$i.'"><img src="/img'.$url."/".$files[$i]["name"].'?size=70" /></a></li>';
 		}
 		print '</ul>';
 	}
