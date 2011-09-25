@@ -22,12 +22,25 @@ class FileSystemHandler {
 			$mime = $this->getMimeType($url.'/'.$entry);
 			$files[] = array(
 				"name"	=> $entry,
-				"type"	=> strpos($mime,'/')===FALSE?$mime:dirname($mime),
+				"type"	=> strpos($mime,'/') === false?$mime:dirname($mime),
 			);
 		}
 
 		closedir($dh);
+		
+		usort($files,array($this,"sortDirectories"));
+		
 		return $files;
+	}
+	
+	private function sortDirectories($a, $b) {
+		if($a["type"]==$b["type"])
+			return strcasecmp($a["name"],$b["name"]);
+		
+		if($a["type"]=="directory") return -1;
+		if($b["type"]=="directory") return 1;
+
+		return 0;
 	}
 
 	public function readFile($url) {
