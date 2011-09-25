@@ -1,5 +1,7 @@
 @CHARSET "UTF-8";
 
 body { font-family: verdana, arial, helvetica, sans-serif; font-size: 1em; }
+img { border: 0px }
+
 div.sidebar { position: fixed; top: 10px; bottom: 10px; overflow: auto; width: 200px; }
 div.content { position: fixed; top: 10px; left: 220px; }
