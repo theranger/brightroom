@@ -22,7 +22,7 @@ class ImageCache {
 	
 	public function prepareCache() {
 		if(!$this->fileSystemHandler->exists()) {
-			if(!$this->fileSystemHandler->createDirectory())
+			if(!$this->fileSystemHandler->createDirectory("",0775))
 				return false;
 		}
 		

@@ -86,8 +86,12 @@ class FileSystemHandler {
 		return is_readable($this->dataPath.'/'.$url);
 	}
 	
-	public function createDirectory($url = "") {
-		return mkdir($this->dataPath.'/'.$url);
+	public function createDirectory($url = "", $perms = NULL) {
+		if(!mkdir($this->dataPath.'/'.$url)) return false;
+		
+		if($perms != NULL) {
+			chmod($this->dataPath.'/'.$url, $perms); 
+		}
 	}
 	
 	public function saveFile($url, $data) {
