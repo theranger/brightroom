@@ -48,4 +48,13 @@ define("IMAGE_SIZE", 600);
  */
 define("SHOW_EXIF", true);
 
+/**
+ * Readme file name
+ * 
+ * The contents of this file will be shown in gallery listings
+ * Can be used to describe the contents of the gallery folder
+ */
+define("README_FILE", "readme.html");
+
+
 ?>

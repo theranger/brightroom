@@ -19,9 +19,10 @@ class FileSystemHandler {
 		$files = array();
 		while(($entry = readdir($dh)) !== false) {
 			if($entry[0]=='.') continue;
+			$mime = $this->getMimeType($url.'/'.$entry);
 			$files[] = array(
-				"type"	=> is_dir($this->dataPath.'/'.$url.'/'.$entry)?"directory":"file",
 				"name"	=> $entry,
+				"type"	=> strpos($mime,'/')===FALSE?$mime:dirname($mime),
 			);
 		}
 
@@ -29,6 +30,12 @@ class FileSystemHandler {
 		return $files;
 	}
 
+	public function readFile($url) {
+		if(empty($url)) return false;
+		if(!$this->exists($url)) return false;
+		
+		return file_get_contents($this->dataPath.'/'.$url);
+	}
 
 	public function getFile($url) {
 		if(empty($url)) return false;
@@ -44,9 +51,12 @@ class FileSystemHandler {
 	}
 
 	public function getMimeType($url) {
-		$finfo = finfo_open(FILEINFO_MIME_TYPE);
-		$mime = finfo_file($finfo,$this->dataPath.'/'.$url);
+		$finfo = @finfo_open(FILEINFO_MIME_TYPE);
+		$mime = @finfo_file($finfo,$this->dataPath.'/'.$url);
 		finfo_close($finfo);
+		
+		if($mime === FALSE || empty($mime))
+			$mime = "application/octet-stream";
 
 		return $mime;
 	}
