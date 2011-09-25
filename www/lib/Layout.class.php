@@ -2,6 +2,7 @@
 
 include ("ImageHandler.class.php");
 include ("ExifParser.class.php");
+include ("defaults.inc.php");
 
 class Layout {
 
@@ -19,6 +20,7 @@ class Layout {
 		}
 
 		$files = $this->fileSystemHandler->getFilesArray($url);
+		$thumbnailSize = defined("THUMBNAIL_SIZE") && is_numeric("THUMBNAIL_SIZE")?THUMBNAIL_SIZE:DEF_THUMBNAIL_SIZE;
 
 		print '<ul>';
 
@@ -32,7 +34,7 @@ class Layout {
 			if($files[$i]["type"]=="directory")
 				print '<li><a href="'.$url."/".$files[$i]["name"].'"><img src="/directory.jpg" /></a></li>';
 			else
-				print '<li><a id="'.$i.'" href="'.$url."/".$files[$i]["name"].'#'.$i.'"><img src="/img'.$url."/".$files[$i]["name"].'?size=70" /></a></li>';
+				print '<li><a id="'.$i.'" href="'.$url."/".$files[$i]["name"].'#'.$i.'"><img src="/img'.$url."/".$files[$i]["name"].'?size='.$thumbnailSize.'" /></a></li>';
 		}
 		print '</ul>';
 	}
@@ -40,13 +42,21 @@ class Layout {
 	public function getImage($url, $size) {
 		if($this->fileSystemHandler->isDirectory($url)) return;
 
-		$exifParser = new ExifParser($this->fileSystemHandler->getFullPath($url));
+		$imageSize = defined("IMAGE_SIZE") && is_numeric("IMAGE_SIZE")?IMAGE_SIZE:DEF_IMAGE_SIZE;
+		$showExif = defined("SHOW_EXIF")?SHOW_EXIF:DEF_SHOW_EXIF;
 		
-		print '<h1>'.$exifParser->getTitle().'</h1>';
-		print '<img src="/img'.$url.'?size=600" /><br />';
-		print 'File size: '.round($exifParser->getFileSize()/1024).' kB <br />';
-		print $exifParser->getDescription().'<br />';
-		print '<i>'.$exifParser->getComment().'</i><br />';
+		if($showExif == true) {
+			$exifParser = new ExifParser($this->fileSystemHandler->getFullPath($url));
+			print '<h1>'.$exifParser->getTitle().'</h1>';
+		}
+		
+		print '<img src="/img'.$url.'?size='.$imageSize.'" /><br />';
+		
+		if($showExif == true) {
+			print 'File size: '.round($exifParser->getFileSize()/1024).' kB <br />';
+			print $exifParser->getDescription().'<br />';
+			print '<i>'.$exifParser->getComment().'</i><br />';
+		}
 		
 	}
 

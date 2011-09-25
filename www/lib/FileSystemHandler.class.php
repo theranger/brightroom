@@ -5,7 +5,10 @@ class FileSystemHandler {
 	private $dataPath;
 
 	public function __construct($dataPath) {
-		$this->dataPath = $dataPath;
+		if($dataPath[0]=='/')
+			$this->dataPath = $dataPath;
+		else
+			$this->dataPath = dirname(__FILE__).'/../'.$dataPath;
 	}
 
 
