@@ -57,4 +57,15 @@ define("SHOW_EXIF", true);
 define("README_FILE", "readme.html");
 
 
+/**
+ * Enable pagination
+ * 
+ * Enables the pagination for large galleries. The URL-s will contain the page number between
+ * the gallery path and file name. All physical subgalleries that might have the same name will
+ * be ignored. The number determines how many images per page will be shown.
+ * 
+ * Default value: 200
+ */
+define("PAGINATION", 5);
+
 ?>

@@ -9,3 +9,5 @@ define("DEF_SHOW_EXIF", false);
 define("DEF_SHOW_IMAGES_ONLY", true);
 
 define("DEF_README_FILE", "readme.html");
+
+define("DEF_PAGINATION", 200);
