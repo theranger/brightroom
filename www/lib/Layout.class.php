@@ -26,19 +26,13 @@ class Layout {
 	}
 
 	public function folderListing($url) {
-		$url=rtrim($url,'/');
-		
-		if(!$this->fileSystemHandler->isDirectory($url)) {
-			$url = dirname($url);
-		}
-
 		$files = $this->fileSystemHandler->getFilesArray($url);
 		
 		print '<ul>';
 		
 		// If url is not empty, we are in a subgallery. Show link to parent gallery
 		if(!empty($url)) {
-			print '<li><a href="'.dirname($url).'"><img src="/upfolder.png" /></a></li>';
+			print '<li><a href="../'.dirname($url).'"><img src="/upfolder.png" /></a></li>';
 		}
 		
 		$k=count($files);
@@ -49,9 +43,9 @@ class Layout {
 				print '</li>';
 			}
 			elseif($files[$i]["type"]=="image")
-				print '<li><a id="'.$i.'" href="'.$url."/".$files[$i]["name"].'#'.$i.'"><img src="/img'.$url."/".$files[$i]["name"].'?size='.$this->thumbnailSize.'" /></a></li>';
+				print '<li><a id="'.$i.'" href="/'.$url."/".$files[$i]["name"].'#'.$i.'"><img src="/img'.$url."/".$files[$i]["name"].'?size='.$this->thumbnailSize.'" /></a></li>';
 			elseif($this->imagesOnly == false)
-				print '<li><a id="'.$i.'" href="'.$url."/".$files[$i]["name"].'#'.$i.'"><img src="/img'.$url."/".$files[$i]["name"].'?size='.$this->thumbnailSize.'" /></a></li>';
+				print '<li><a id="'.$i.'" href="/'.$url."/".$files[$i]["name"].'#'.$i.'"><img src="/img'.$url."/".$files[$i]["name"].'?size='.$this->thumbnailSize.'" /></a></li>';
 		}
 		print '</ul>';
 	}

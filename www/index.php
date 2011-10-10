@@ -1,26 +1,21 @@
 <?php
 
 include ("lib/FileSystemHandler.class.php");
+include ("lib/URLParser.class.php");
 include ("lib/Layout.class.php");
 include ("config.inc.php");
 
 $fsh = new FileSystemHandler(DATA_DIR);
 $layout = new Layout($fsh);
+$urlParser = new URLParser($_GET["q"], $fsh);
 
-// detect /img prefix
-if(strncmp($_GET["q"], IMG_PREFIX, strlen(IMG_PREFIX)) == 0) {
-	$url = $fsh->clearPath(substr($_GET["q"], strlen(IMG_PREFIX)));
-	if(!$fsh->isDirectory($url)) {
-		$layout->getFile($url, $_GET["size"]);
-	}
+//If this URL points to full screen image
+if($urlParser->isFullImage()) {
+	if(!$urlParser->isDirectory()) $layout->getFile($urlParser->getURL(), $_GET["size"]);
 	return;
 }
 
-$url = $fsh->clearPath($_GET["q"]);
-if(!$fsh->exists($url) || (defined("CACHE_FOLDER") && basename($url) == CACHE_FOLDER)) {
-	echo "Folder does not exist or is not readable";
-	return;
-}
+if(!$urlParser->isValid()) return;
 
 
 ?>
@@ -32,11 +27,11 @@ if(!$fsh->exists($url) || (defined("CACHE_FOLDER") && basename($url) == CACHE_FO
 	</head>
 	<body>
 		<div class="sidebar">
-			<?php $layout->folderListing($url); ?>
+			<?php $layout->folderListing($urlParser->getDirectory()); ?>
 		</div>
 
 		<div class="content">
-			<?php $layout->getImage($url, 600); ?>
+			<?php $layout->getImage($urlParser->getURL(), 600); ?>
 		</div>
 	</body>
 </html>
