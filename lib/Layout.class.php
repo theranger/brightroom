@@ -14,6 +14,7 @@ class Layout {
 	private $imageSize;
 	private $showExif;
 	private $readmeFile;
+	private $urlParser;
 	
 	public function __construct($fileSystemHandler) {
 		$this->fileSystemHandler = $fileSystemHandler;
@@ -24,8 +25,13 @@ class Layout {
 		$this->showExif = defined("SHOW_EXIF")?SHOW_EXIF:DEF_SHOW_EXIF;
 		$this->readmeFile = defined("README_FILE")?README_FILE:DEF_README_FILE;
 	}
+	
+	public function setURLParser($urlParser) {
+		$this->urlParser = $urlParser;
+	}
 
-	public function folderListing($url) {
+	public function folderListing($url = null) {
+		if($url == null) $url = $this->urlParser->getDirectory();
 		$files = $this->fileSystemHandler->getFilesArray($url);
 		
 		print '<ul>';
@@ -50,7 +56,8 @@ class Layout {
 		print '</ul>';
 	}
 
-	public function getImage($url, $size) {
+	public function getImage($size, $url = null) {
+		if($url == null) $url = $this->urlParser->getURL();
 		if($this->fileSystemHandler->isDirectory($url)) return;
 		
 		$mimeType = dirname($this->fileSystemHandler->getMimeType($url));
