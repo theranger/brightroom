@@ -6,12 +6,20 @@
 		<link rel="stylesheet" type="text/css" href="/main.css" />
 	</head>
 	<body>
-		<div class="sidebar">
-			<?php $layout->folderListing(); ?>
-		</div>
+		<div class="sidebar"></div>
 
 		<div class="content">
-			<?php $layout->getImage(600); ?>
+			<?php if($layout->isImage()): ?>
+				<?php $layout->getImage(600); ?>
+				<div class="meta">
+					<table>
+						<tr><td>Name:</td><td><?php $layout->getExif()->printTitle(); ?></td></tr>
+						<tr><td>File size:</td><td><?php $layout->getExif()->printFileSize(); ?></td></tr>
+					</table>
+				</div>
+			<?php else: ?>
+				<?php $layout->folderListing(); ?>
+			<?php endif; ?>
 		</div>
 	</body>
 </html>

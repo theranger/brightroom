@@ -1,6 +1,6 @@
 <?php
 
-define("DEF_THUMBNAIL_SIZE", 70);
+define("DEF_THUMBNAIL_SIZE", 100);
 
 define("DEF_IMAGE_SIZE", 600);
 

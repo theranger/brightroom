@@ -3,7 +3,12 @@
 body { font-family: verdana, arial, helvetica, sans-serif; font-size: 1em; }
 img { border: 0px }
 
-div.sidebar { position: fixed; top: 10px; bottom: 10px; overflow: auto; width: 200px; }
+div.sidebar { position: fixed; top: 0px; bottom: 0px; overflow: auto; width: 200px; }
 
 div.sidebar li { display: block; float: left; clear: left; }
-div.content { position: fixed; top: 10px; left: 220px; }
+
+div.content { position: fixed; top: 0px; bottom: 0px; right: 0px; left: 220px; overflow: auto; padding: 5px; }
+div.content li { display: block; float: left; margin: 5px; }
+
+div.meta { float: right; border: 1px solid #e7e7e7; width: 200px; }
+div.meta table { width: 100%; }

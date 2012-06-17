@@ -15,6 +15,8 @@ class Layout {
 	private $showExif;
 	private $readmeFile;
 	private $urlParser;
+	private $exifParser;
+	private $isImage;
 	
 	public function __construct($fileSystemHandler) {
 		$this->fileSystemHandler = $fileSystemHandler;
@@ -26,8 +28,29 @@ class Layout {
 		$this->readmeFile = defined("README_FILE")?README_FILE:DEF_README_FILE;
 	}
 	
+	public function isShowExif() {
+		return $this->showExif;
+	}
+	
+	public function isImage() {
+		return $this->isImage;
+	}
+	
+	public function getExif() {
+		if($this->exifParser == null) {
+			if(!$this->isImage) return;
+					
+			$this->exifParser = new ExifParser($this->fileSystemHandler->getFullPath($this->urlParser->getURL()));
+		}
+			
+		return $this->exifParser;
+	}
+	
 	public function setURLParser($urlParser) {
 		$this->urlParser = $urlParser;
+		
+		$url = $this->urlParser->getURL();
+		$this->isImage = !$this->fileSystemHandler->isDirectory($url);			
 	}
 
 	public function folderListing($url = null) {
@@ -49,9 +72,9 @@ class Layout {
 				print '</li>';
 			}
 			elseif($files[$i]["type"]=="image")
-				print '<li><a id="'.$i.'" href="/'.$url."/".$files[$i]["name"].'#'.$i.'"><img src="/img'.$url."/".$files[$i]["name"].'?size='.$this->thumbnailSize.'" /></a></li>';
+				print '<li><a href="/'.$url."/".$files[$i]["name"].'"><img src="/img'.$url."/".$files[$i]["name"].'?size='.$this->thumbnailSize.'" /></a></li>';
 			elseif($this->imagesOnly == false)
-				print '<li><a id="'.$i.'" href="/'.$url."/".$files[$i]["name"].'#'.$i.'"><img src="/img'.$url."/".$files[$i]["name"].'?size='.$this->thumbnailSize.'" /></a></li>';
+				print '<li><a href="/'.$url."/".$files[$i]["name"].'"><img src="/img'.$url."/".$files[$i]["name"].'?size='.$this->thumbnailSize.'" /></a></li>';
 		}
 		print '</ul>';
 	}
@@ -63,18 +86,7 @@ class Layout {
 		$mimeType = dirname($this->fileSystemHandler->getMimeType($url));
 		if($this->imagesOnly == true && $mimeType != "image") return;
 		
-		if($this->showExif == true) {
-			$exifParser = new ExifParser($this->fileSystemHandler->getFullPath($url));
-			print '<h1>'.$exifParser->getTitle().'</h1>';
-		}
-		
-		print '<img src="/img'.$url.'?size='.$this->imageSize.'" /><br />';
-		
-		if($this->showExif == true) {
-			print 'File size: '.round($exifParser->getFileSize()/1024).' kB <br />';
-			print $exifParser->getDescription().'<br />';
-			print '<i>'.$exifParser->getComment().'</i><br />';
-		}
+		print '<img src="/img'.$url.'?size='.$this->imageSize.'" />';
 	}
 	
 	public function readFile($url) {
