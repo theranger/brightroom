@@ -1,6 +1,7 @@
 <?php
 
 include ("ImageJPEGRenderer.class.php");
+include ("ImagePNGRenderer.class.php");
 include ("ImageCache.class.php");
 
 interface ImageRenderer {
@@ -18,6 +19,10 @@ class ImageHandler {
 		switch($mimeType) {
 			case "image/jpeg":
 				$this->imageRenderer = new ImageJPEGRenderer();
+				break;
+			case "image/png":
+				$this->imageRenderer = new ImagePNGRenderer();
+				break;
 		}
 	}
 
