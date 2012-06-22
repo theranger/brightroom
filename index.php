@@ -18,6 +18,13 @@
 					</table>
 				</div>
 			<?php else: ?>
+				<div class="meta">
+					<p><?php $layout->printReadme(); ?></p>
+					<table>
+						<tr><td>File count:</td><td><?php $layout->printFileCount(); ?></td></tr>
+						<tr><td>Folder size:</td><td><?php $layout->printDirectorySize(); ?></td></tr>
+					</table>
+				</div>
 				<?php $layout->folderListing(); ?>
 			<?php endif; ?>
 		</div>

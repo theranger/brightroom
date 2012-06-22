@@ -57,26 +57,22 @@ class Layout {
 		if($url == null) $url = $this->urlParser->getDirectory();
 		$files = $this->fileSystemHandler->getFilesArray($url);
 		
-		print '<ul>';
+		print '<div class="imagelist">';
 		
 		// If url is not empty, we are in a subgallery. Show link to parent gallery
-		if(!empty($url)) {
-			print '<li><a href="../'.dirname($url).'"><img src="/upfolder.png" /></a></li>';
-		}
+		if(!empty($url))
+			$this->renderImage('/upfolder.png', '../'.dirname($url), "..");
 		
 		$k=count($files);
 		for($i=0;$i<$k;$i++) {
-			if($files[$i]["type"]=="directory") {
-				print '<li><a href="'.$url."/".$files[$i]["name"].'"><img src="/directory.jpg" /></a><br />';
-				print $this->fileSystemHandler->readFile($url."/".$files[$i]["name"]."/".$this->readmeFile);
-				print '</li>';
-			}
+			if($files[$i]["type"]=="directory")
+				$this->renderImage('/directory.jpg', $url."/".$files[$i]["name"], $files[$i]["name"]);
 			elseif($files[$i]["type"]=="image")
-				print '<li><a href="/'.$url."/".$files[$i]["name"].'"><img src="/img'.$url."/".$files[$i]["name"].'?size='.$this->thumbnailSize.'" /></a></li>';
+				$this->renderImage('/img'.$url.'/'.$files[$i]["name"].'?size='.$this->thumbnailSize, '/'.$url."/".$files[$i]["name"], $files[$i]["name"]);
 			elseif($this->imagesOnly == false)
-				print '<li><a href="/'.$url."/".$files[$i]["name"].'"><img src="/img'.$url."/".$files[$i]["name"].'?size='.$this->thumbnailSize.'" /></a></li>';
+				$this->renderImage('/img'.$url.'/'.$files[$i]["name"].'?size='.$this->thumbnailSize, '/'.$url."/".$files[$i]["name"], $files[$i]["name"]);
 		}
-		print '</ul>';
+		print '</div>';
 	}
 
 	public function getImage($size, $url = null) {
@@ -104,7 +100,25 @@ class Layout {
 			$this->fileSystemHandler->getFile($url);
 		}
 	}
+	
+	private function renderImage($imagePath, $linkURL, $imageText) {
+		print '<div class="image">';
+		print '<a href="'.$linkURL.'"><img src="'.$imagePath.'" /></a>';
+		print $imageText;
+		print '</div>';
+	}
 
+	public function printReadme() {
+		print $this->fileSystemHandler->readFile($this->urlParser->getURL()."/".$this->readmeFile);
+	}
+	
+	public function printFileCount() {
+		print $this->fileSystemHandler->getFileCount($this->urlParser->getURL());
+	}
+	
+	public function printDirectorySize() {
+		print $this->fileSystemHandler->getDriectorySizeHuman($this->urlParser->getURL());
+	}
 }
 
 ?>
