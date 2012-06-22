@@ -3,6 +3,10 @@
 class FileSystemHandler {
 
 	private $dataPath;
+	private $dirSize;
+	
+	private $cachedURL;
+	private $cachedFiles = array();
 
 	public function __construct($dataPath) {
 		if($dataPath[0]=='/')
@@ -13,24 +17,29 @@ class FileSystemHandler {
 
 
 	public function getFilesArray($url) {
+		//If we are accessing the same URL, show cached results
+		if(count($this->cachedFiles) > 0 && $this->cachedURL == $url) return $this->cachedFiles;
+		
 		$dh = opendir($this->dataPath.'/'.$url);
 		if($dh == false) return;
 
-		$files = array();
+		$this->cachedFiles = array();
 		while(($entry = readdir($dh)) !== false) {
 			if($entry[0]=='.') continue;
 			$mime = $this->getMimeType($url.'/'.$entry);
-			$files[] = array(
+			$this->cachedFiles[] = array(
 				"name"	=> $entry,
 				"type"	=> strpos($mime,'/') === false?$mime:dirname($mime),
 			);
+			$this->dirSize += filesize($this->dataPath.'/'.$url.'/'.$entry);
 		}
 
 		closedir($dh);
 		
-		usort($files,array($this,"sortDirectories"));
+		usort($this->cachedFiles,array($this,"sortDirectories"));
 		
-		return $files;
+		$this->cachedURL = $url;
+		return $this->cachedFiles;
 	}
 	
 	private function sortDirectories($a, $b) {
@@ -108,6 +117,30 @@ class FileSystemHandler {
 	
 	public function clearPath($url) {
 		return preg_replace('/\w+\/\.\.\//', '', $url);
+	}
+	
+	public function getDirectorySize($url) {
+		$this->getFilesArray($url);
+		return $this->dirSize;
+	}
+	
+	public function getDriectorySizeHuman($url) {
+		$this->getFilesArray($url);
+		$size = $this->dirSize;
+		
+		$units = array('B', 'KB', 'MB', 'GB', 'TB');
+	
+		for($i = 1; $i<count($units); $i++) {
+			$size /= 1024;
+			if($size <= 1024) break;
+		}
+		
+		return round($size,2).' '.$units[$i];
+	}
+	
+	public function getFileCount($url) {
+		$this->getFilesArray($url);
+		return count($this->cachedFiles);
 	}
 }
 
