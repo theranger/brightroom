@@ -2,10 +2,12 @@
 <html>
 	<head>
 		<title>Gallery</title>
-		<link rel="stylesheet" type="text/css" href="/main.css" />
 		<link rel="stylesheet" type="text/css" href="<?php $layout->printThemeURL(); ?>/style.css" />
 	</head>
 	<body>
+		<div class="sidebar">
+			<?php $layout->folderListing(); ?>
+		</div>
 		<div class="content">
 			<?php $layout->getImage(600); ?>
 			<div class="meta">

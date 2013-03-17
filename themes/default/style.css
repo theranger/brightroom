@@ -1,3 +1,15 @@
 @CHARSET "UTF-8";
 
-body { background-color: #a0a0a0; }
+body { font-family: verdana, arial, helvetica, sans-serif; font-size: 1em; }
+img { border: 0px }
+
+div.sidebar { position: fixed; top: 0px; bottom: 0px; overflow: auto; width: 200px; }
+div.content { position: fixed; top: 0px; bottom: 0px; right: 0px; left: 220px; overflow-y: scroll; padding: 5px; }
+
+div.meta { float: right; border: 1px solid #e7e7e7; width: 200px; }
+div.meta table { width: 100%; }
+
+div.imagelist { overflow: auto; min-width: 150px; }
+
+div.image { border: 1px solid #e7e7e7; float: left; padding: 10px; margin: 10px; background-color: #f0f0f0; width: 100px; font-size: 0.75em; }
+div.image a { background-color: #fff; display: block; text-align: center; border: 1px solid #e7e7e7; min-height: 60px; }

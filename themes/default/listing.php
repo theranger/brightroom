@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>Gallery</title>
-		<link rel="stylesheet" type="text/css" href="/main.css" />
 		<link rel="stylesheet" type="text/css" href="<?php $layout->printThemeURL(); ?>/style.css" />
 	</head>
 	<body>
