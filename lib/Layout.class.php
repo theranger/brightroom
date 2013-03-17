@@ -81,7 +81,7 @@ class Layout {
 			if($files[$i]["type"]=="directory")
 				$this->renderImage('/themes/'.$this->getTheme().'/images/directory.jpg', $url."/".$name, null, $name);
 			elseif($files[$i]["type"]=="image")
-				$this->renderImage('/img'.$url.'/'.$name.'?size='.$this->thumbnailSize, $url."/".$name, $anchor, $name);
+				$this->renderImage('/img'.$url.'/'.$name.'?size='.$this->thumbnailSize, $url."/".$name, $anchor, null);
 			elseif($this->imagesOnly == false)
 				$this->renderImage('/img'.$url.'/'.$name.'?size='.$this->thumbnailSize, $url."/".$name, $anchor, $name);
 		}
