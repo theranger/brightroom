@@ -46,14 +46,8 @@ class ImageHandler {
 		$origW = imagesy($orig);
 		$ratio = $origW/$origH;
 		
-		if($ratio<1) {
-			$newH = $size;
-			$newW = $size * $ratio;
-		}
-		else {
-			$newW = $size;
-			$newH = $size * $ratio;
-		}
+		$newW = $size;
+		$newH = $size / $ratio;
 		
 		$img = imagecreatetruecolor($newH,$newW);
 		imagecopyresampled($img, $orig, 0, 0, 0, 0, $newH, $newW, $origH, $origW);
