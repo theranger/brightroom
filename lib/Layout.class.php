@@ -123,7 +123,7 @@ class Layout {
 		if($anchorName == null)
 			print '<a href="'.$linkURL.'"><img src="'.$imageURL.'" /></a>';
 		else
-			print '<a name="'.basename($linkURL).'" href="'.$linkURL.'#'.$anchorName.'"><img src="'.$imageURL.'" /></a>';
+			print '<a class="image" name="'.basename($linkURL).'" href="'.$linkURL.'#'.$anchorName.'"><img src="'.$imageURL.'" /></a>';
 		
 		print $imageText;
 		print '</div>';

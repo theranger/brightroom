@@ -1,7 +1,7 @@
 $(document).ready(init);
 
 function init() {
-	$("div.image a").click(loadImage);
+	$("a.image").click(loadImage);
 }
 
 function loadImage() {
