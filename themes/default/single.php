@@ -1,3 +1,4 @@
+<?php if(!isset($_GET["ajax"])) :?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 	<head>
@@ -11,6 +12,8 @@
 		<div class="sidebar">
 			<?php $layout->folderListing(); ?>
 		</div>
+<?php endif; ?>
+
 		<div class="content">
 			<?php $layout->getImage(600); ?>
 			<div class="meta">
@@ -20,5 +23,8 @@
 				</table>
 			</div>
 		</div>
+		
+<?php if(!isset($_GET["ajax"])) :?>
 	</body>
 </html>
+<?php endif; ?>

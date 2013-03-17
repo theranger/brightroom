@@ -7,8 +7,11 @@ function init() {
 function loadImage() {
 	var url = $(this).attr("href");
 	
-	$.get(url, function(response) {
-		$("div.content").html(response);
+	$.ajax({
+		url:		url,
+		data:		{ ajax: true },
+		success:	function(response) { $("div.content").html(response); }
 	});
+	
 	return false;
 }
