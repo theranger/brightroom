@@ -54,6 +54,20 @@ class Layout {
 		print "/themes/".$this->getTheme();
 	}
 	
+	public function printBreadcrumb() {
+		
+		print '<a href="/" class="breadcrumb">http://'.$_SERVER["SERVER_NAME"].'</a>';
+		
+		$url="";
+		$path = explode("/",$this->urlParser->getURL());
+		foreach($path as $el) {
+			if(empty($el)) continue;
+	
+			$url.='/'.$el;
+			print '<a href="'.$url.'" class="breadcrumb">/'.$el.'</a>';
+		}
+	}
+	
 	public function setURLParser($urlParser) {
 		$this->urlParser = $urlParser;
 		

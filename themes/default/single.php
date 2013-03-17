@@ -15,6 +15,7 @@
 <?php endif; ?>
 
 		<div class="content">
+			<div class="head"><?php $layout->printBreadcrumb(); ?></div>
 			<?php $layout->getImage(600); ?>
 			<div class="meta">
 				<table>
