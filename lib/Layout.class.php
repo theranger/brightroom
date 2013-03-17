@@ -46,6 +46,14 @@ class Layout {
 		return $this->exifParser;
 	}
 	
+	public function getTheme() {
+		return defined("THEME")?THEME:DEF_THEME;
+	}
+	
+	public function printThemeURL() {
+		print "/themes/".$this->getTheme();
+	}
+	
 	public function setURLParser($urlParser) {
 		$this->urlParser = $urlParser;
 		
