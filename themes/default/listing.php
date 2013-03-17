@@ -6,14 +6,15 @@
 		<link rel="stylesheet" type="text/css" href="<?php $layout->printThemeURL(); ?>/style.css" />
 	</head>
 	<body>
+		<div class="sidebar">
+			<p><?php $layout->printReadme(); ?></p>
+			<table>
+				<tr><td>File count:</td><td><?php $layout->printFileCount(); ?></td></tr>
+				<tr><td>Folder size:</td><td><?php $layout->printDirectorySize(); ?></td></tr>
+			</table>
+		</div>
 		<div class="content">
-			<div class="meta">
-				<p><?php $layout->printReadme(); ?></p>
-				<table>
-					<tr><td>File count:</td><td><?php $layout->printFileCount(); ?></td></tr>
-					<tr><td>Folder size:</td><td><?php $layout->printDirectorySize(); ?></td></tr>
-				</table>
-			</div>
+			<div class="head"><?php $layout->printBreadcrumb(); ?></div>
 			<?php $layout->folderListing(); ?>
 		</div>
 	</body>
