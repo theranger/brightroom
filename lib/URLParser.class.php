@@ -54,7 +54,7 @@ class URLParser {
 			return;
 		}
 		
-		$this->url = trim($this->url, "/");
+		$this->url = rtrim($this->url, "/");
 		$this->isValid = true;
 	}
 }
