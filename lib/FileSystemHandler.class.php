@@ -65,9 +65,7 @@ class FileSystemHandler {
 		$fp = fopen($this->dataPath.'/'.$url, "rb");
 		if($fp == false) return false;
 
-		header("Content-Type:" . $this->getMimeType($url) ."\r\n");
 		fpassthru($fp);
-
 		fclose($fp);
 		return true;
 	}

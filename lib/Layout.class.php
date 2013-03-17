@@ -105,8 +105,11 @@ class Layout {
 	// Always returns Content-Type: image/...
 	// Not for regular HTML output!
 	public function getFile($url, $size) {
+		$mimeType = $this->fileSystemHandler->getMimeType($url);
+		header("Content-Type:".$mimeType."\r\n");
+		
 		if(is_numeric($size) && $size > 0) {
-			$ih = new ImageHandler($this->fileSystemHandler->getMimeType($url));
+			$ih = new ImageHandler($mimeType);
 			$ih->resizeImage($this->fileSystemHandler->getFullPath($url), $size);
 		}
 		else {
