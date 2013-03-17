@@ -69,12 +69,12 @@ class Layout {
 		
 		// If url is not empty, we are in a subgallery. Show link to parent gallery
 		if(!empty($url))
-			$this->renderImage('/upfolder.png', '../'.dirname($url), "..");
+			$this->renderImage('/themes/'.$this->getTheme().'/images/upfolder.png', '../'.dirname($url), "..");
 		
 		$k=count($files);
 		for($i=0;$i<$k;$i++) {
 			if($files[$i]["type"]=="directory")
-				$this->renderImage('/directory.jpg', $url."/".$files[$i]["name"], $files[$i]["name"]);
+				$this->renderImage('/themes/'.$this->getTheme().'/images/directory.jpg', $url."/".$files[$i]["name"], $files[$i]["name"]);
 			elseif($files[$i]["type"]=="image")
 				$this->renderImage('/img'.$url.'/'.$files[$i]["name"].'?size='.$this->thumbnailSize, '/'.$url."/".$files[$i]["name"], $files[$i]["name"]);
 			elseif($this->imagesOnly == false)
@@ -109,9 +109,9 @@ class Layout {
 		}
 	}
 	
-	private function renderImage($imagePath, $linkURL, $imageText) {
+	private function renderImage($imageURL, $linkURL, $imageText) {
 		print '<div class="image">';
-		print '<a href="'.$linkURL.'"><img src="'.$imagePath.'" /></a>';
+		print '<a href="'.$linkURL.'"><img src="'.$imageURL.'" /></a>';
 		print $imageText;
 		print '</div>';
 	}
