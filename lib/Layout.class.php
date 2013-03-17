@@ -69,16 +69,16 @@ class Layout {
 		
 		// If url is not empty, we are in a subgallery. Show link to parent gallery
 		if(!empty($url))
-			$this->renderImage('/themes/'.$this->getTheme().'/images/upfolder.png', '..'.dirname($url), "..");
+			$this->renderImage('/themes/'.$this->getTheme().'/images/upfolder.png', '..'.dirname($url), null, "..");
 		
 		$k=count($files);
 		for($i=0;$i<$k;$i++) {
 			if($files[$i]["type"]=="directory")
-				$this->renderImage('/themes/'.$this->getTheme().'/images/directory.jpg', $url."/".$files[$i]["name"], $files[$i]["name"]);
+				$this->renderImage('/themes/'.$this->getTheme().'/images/directory.jpg', $url."/".$files[$i]["name"], $files[$i]["name"], $files[$i]["name"]);
 			elseif($files[$i]["type"]=="image")
-				$this->renderImage('/img'.$url.'/'.$files[$i]["name"].'?size='.$this->thumbnailSize, $url."/".$files[$i]["name"], $files[$i]["name"]);
+				$this->renderImage('/img'.$url.'/'.$files[$i]["name"].'?size='.$this->thumbnailSize, $url."/".$files[$i]["name"], $files[$i]["name"], $files[$i]["name"]);
 			elseif($this->imagesOnly == false)
-				$this->renderImage('/img'.$url.'/'.$files[$i]["name"].'?size='.$this->thumbnailSize, $url."/".$files[$i]["name"], $files[$i]["name"]);
+				$this->renderImage('/img'.$url.'/'.$files[$i]["name"].'?size='.$this->thumbnailSize, $url."/".$files[$i]["name"], $files[$i]["name"], $files[$i]["name"]);
 		}
 		print '</div>';
 	}
@@ -109,9 +109,14 @@ class Layout {
 		}
 	}
 	
-	private function renderImage($imageURL, $linkURL, $imageText) {
+	private function renderImage($imageURL, $linkURL, $anchorName, $imageText) {
 		print '<div class="image">';
-		print '<a href="'.$linkURL.'"><img src="'.$imageURL.'" /></a>';
+		
+		if($anchorName == null)
+			print '<a href="'.$linkURL.'"><img src="'.$imageURL.'" /></a>';
+		else
+			print '<a name="'.$anchorName.'" href="'.$linkURL.'#'.$anchorName.'"><img src="'.$imageURL.'" /></a>';
+		
 		print $imageText;
 		print '</div>';
 	}
