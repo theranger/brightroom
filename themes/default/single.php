@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<div class="sidebar">
-			<?php $layout->folderListing(); ?>
+			<?php $layout->folderListing(false); ?>
 		</div>
 <?php endif; ?>
 

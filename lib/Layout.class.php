@@ -75,14 +75,14 @@ class Layout {
 		$this->isImage = !$this->fileSystemHandler->isDirectory($url);			
 	}
 
-	public function folderListing($url = null) {
+	public function folderListing($navigation = true, $url = null) {
 		if($url == null) $url = $this->urlParser->getDirectory();
 		$files = $this->fileSystemHandler->getFilesArray($url);
 		
 		print '<div class="imagelist">';
 		
 		// If url is not empty, we are in a subgallery. Show link to parent gallery
-		if(!empty($url))
+		if($navigation==true && !empty($url))
 			$this->renderImage('/themes/'.$this->getTheme().'/images/upfolder.png', dirname($url), null, "..");
 		
 		$k=count($files);
@@ -92,7 +92,7 @@ class Layout {
 			$anchor = $files[$i-3>=0?$i-3:0]["name"];
 			$name = $files[$i]["name"];
 			
-			if($files[$i]["type"]=="directory")
+			if($files[$i]["type"]=="directory" && $navigation==true)
 				$this->renderImage('/themes/'.$this->getTheme().'/images/directory.jpg', $url."/".$name, null, $name);
 			elseif($files[$i]["type"]=="image")
 				$this->renderImage('/img'.$url.'/'.$name.'?size='.$this->thumbnailSize, $url."/".$name, $anchor, null);
