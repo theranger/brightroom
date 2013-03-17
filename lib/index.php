@@ -10,8 +10,8 @@ $layout = new Layout($fsh);
 $urlParser = new URLParser($_GET["q"], $fsh);
 
 //If this URL points to full screen image
-if($urlParser->isFullImage()) {
-	if(!$urlParser->isDirectory()) $layout->getFile($urlParser->getURL(), $_GET["size"]);
+if($urlParser->isFullImage()) { 
+	if(!$urlParser->isDirectory()) $layout->getFile($urlParser->getURL(), isset($_GET["size"])?$_GET["size"]:null);
 	die();
 }
 
