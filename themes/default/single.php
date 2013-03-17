@@ -2,7 +2,10 @@
 <html>
 	<head>
 		<title>Gallery</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" type="text/css" href="<?php $layout->printThemeURL(); ?>/style.css" />
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script src="<?php $layout->printThemeURL(); ?>/default.js"></script>
 	</head>
 	<body>
 		<div class="sidebar">
