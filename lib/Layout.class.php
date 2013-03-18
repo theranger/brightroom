@@ -17,6 +17,7 @@ class Layout {
 	private $urlParser;
 	private $exifParser;
 	private $isImage;
+	private $isRoot;
 	
 	public function __construct($fileSystemHandler) {
 		$this->fileSystemHandler = $fileSystemHandler;
@@ -34,6 +35,10 @@ class Layout {
 	
 	public function isImage() {
 		return $this->isImage;
+	}
+	
+	public function isRoot() {
+		return $this->isRoot;
 	}
 	
 	public function getExif() {
@@ -72,31 +77,32 @@ class Layout {
 		$this->urlParser = $urlParser;
 		
 		$url = $this->urlParser->getURL();
-		$this->isImage = !$this->fileSystemHandler->isDirectory($url);			
+		$this->isImage = !$this->fileSystemHandler->isDirectory($url);
+		$this->isRoot = $this->urlParser->isRoot();
 	}
 
-	public function folderListing($navigation = true, $url = null) {
+	public function printFolderListing($url = null, $folders = true, $files = true) {
 		if($url == null) $url = $this->urlParser->getDirectory();
-		$files = $this->fileSystemHandler->getFilesArray($url);
+		$items = $this->fileSystemHandler->getFilesArray($url);
 		
 		print '<div class="imagelist">';
 		
 		// If url is not empty, we are in a subgallery. Show link to parent gallery
-		if($navigation==true && !empty($url))
+		if($folders == true && !empty($url))
 			$this->renderImage('/themes/'.$this->getTheme().'/images/upfolder.png', dirname($url), null, "..");
 		
-		$k=count($files);
+		$k=count($items);
 		for($i=0;$i<$k;$i++) {
 			
 			//Anchor some images backwards, this way some previous images can also be seen from listing
-			$anchor = $files[$i-3>=0?$i-3:0]["name"];
-			$name = $files[$i]["name"];
+			$anchor = $items[$i-3>=0?$i-3:0]["name"];
+			$name = $items[$i]["name"];
 			
-			if($files[$i]["type"]=="directory" && $navigation==true)
+			if($items[$i]["type"]=="directory" && $folders == true)
 				$this->renderImage('/themes/'.$this->getTheme().'/images/directory.jpg', $url."/".$name, null, $name);
-			elseif($files[$i]["type"]=="image")
+			elseif($items[$i]["type"]=="image" && $files == true)
 				$this->renderImage('/img'.$url.'/'.$name.'?size='.$this->thumbnailSize, $url."/".$name, $anchor, null);
-			elseif($this->imagesOnly == false)
+			elseif($this->imagesOnly == false && $files == true)
 				$this->renderImage('/img'.$url.'/'.$name.'?size='.$this->thumbnailSize, $url."/".$name, $anchor, $name);
 		}
 		print '</div>';
