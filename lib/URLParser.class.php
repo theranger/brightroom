@@ -31,6 +31,10 @@ class URLParser {
 		return $this->fsh->isDirectory($this->url);
 	}
 	
+	public function isRoot() {
+		return trim($this->url,"/") == '';
+	}
+	
 	public function getDirectory() {
 		if($this->isDirectory()) return $this->url;
 		
