@@ -89,7 +89,7 @@ class Layout {
 		
 		// If url is not empty, we are in a subgallery. Show link to parent gallery
 		if($folders == true && !empty($url))
-			$this->renderImage('/themes/'.$this->getTheme().'/images/upfolder.png', dirname($url), null, "..");
+			$this->renderImage('/themes/'.$this->getTheme().'/images/upfolder.png', dirname($url), null, "..", false);
 		
 		$k=count($items);
 		for($i=0;$i<$k;$i++) {
@@ -97,13 +97,14 @@ class Layout {
 			//Anchor some images backwards, this way some previous images can also be seen from listing
 			$anchor = $items[$i-3>=0?$i-3:0]["name"];
 			$name = $items[$i]["name"];
+			$isCurrent = $name == $this->urlParser->getImage();
 			
 			if($items[$i]["type"]=="directory" && $folders == true)
-				$this->renderImage('/themes/'.$this->getTheme().'/images/directory.jpg', $url."/".$name, null, $name);
+				$this->renderImage('/themes/'.$this->getTheme().'/images/directory.jpg', $url."/".$name, null, $name,$isCurrent);
 			elseif($items[$i]["type"]=="image" && $files == true)
-				$this->renderImage('/img'.$url.'/'.$name.'?size='.$this->thumbnailSize, $url."/".$name, $anchor, null);
+				$this->renderImage('/img'.$url.'/'.$name.'?size='.$this->thumbnailSize, $url."/".$name, $anchor, null, $isCurrent);
 			elseif($this->imagesOnly == false && $files == true)
-				$this->renderImage('/img'.$url.'/'.$name.'?size='.$this->thumbnailSize, $url."/".$name, $anchor, $name);
+				$this->renderImage('/img'.$url.'/'.$name.'?size='.$this->thumbnailSize, $url."/".$name, $anchor, $name, $isCurrent);
 		}
 		print '</div>';
 	}
@@ -137,8 +138,8 @@ class Layout {
 		}
 	}
 	
-	private function renderImage($imageURL, $linkURL, $anchorName, $imageText) {
-		print '<div class="image">';
+	private function renderImage($imageURL, $linkURL, $anchorName, $imageText, $isCurrent) {
+		print '<div class="image '.($isCurrent?"selected":"").'">';
 		
 		if($anchorName == null)
 			print '<a href="'.$linkURL.'"><img src="'.$imageURL.'" /></a>';

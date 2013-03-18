@@ -41,6 +41,12 @@ class URLParser {
 		return dirname($this->url);
 	}
 	
+	public function getImage() {
+		if($this->isDirectory()) return null;
+		
+		return basename($this->url);
+	}
+	
 	private function parseURL() {
 		//Check for IMG prefix
 		if(strncmp($this->url, IMG_PREFIX, strlen(IMG_PREFIX)) == 0) {
