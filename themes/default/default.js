@@ -10,8 +10,18 @@ function loadImage() {
 	$.ajax({
 		url:		url,
 		data:		{ ajax: true },
-		success:	function(response) { $("div.content").html(response); }
+		context:	$(this),
+		success:	renderResponse,
 	});
 	
 	return false;
+}
+
+function renderResponse(response) {
+	$("div.content").html(response);
+	$("div.image").each(function() {
+		$(this).removeClass("selected");
+	});
+	
+	$(this).closest("div.image").addClass("selected");
 }
