@@ -46,6 +46,9 @@ class FileSystemHandler {
 	}
 	
 	public function getNextFile($directory, $currentFile) {
+		if($directory == null || empty($directory)) return null;
+		if($currentFile == null || empty($currentFile)) return null;
+		
 		if($currentFile == $this->cachedCurrentFile) return $this->cachedNextFile;
 		
 		$items = $this->getFilesArray($directory);
@@ -65,6 +68,9 @@ class FileSystemHandler {
 	}
 	
 	public function getPreviousFile($directory, $currentFile) {
+		if($directory == null || empty($directory)) return null;
+		if($currentFile == null || empty($currentFile)) return null;
+		
 		if($currentFile == $this->cachedCurrentFile) return $this->cachedPreviousFile;
 	
 		$items = $this->getFilesArray($directory);
