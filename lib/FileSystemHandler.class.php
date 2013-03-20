@@ -16,29 +16,29 @@ class FileSystemHandler {
 	}
 
 
-	public function getFilesArray($url) {
+	public function getFilesArray($directory) {
 		//If we are accessing the same URL, show cached results
-		if(count($this->cachedFiles) > 0 && $this->cachedURL == $url) return $this->cachedFiles;
+		if(count($this->cachedFiles) > 0 && $this->cachedURL == $directory) return $this->cachedFiles;
 		
-		$dh = opendir($this->dataPath.'/'.$url);
+		$dh = opendir($this->dataPath.'/'.$directory);
 		if($dh == false) return;
 
 		$this->cachedFiles = array();
 		while(($entry = readdir($dh)) !== false) {
 			if($entry[0]=='.') continue;
-			$mime = $this->getMimeType($url.'/'.$entry);
+			$mime = $this->getMimeType($directory.'/'.$entry);
 			$this->cachedFiles[] = array(
 				"name"	=> $entry,
 				"type"	=> strpos($mime,'/') === false?$mime:dirname($mime),
 			);
-			$this->dirSize += filesize($this->dataPath.'/'.$url.'/'.$entry);
+			$this->dirSize += filesize($this->dataPath.'/'.$directory.'/'.$entry);
 		}
 
 		closedir($dh);
 		
 		usort($this->cachedFiles,array($this,"sortDirectories"));
 		
-		$this->cachedURL = $url;
+		$this->cachedURL = $directory;
 		return $this->cachedFiles;
 	}
 	

@@ -84,7 +84,7 @@ class Layout {
 	public function printFolderListing($folders = true, $files = true) {
 		$directory = $this->urlParser->getDirectory();
 		$file = $this->urlParser->getImage();
-		$items = $this->fileSystemHandler->getFilesArray($directory, $file);
+		$items = $this->fileSystemHandler->getFilesArray($directory);
 		
 		print '<div class="imagelist">';
 		
