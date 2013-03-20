@@ -3,12 +3,12 @@
 //Load layout for displaying single image
 if($layout->isImage()) {
 	$f = "themes/".$layout->getTheme()."/single.php";
-	
+
 	if(!file_exists($f)) {
 		print 'Could not load theme file for single image.';
 		return;
 	}
-	
+
 	include $f;
 	return;
 }

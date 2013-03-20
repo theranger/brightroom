@@ -30,25 +30,25 @@ class ImageHandler {
 		if(!$this->imageRenderer) return;
 		$cachedImgPath = NULL;
 		$cache = NULL;
-		
+
 		if(defined("CACHE_FOLDER")) {
 			$cache = new ImageCache(dirname($path).'/'.CACHE_FOLDER);
 			$cachedImgName = $size.'_'.basename($path);
 			if($cache->getFromCache($cachedImgName)) return;
-			
+				
 			//Cache was empty, prepare it
 			if($cache->prepareCache())
 				$cachedImgPath = $cache->getFullPath($cachedImgName);
 		}
-		
+
 		$orig = $this->imageRenderer->loadFile($path);
 		$origH = imagesx($orig);
 		$origW = imagesy($orig);
 		$ratio = $origW/$origH;
-		
+
 		$newW = $size;
 		$newH = $size / $ratio;
-		
+
 		$img = imagecreatetruecolor($newH,$newW);
 		imagecopyresampled($img, $orig, 0, 0, 0, 0, $newH, $newW, $origH, $origW);
 

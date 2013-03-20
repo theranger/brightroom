@@ -12,7 +12,7 @@ class ImageJPEGRenderer implements ImageRenderer {
 	public function outputImage($img) {
 		if($img != NULL)
 			header('Content-Type: image/jpeg');
-		
+
 		imagejpeg($this->img, $img);
 		imagedestroy($this->img);
 	}
