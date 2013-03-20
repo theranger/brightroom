@@ -18,6 +18,7 @@ class Layout {
 	private $exifParser;
 	private $isImage;
 	private $isRoot;
+	private $anchorOffset;
 
 	public function __construct($fileSystemHandler) {
 		$this->fileSystemHandler = $fileSystemHandler;
@@ -27,6 +28,7 @@ class Layout {
 		$this->imageSize = defined("IMAGE_SIZE") && is_numeric("IMAGE_SIZE")?IMAGE_SIZE:DEF_IMAGE_SIZE;
 		$this->showExif = defined("SHOW_EXIF")?SHOW_EXIF:DEF_SHOW_EXIF;
 		$this->readmeFile = defined("README_FILE")?README_FILE:DEF_README_FILE;
+		$this->anchorOffset = defined("ANCHOR_OFFSET")?ANCHOR_OFFSET:DEF_ANCHOR_OFFSET;
 	}
 
 	public function isShowExif() {
@@ -96,7 +98,7 @@ class Layout {
 		for($i=0;$i<$k;$i++) {
 
 			//Anchor some images backwards, this way some previous images can also be seen from listing
-			$anchor = $items[$i-3>=0?$i-3:0]["name"];
+			$anchor = $items[$i-$this->anchorOffset>=0?$i-$this->anchorOffset:0]["name"];
 			$name = $items[$i]["name"];
 
 			if($items[$i]["type"]=="directory" && $folders == true)
@@ -120,10 +122,10 @@ class Layout {
 		$file = $this->urlParser->getImage();
 
 		$previousFile = $this->fileSystemHandler->getIndexOf($directory, $file, -1, false);
-		$previousBookmark =  $this->fileSystemHandler->getIndexOf($directory, $file, -4, false);
+		$previousBookmark =  $this->fileSystemHandler->getIndexOf($directory, $file, -($this->anchorOffset+1), false);
 
 		$nextFile = $this->fileSystemHandler->getIndexOf($directory, $file, 1, false);
-		$nextBookmark = $this->fileSystemHandler->getIndexOf($directory, $file, -2, false);
+		$nextBookmark = $this->fileSystemHandler->getIndexOf($directory, $file, -($this->anchorOffset-1), false);
 
 		print '<div class="single">';
 		print '<img src="/img'.$url.'?size='.$this->imageSize.'" />';
