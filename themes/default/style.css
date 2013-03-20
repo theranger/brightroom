@@ -19,3 +19,9 @@ div.image { border: 1px solid #e7e7e7; float: left; padding: 10px; margin: 10px;
 div.image a { background-color: #fff; display: block; border: 1px solid #e7e7e7; }
 div.selected { background-color: #000066; }
 div.image img { vertical-align: bottom; }
+
+div.single { position: relative; display: inline-block; }
+a.previous { position: absolute; left: 0; right: 50%; height: 100%; }
+a.next { position: absolute; left: 50%; right: 0; height: 100%; }
+div.single a:hover { border: 1px solid white; }
+

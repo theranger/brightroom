@@ -116,7 +116,14 @@ class Layout {
 		$mimeType = dirname($this->fileSystemHandler->getMimeType($url));
 		if($this->imagesOnly == true && $mimeType != "image") return;
 		
+		$previousFile = $this->fileSystemHandler->getPreviousFile($this->urlParser->getDirectory(), $this->urlParser->getImage());
+		$nextFile = $this->fileSystemHandler->getNextFile($this->urlParser->getDirectory(), $this->urlParser->getImage());
+		
+		print '<div class="single">';
 		print '<img src="/img'.$url.'?size='.$this->imageSize.'" />';
+		print '<a class="previous" href="'.$previousFile.'"></a>';
+		print '<a class="next" href="'.$nextFile.'"></a>';
+		print '</div>';
 	}
 	
 	public function readFile($url) {
