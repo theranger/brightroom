@@ -81,15 +81,16 @@ class Layout {
 		$this->isRoot = $this->urlParser->isRoot();
 	}
 
-	public function printFolderListing($url = null, $folders = true, $files = true) {
-		if($url == null) $url = $this->urlParser->getDirectory();
-		$items = $this->fileSystemHandler->getFilesArray($url);
+	public function printFolderListing($folders = true, $files = true) {
+		$directory = $this->urlParser->getDirectory();
+		$file = $this->urlParser->getImage();
+		$items = $this->fileSystemHandler->getFilesArray($directory, $file);
 		
 		print '<div class="imagelist">';
 		
 		// If url is not empty, we are in a subgallery. Show link to parent gallery
-		if($folders == true && !empty($url))
-			$this->renderImage('/themes/'.$this->getTheme().'/images/upfolder.png', dirname($url), null, "..", false);
+		if($folders == true && !empty($directory))
+			$this->renderImage('/themes/'.$this->getTheme().'/images/upfolder.png', dirname($directory), null, "..", false);
 		
 		$k=count($items);
 		for($i=0;$i<$k;$i++) {
@@ -97,14 +98,13 @@ class Layout {
 			//Anchor some images backwards, this way some previous images can also be seen from listing
 			$anchor = $items[$i-3>=0?$i-3:0]["name"];
 			$name = $items[$i]["name"];
-			$isCurrent = $name == $this->urlParser->getImage();
 			
 			if($items[$i]["type"]=="directory" && $folders == true)
-				$this->renderImage('/themes/'.$this->getTheme().'/images/directory.jpg', $url."/".$name, null, $name,$isCurrent);
+				$this->renderImage('/themes/'.$this->getTheme().'/images/directory.jpg', $directory."/".$name, null, $name, $name == $file);
 			elseif($items[$i]["type"]=="image" && $files == true)
-				$this->renderImage('/img'.$url.'/'.$name.'?size='.$this->thumbnailSize, $url."/".$name, $anchor, null, $isCurrent);
+				$this->renderImage('/img'.$directory.'/'.$name.'?size='.$this->thumbnailSize, $directory."/".$name, $anchor, null, $name == $file);
 			elseif($this->imagesOnly == false && $files == true)
-				$this->renderImage('/img'.$url.'/'.$name.'?size='.$this->thumbnailSize, $url."/".$name, $anchor, $name, $isCurrent);
+				$this->renderImage('/img'.$directory.'/'.$name.'?size='.$this->thumbnailSize, $directory."/".$name, $anchor, $name, $name == $file);
 		}
 		print '</div>';
 	}

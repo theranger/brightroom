@@ -13,11 +13,11 @@
 				<tr><td>Folder size:</td><td><?php $layout->printDirectorySize(); ?></td></tr>
 			</table>
 			
-			<?php if(!$layout->isRoot()) $layout->printFolderListing(null, true, false); ?>
+			<?php if(!$layout->isRoot()) $layout->printFolderListing(true, false); ?>
 		</div>
 		<div class="content">
 			<div class="head"><?php $layout->printBreadcrumb(); ?></div>
-			<?php $layout->printFolderListing(null, $layout->isRoot()); ?>
+			<?php $layout->printFolderListing($layout->isRoot()); ?>
 		</div>
 	</body>
 </html>
