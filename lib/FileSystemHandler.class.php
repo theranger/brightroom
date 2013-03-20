@@ -7,6 +7,9 @@ class FileSystemHandler {
 	
 	private $cachedURL;
 	private $cachedFiles = array();
+	private $cachedCurrentFile;
+	private $cachedNextFile;
+	private $cachedPreviousFile;
 
 	public function __construct($dataPath) {
 		if($dataPath[0]=='/')
@@ -40,6 +43,44 @@ class FileSystemHandler {
 		
 		$this->cachedURL = $directory;
 		return $this->cachedFiles;
+	}
+	
+	public function getNextFile($directory, $currentFile) {
+		if($currentFile == $this->cachedCurrentFile) return $this->cachedNextFile;
+		
+		$items = $this->getFilesArray($directory);
+		$k = count($items);
+		
+		for($i=0;$i<$k;$i++) {
+			if(($items[$i]["name"] != $currentFile)) continue;
+			
+			$this->cachedCurrentFile = $currentFile;
+			if($i+1 < $k) $this->cachedNextFile = $items[$i+1]["name"];
+			if($i > 0) $this->cachedPreviousFile = $items[$i-1]["name"];
+			
+			return $his->cachedNextFile;
+		}
+		
+		return null;
+	}
+	
+	public function getPreviousFile($directory, $currentFile) {
+		if($currentFile == $this->cachedCurrentFile) return $this->cachedPreviousFile;
+	
+		$items = $this->getFilesArray($directory);
+		$k = count($items);
+	
+		for($i=0;$i<$k;$i++) {
+			if(($items[$i]["name"] != $currentFile)) continue;
+			
+			$this->cachedCurrentFile = $currentFile;
+			if($i+1 < $k) $this->cachedNextFile = $items[$i+1]["name"];
+			if($i > 0) $this->cachedPreviousFile = $items[$i-1]["name"];
+				
+			return $this->cachedPreviousFile;
+		}
+	
+		return null;
 	}
 	
 	private function sortDirectories($a, $b) {
