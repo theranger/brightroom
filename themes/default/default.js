@@ -2,6 +2,8 @@ $(document).ready(init);
 
 function init() {
 	$("a.image").click(loadImage);
+	$("a.next").click(loadImage);
+	$("a.previous").click(loadImage);
 }
 
 function loadImage() {
@@ -10,7 +12,6 @@ function loadImage() {
 	$.ajax({
 		url:		url,
 		data:		{ ajax: true },
-		context:	$(this),
 		success:	renderResponse,
 	});
 	
@@ -18,10 +19,16 @@ function loadImage() {
 }
 
 function renderResponse(response) {
+	var request = this.url.replace(/^.*\/|#[^#]*|\?[^\?]*$/g, '');
+	
 	$("div.content").html(response);
 	$("div.image").each(function() {
 		$(this).removeClass("selected");
+		
+		var url = $(this).children("a").attr("href").replace(/^.*\/|#[^#]*|\?[^\?]*$/g, '');
+		if(request == url) $(this).addClass("selected");
 	});
 	
-	$(this).closest("div.image").addClass("selected");
+	$("a.next").click(loadImage);
+	$("a.previous").click(loadImage);
 }
