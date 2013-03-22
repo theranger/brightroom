@@ -66,6 +66,7 @@ class FileSystemHandler {
 			);
 		}
 
+		sort($folders);
 		$folders["count"] = count($folders);
 		closedir($dh);
 
