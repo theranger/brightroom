@@ -12,12 +12,12 @@
 				<tr><td>File count:</td><td><?php $layout->printFileCount(); ?></td></tr>
 				<tr><td>Folder size:</td><td><?php $layout->printDirectorySize(); ?></td></tr>
 			</table>
-			
-			<?php if(!$layout->isRoot()) $layout->printFolderListing(true, false); ?>
+
+			<?php if(!$layout->isRoot()) $layout->printFolderTree(); ?>
 		</div>
 		<div class="content">
 			<div class="head"><?php $layout->printBreadcrumb(); ?></div>
-			<?php $layout->printFolderListing($layout->isRoot()); ?>
+			<?php $layout->printFolderContents($layout->isRoot()); ?>
 		</div>
 	</body>
 </html>

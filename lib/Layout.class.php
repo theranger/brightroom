@@ -83,7 +83,7 @@ class Layout {
 		$this->isRoot = $this->urlParser->isRoot();
 	}
 
-	public function printFolderListing($folders = true, $files = true) {
+	public function printFolderContents($folders = true, $files = true) {
 		$directory = $this->urlParser->getDirectory();
 		$file = $this->urlParser->getImage();
 		$items = $this->fileSystemHandler->getFilesArray($directory);
@@ -109,6 +109,21 @@ class Layout {
 				$this->renderImage('/img'.$directory.'/'.$name.'?size='.$this->thumbnailSize, $directory."/".$name, $anchor, $name, $name == $file);
 		}
 		print '</div>';
+	}
+
+	public function printFolderTree(&$items = null) {
+		if($items != null && $items["count"] == 0) return;
+		if($items == null) $items = $this->fileSystemHandler->getFolderArray("");
+		$directory = $this->urlParser->getDirectory();
+
+		print '<ul class="foldertree">';
+		for($i = 0; $i < $items["count"]; $i++) {
+			print '<li>';
+			print '<a href="'.$items[$i]["link"].'">'.$items[$i]["name"].'</a>';
+			if(strpos($directory, $items[$i]["link"]) === 0) $this->printFolderTree($items[$i]["items"]);
+			print '</li>';
+		}
+		print '</ul>';
 	}
 
 	public function getImage($size, $url = null) {

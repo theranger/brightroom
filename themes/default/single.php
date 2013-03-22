@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<div class="sidebar">
-			<?php $layout->printFolderListing(false); ?>
+			<?php $layout->printFolderContents(false); ?>
 		</div>
 <?php endif; ?>
 
@@ -24,7 +24,7 @@
 				</table>
 			</div>
 		</div>
-		
+
 <?php if(!isset($_GET["ajax"])) :?>
 	</body>
 </html>

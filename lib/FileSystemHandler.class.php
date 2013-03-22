@@ -10,6 +10,9 @@ class FileSystemHandler {
 	private $cachedCurrentFile;
 	private $cachedCurrentIndex;
 
+	private $cachedRoot;
+	private $cachedFolders = array();
+
 	public function __construct($dataPath) {
 		if($dataPath[0]=='/')
 			$this->dataPath = $dataPath;
@@ -42,6 +45,36 @@ class FileSystemHandler {
 
 		$this->cachedURL = $directory;
 		return $this->cachedFiles;
+	}
+
+	public function getFolderArray($root, $recursive=false) {
+		//If we are loading the same root, show cached result
+		if(!$recursive && count($this->cachedFolders) > 0 && $this->cachedRoot == $root) return $this->cachedFolders;
+
+		$dh = opendir($this->dataPath.'/'.$root);
+		if($dh == false) return;
+
+		$folders = array();
+		while(($entry = readdir($dh)) !== false) {
+			if($entry[0]=='.') continue;
+			if(!is_dir($this->dataPath.'/'.$root.'/'.$entry)) continue;
+
+			$folders[] = array(
+				"name"	=> $entry,
+				"link"	=> $root.'/'.$entry,
+				"items"	=> $this->getFolderArray($root.'/'.$entry, true),
+			);
+		}
+
+		$folders["count"] = count($folders);
+		closedir($dh);
+
+		if(!$recursive) {
+			$this->cachedFolders = $folders;
+			$this->cachedRoot = $root;
+		}
+
+		return $folders;
 	}
 
 	public function getIndexOf($directory, $currentFile, $index=0, $null = true) {

@@ -25,3 +25,4 @@ a.previous { position: absolute; left: 0; right: 50%; height: 100%; }
 a.next { position: absolute; left: 50%; right: 0; height: 100%; }
 div.single a:hover { border: 1px solid white; }
 
+ul.foldertree { list-style-type: square; padding-left: 15px; }
