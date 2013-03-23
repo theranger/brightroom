@@ -178,6 +178,27 @@ class FileSystemHandler {
 		}
 	}
 
+	public function removeDirectory($url = "") {
+		$dh = opendir($this->dataPath.'/'.$url);
+		if($dh == false) return;
+
+		while(($entry = readdir($dh)) !== false) {
+			if($entry=='.' || $entry == '..') continue;
+			if(is_dir($this->dataPath.'/'.$url.'/'.$entry)) {
+				$this->removeDirectory($url.'/'.$entry);
+				continue;
+			}
+
+			if(!unlink($this->dataPath.'/'.$url.'/'.$entry)) {
+				closedir($dh);
+				return false;
+			}
+		}
+
+		closedir($dh);
+		return rmdir($this->dataPath.'/'.$url);
+	}
+
 	public function saveFile($url, $data) {
 		if(empty($url)) return false;
 

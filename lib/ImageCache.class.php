@@ -29,6 +29,13 @@ class ImageCache {
 		return true;
 	}
 
+	public function invalidateCache() {
+		if(!$this->fileSystemHandler->exists()) return;
+		if(!$this->fileSystemHandler->removeDirectory()) return false;
+
+		return true;
+	}
+
 	public function getFullPath($imgName) {
 		return $this->fileSystemHandler->getFullPath($imgName);
 	}
