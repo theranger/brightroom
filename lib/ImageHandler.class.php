@@ -33,6 +33,13 @@ class ImageHandler {
 
 		if(defined("CACHE_FOLDER")) {
 			$cache = new ImageCache(dirname($path).'/'.CACHE_FOLDER);
+
+			//If directory mtime is newer than cache, directory was modified
+			//Invalidate stale cache
+			$imagestat = stat(dirname($path));
+			$cachestat = stat(dirname($path).'/'.CACHE_FOLDER);
+			if($imagestat['mtime'] > $cachestat['mtime']) $cache->invalidateCache();
+
 			$cachedImgName = $size.'_'.basename($path);
 			if($cache->getFromCache($cachedImgName)) return;
 
