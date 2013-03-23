@@ -21,7 +21,7 @@ function loadImage() {
 function renderResponse(response) {
 	var request = this.url.replace(/^.*\/|#[^#]*|\?[^\?]*$/g, '');
 	
-	$("div.content").html(response);
+	$("div.main").html(response);
 	$("div.image").each(function() {
 		$(this).removeClass("selected");
 		

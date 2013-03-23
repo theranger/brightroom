@@ -13,15 +13,10 @@
 			<?php $layout->printFolderContents(false); ?>
 		</div>
 <?php endif; ?>
-
-		<div class="content">
+		<div class="main">
 			<div class="head"><?php $layout->printBreadcrumb(); ?></div>
-			<?php $layout->getImage(600); ?>
-			<div class="meta">
-				<table>
-					<tr><td>Name:</td><td><?php $layout->getExif()->printTitle(); ?></td></tr>
-					<tr><td>File size:</td><td><?php $layout->getExif()->printFileSize(); ?></td></tr>
-				</table>
+			<div class="content">
+				<?php $layout->getImage(1024); ?>
 			</div>
 		</div>
 
