@@ -113,14 +113,13 @@ class Layout {
 
 	public function printFolderTree(&$items = null) {
 		if($items != null && $items["count"] == 0) return;
-		if($items == null) $items = $this->fileSystemHandler->getFolderArray("");
-		$directory = $this->urlParser->getDirectory();
+		if($items == null) $items = $this->fileSystemHandler->getFolderArray($this->urlParser->getDirectory());
 
 		print '<ul class="foldertree">';
 		for($i = 0; $i < $items["count"]; $i++) {
 			print '<li>';
 			print '<a href="'.$items[$i]["link"].'">'.$items[$i]["name"].'</a>';
-			if(strpos($directory, $items[$i]["link"]) === 0) $this->printFolderTree($items[$i]["items"]);
+			$this->printFolderTree($items[$i]["items"]);
 			print '</li>';
 		}
 		print '</ul>';

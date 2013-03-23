@@ -26,7 +26,15 @@ function renderResponse(response) {
 		$(this).removeClass("selected");
 		
 		var url = $(this).children("a").attr("href").replace(/^.*\/|#[^#]*|\?[^\?]*$/g, '');
-		if(request == url) $(this).addClass("selected");
+		if(request == url) {
+			$(this).addClass("selected");
+			var scroll = $(this).parents("div.sidebar");
+			var height = scroll.height()/2;
+			var pos = $(this).position().top;
+			
+			if(scroll != undefined && pos > height) scroll.scrollTop(scroll.scrollTop() + (pos - height));
+			if(scroll != undefined && pos < height) scroll.scrollTop(scroll.scrollTop() - (height - pos));
+		}
 	});
 	
 	$("a.next").click(loadImage);

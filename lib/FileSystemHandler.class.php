@@ -47,22 +47,25 @@ class FileSystemHandler {
 		return $this->cachedFiles;
 	}
 
-	public function getFolderArray($root, $recursive=false) {
+	public function getFolderArray($directory, $root = null) {
 		//If we are loading the same root, show cached result
-		if(!$recursive && count($this->cachedFolders) > 0 && $this->cachedRoot == $root) return $this->cachedFolders;
+		if(count($this->cachedFolders) > 0 && $this->cachedRoot == $directory) return $this->cachedFolders;
 
-		$dh = opendir($this->dataPath.'/'.$root);
+		$path = explode('/', $directory, 2);
+		$workDir = rtrim($root.'/'.$path[0], '/');
+
+		$dh = opendir($this->dataPath.$workDir);
 		if($dh == false) return;
 
 		$folders = array();
 		while(($entry = readdir($dh)) !== false) {
 			if($entry[0]=='.') continue;
-			if(!is_dir($this->dataPath.'/'.$root.'/'.$entry)) continue;
+			if(!is_dir($this->dataPath.$workDir.'/'.$entry)) continue;
 
 			$folders[] = array(
 				"name"	=> $entry,
-				"link"	=> $root.'/'.$entry,
-				"items"	=> $this->getFolderArray($root.'/'.$entry, true),
+				"link"	=> $workDir.'/'.$entry,
+				"items"	=> (count($path) > 1 && strpos($path[1], $entry) === 0)?$this->getFolderArray($path[1], $workDir):array("count" => 0),
 			);
 		}
 
@@ -70,9 +73,9 @@ class FileSystemHandler {
 		$folders["count"] = count($folders);
 		closedir($dh);
 
-		if(!$recursive) {
+		if($root == null) {
 			$this->cachedFolders = $folders;
-			$this->cachedRoot = $root;
+			$this->cachedRoot = $directory;
 		}
 
 		return $folders;
