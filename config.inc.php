@@ -49,6 +49,11 @@ define("IMAGE_SIZE", 600);
 define("SHOW_EXIF", true);
 
 /**
+ * Create overlay with a title for each big image
+ */
+define("OVERLAY_TITLE", true);
+
+/**
  * Readme file name
  *
  * The contents of this file will be shown in gallery listings

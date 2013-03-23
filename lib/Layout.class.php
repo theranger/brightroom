@@ -14,6 +14,7 @@ class Layout {
 	private $imageSize;
 	private $showExif;
 	private $readmeFile;
+	private $overlayTitle;
 	private $urlParser;
 	private $exifParser;
 	private $isImage;
@@ -29,6 +30,7 @@ class Layout {
 		$this->showExif = defined("SHOW_EXIF")?SHOW_EXIF:DEF_SHOW_EXIF;
 		$this->readmeFile = defined("README_FILE")?README_FILE:DEF_README_FILE;
 		$this->anchorOffset = defined("ANCHOR_OFFSET")?ANCHOR_OFFSET:DEF_ANCHOR_OFFSET;
+		$this->overlayTitle = defined("OVERLAY_TITLE")?OVERLAY_TITLE:DEF_OVERLAY_TITLE;
 	}
 
 	public function isShowExif() {
@@ -142,9 +144,10 @@ class Layout {
 		$nextBookmark = $this->fileSystemHandler->getIndexOf($directory, $file, -($this->anchorOffset-1), false);
 
 		print '<div class="single">';
-		print '<img src="/img'.$url.'?size='.$this->imageSize.'" />';
+		print '<img src="/img'.$url.'?size='.($size>0?$size:$this->imageSize).'" />';
 		print '<a class="previous" href="'.$previousFile.'#'.$previousBookmark.'"></a>';
 		print '<a class="next" href="'.$nextFile.'#'.$nextBookmark.'"></a>';
+		if($this->overlayTitle) print '<h1 class="alpha20">'.$this->getExif()->getTitle().'</h1>';
 		print '</div>';
 	}
 

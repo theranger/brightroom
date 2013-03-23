@@ -15,3 +15,5 @@ define("DEF_PAGINATION", 200);
 define("DEF_THEME", "default");
 
 define("DEF_ANCHOR_OFFSET", 3);
+
+define("DEF_OVERLAY_TITLE", false);
