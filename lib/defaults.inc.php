@@ -1,5 +1,7 @@
 <?php
 
+define("DEF_VERSION", "1.0");
+
 define("DEF_THUMBNAIL_SIZE", 100);
 
 define("DEF_IMAGE_SIZE", 600);

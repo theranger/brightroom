@@ -1,8 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 	<head>
-		<title>Gallery</title>
+		<title>Simple Folder Gallery</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="author" content="The Ranger (ranger.risk.ee)">
+		<meta name="description" content="My photo site provided by simple folder based gallery engine">
+		<meta name="generator" content="Simple Folder Gallery <?php $layout->printVersion(); ?>">
 		<link rel="stylesheet" type="text/css" href="<?php $layout->printThemeURL(); ?>/style.css" />
 	</head>
 	<body>

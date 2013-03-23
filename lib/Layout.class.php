@@ -20,6 +20,7 @@ class Layout {
 	private $isImage;
 	private $isRoot;
 	private $anchorOffset;
+	private $version;
 
 	public function __construct($fileSystemHandler) {
 		$this->fileSystemHandler = $fileSystemHandler;
@@ -31,6 +32,7 @@ class Layout {
 		$this->readmeFile = defined("README_FILE")?README_FILE:DEF_README_FILE;
 		$this->anchorOffset = defined("ANCHOR_OFFSET")?ANCHOR_OFFSET:DEF_ANCHOR_OFFSET;
 		$this->overlayTitle = defined("OVERLAY_TITLE")?OVERLAY_TITLE:DEF_OVERLAY_TITLE;
+		$this->version = defined("DEF_VERSION")?DEF_VERSION:"Unknown version";
 	}
 
 	public function isShowExif() {
@@ -61,6 +63,10 @@ class Layout {
 
 	public function printThemeURL() {
 		print "/themes/".$this->getTheme();
+	}
+
+	public function printVersion() {
+		print $this->version;
 	}
 
 	public function printBreadcrumb() {
