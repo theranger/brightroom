@@ -30,7 +30,7 @@ function renderResponse(response) {
 			$(this).addClass("selected");
 			var scroll = $(this).parents("div.sidebar");
 			var height = scroll.height()/2;
-			var pos = $(this).position().top;
+			var pos = $(this).position().top + $(this).height()/2;
 			
 			if(scroll != undefined && pos > height) scroll.animate({scrollTop: scroll.scrollTop() + (pos - height)}, 500);
 			if(scroll != undefined && pos < height) scroll.animate({scrollTop: scroll.scrollTop() - (height - pos)}, 500);
