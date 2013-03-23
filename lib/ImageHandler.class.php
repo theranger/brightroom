@@ -26,7 +26,7 @@ class ImageHandler {
 		}
 	}
 
-	public function resizeImage($path, $size) {
+	public function resizeImage($path, $size, $orientation) {
 		if(!$this->imageRenderer) return;
 		$cachedImgPath = NULL;
 		$cache = NULL;
@@ -35,13 +35,15 @@ class ImageHandler {
 			$cache = new ImageCache(dirname($path).'/'.CACHE_FOLDER);
 			$cachedImgName = $size.'_'.basename($path);
 			if($cache->getFromCache($cachedImgName)) return;
-				
+
 			//Cache was empty, prepare it
 			if($cache->prepareCache())
 				$cachedImgPath = $cache->getFullPath($cachedImgName);
 		}
 
 		$orig = $this->imageRenderer->loadFile($path);
+		if($orientation != 0) $orig = imagerotate($orig, $orientation, 0);
+
 		$origH = imagesx($orig);
 		$origW = imagesy($orig);
 		$ratio = $origW/$origH;

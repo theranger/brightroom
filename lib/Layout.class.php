@@ -161,7 +161,9 @@ class Layout {
 
 		if(is_numeric($size) && $size > 0) {
 			$ih = new ImageHandler($mimeType);
-			$ih->resizeImage($this->fileSystemHandler->getFullPath($url), $size);
+
+			$exif = new ExifParser($this->fileSystemHandler->getFullPath($url));
+			$ih->resizeImage($this->fileSystemHandler->getFullPath($url), $size, $exif->getOrientation());
 		}
 		else {
 			$this->fileSystemHandler->getFile($url);

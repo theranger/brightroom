@@ -12,12 +12,23 @@ class ExifParser {
 
 	public function getFileSize() {
 		if(!isset($this->exifData["FileSize"])) return;
-			
+
 		return $this->exifData["FileSize"];
 	}
 
 	public function printFileSize() {
 		echo $this->getFileSize();
+	}
+
+	public function getOrientation() {
+		switch($this->exifData["Orientation"]) {
+			case 6:
+				return -90;
+			case 8:
+				return 90;
+			default:
+				return 0;
+		}
 	}
 
 	public function getComment() {
