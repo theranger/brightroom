@@ -83,7 +83,7 @@ class FileSystemHandler {
 
 	public function getIndexOf($directory, $currentFile, $index=0, $null = true) {
 		$pos = $this->getCurrentIndexOf($directory, $currentFile);
-		if($pos == null) return null;
+		if($pos === null) return null;
 
 		$items = $this->getFilesArray($directory);
 		$k = count($items);
