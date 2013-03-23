@@ -31,12 +31,12 @@ class FileSystemHandler {
 		$this->cachedFiles = array();
 		while(($entry = readdir($dh)) !== false) {
 			if($entry[0]=='.') continue;
-			if(is_dir($this->dataPath.'/'.$directory.'/'.$entry)) continue;
 
 			$mime = $this->getMimeType($directory.'/'.$entry);
 			$this->cachedFiles[] = array(
 				"name"	=> $entry,
 				"type"	=> strpos($mime,'/') === false?$mime:dirname($mime),
+				"folder"	=> is_dir($this->dataPath.'/'.$directory.'/'.$entry),
 			);
 			$this->dirSize += filesize($this->dataPath.'/'.$directory.'/'.$entry);
 		}
@@ -83,7 +83,7 @@ class FileSystemHandler {
 		return $folders;
 	}
 
-	public function getIndexOf($directory, $currentFile, $index=0, $null = true) {
+	public function getIndexOf($directory, $currentFile, $index=0, $null = true, $folders = false) {
 		$pos = $this->getCurrentIndexOf($directory, $currentFile);
 		if($pos === null) return null;
 
@@ -91,9 +91,13 @@ class FileSystemHandler {
 		$k = count($items);
 
 		if($pos + $index >= $k) return $null?null:$items[$k-1]["name"];
-		if($pos + $index < 0) return $null?null:$items[0]["name"];
 
-		return $items[$pos + $index]["name"];
+		if($pos + $index < 0) {
+			if($null) return null;
+			return (!$folders && $items[0]["folder"])?$items[$pos]["name"]:$items[0]["name"];
+		}
+
+		return (!$folders && $items[$pos + $index]["folder"])?$items[$pos]["name"]:$items[$pos + $index]["name"];
 	}
 
 	private function getCurrentIndexOf($directory, $currentFile) {
