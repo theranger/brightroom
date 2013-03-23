@@ -31,6 +31,8 @@ class FileSystemHandler {
 		$this->cachedFiles = array();
 		while(($entry = readdir($dh)) !== false) {
 			if($entry[0]=='.') continue;
+			if(is_dir($this->dataPath.'/'.$directory.'/'.$entry)) continue;
+
 			$mime = $this->getMimeType($directory.'/'.$entry);
 			$this->cachedFiles[] = array(
 				"name"	=> $entry,
