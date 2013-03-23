@@ -32,8 +32,8 @@ function renderResponse(response) {
 			var height = scroll.height()/2;
 			var pos = $(this).position().top;
 			
-			if(scroll != undefined && pos > height) scroll.scrollTop(scroll.scrollTop() + (pos - height));
-			if(scroll != undefined && pos < height) scroll.scrollTop(scroll.scrollTop() - (height - pos));
+			if(scroll != undefined && pos > height) scroll.animate({scrollTop: scroll.scrollTop() + (pos - height)}, 500);
+			if(scroll != undefined && pos < height) scroll.animate({scrollTop: scroll.scrollTop() - (height - pos)}, 500);
 		}
 	});
 	
