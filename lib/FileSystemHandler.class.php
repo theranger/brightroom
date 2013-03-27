@@ -180,7 +180,7 @@ class FileSystemHandler {
 
 	public function removeDirectory($url = "") {
 		$dh = opendir($this->dataPath.'/'.$url);
-		if($dh == false) return;
+		if($dh == false) return false;
 
 		while(($entry = readdir($dh)) !== false) {
 			if($entry=='.' || $entry == '..') continue;
@@ -197,6 +197,17 @@ class FileSystemHandler {
 
 		closedir($dh);
 		return rmdir($this->dataPath.'/'.$url);
+	}
+
+	public function removeFile($path) {
+		if(empty($path)) return false;
+
+		$files = glob($this->dataPath.'/'.$path);
+		foreach($files as $file) {
+			if(!unlink($file)) return false;
+		}
+
+		return true;
 	}
 
 	public function saveFile($url, $data) {
