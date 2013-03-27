@@ -165,7 +165,7 @@ class Layout {
 	// Not for regular HTML output!
 	public function getFile($url, $size) {
 		$mimeType = $this->fileSystemHandler->getMimeType($url);
-		header("Content-Type:".$mimeType."\r\n");
+		header("Content-Type: ".$mimeType);
 
 		if(is_numeric($size) && $size > 0) {
 			$ih = new ImageHandler($mimeType);
