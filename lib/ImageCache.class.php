@@ -20,6 +20,10 @@ class ImageCache {
 		$this->fileSystemHandler->saveFile($imgName, $imgData);
 	}
 
+	public function inCache($imgName) {
+		return $this->fileSystemHandler->exists($imgName);
+	}
+
 	public function prepareCache() {
 		if(!$this->fileSystemHandler->exists()) {
 			if(!$this->fileSystemHandler->createDirectory("",0775))
@@ -30,8 +34,15 @@ class ImageCache {
 	}
 
 	public function invalidateCache() {
-		if(!$this->fileSystemHandler->exists()) return;
+		if(!$this->fileSystemHandler->exists()) return false;
 		if(!$this->fileSystemHandler->removeDirectory()) return false;
+
+		return true;
+	}
+
+	public function invalidateImage($path) {
+		if(!$this->fileSystemHandler->exists()) return false;
+		if(!$this->fileSystemHandler->removeFile($path)) return false;
 
 		return true;
 	}
