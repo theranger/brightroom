@@ -34,18 +34,24 @@ class ImageHandler {
 		if(defined("CACHE_FOLDER")) {
 			$cache = new ImageCache(dirname($path).'/'.CACHE_FOLDER);
 
-			//If directory mtime is newer than cache, directory was modified
-			//Invalidate stale cache
-			$imagestat = stat(dirname($path));
-			$cachestat = stat(dirname($path).'/'.CACHE_FOLDER);
-			if($imagestat['mtime'] > $cachestat['mtime']) $cache->invalidateCache();
-
+			if(!$cache->prepareCache()) return;
 			$cachedImgName = $size.'_'.basename($path);
-			if($cache->getFromCache($cachedImgName)) return;
 
-			//Cache was empty, prepare it
-			if($cache->prepareCache())
-				$cachedImgPath = $cache->getFullPath($cachedImgName);
+			if($cache->inCache($cachedImgName)) {
+				$imagestat = stat($path);
+				$cachestat = stat(dirname($path).'/'.CACHE_FOLDER.'/'.$cachedImgName);
+
+				if($imagestat['mtime'] < $cachestat['mtime']) {
+					$cache->getFromCache($cachedImgName);
+					return;
+				}
+
+				//If we are here, original image mtime was newer than cached image mtime
+				//Invalidate stale cache
+				$cache->invalidateImage('*_'.basename($path));
+			}
+
+			$cachedImgPath = $cache->getFullPath($cachedImgName);
 		}
 
 		$orig = $this->imageRenderer->loadFile($path);
