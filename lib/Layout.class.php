@@ -153,7 +153,7 @@ class Layout {
 		print '<img src="/img'.$url.'?size='.($size>0?$size:$this->imageSize).'" />';
 		print '<a class="previous" href="'.$previousFile.'#'.$previousBookmark.'"></a>';
 		print '<a class="next" href="'.$nextFile.'#'.$nextBookmark.'"></a>';
-		if($this->overlayTitle) print '<h1 class="alpha20">'.$this->getExif()->getTitle().'</h1>';
+		if($this->overlayTitle && $this->getExif()->getDescription() != "") print '<h1 class="alpha20">'.$this->getExif()->getDescription().'</h1>';
 		print '</div>';
 	}
 

@@ -52,9 +52,8 @@ class ExifParser {
 	}
 
 	public function getDescription() {
-		if(!isset($this->exifData["Subject"])) return;
-
-		return $this->exifData["Subject"];
+		if(isset($this->exifData["ImageDescription"])) return $this->exifData["ImageDescription"];
+		if(isset($this->exifData["UserComment"])) return $this->exifData["UserComment"];
 	}
 
 	public function printDescription() {
