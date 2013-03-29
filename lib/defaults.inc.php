@@ -1,6 +1,6 @@
 <?php
 
-define("DEF_VERSION", "0.6");
+define("DEF_VERSION", "0.7");
 
 define("DEF_THUMBNAIL_SIZE", 100);
 
