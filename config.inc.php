@@ -84,5 +84,33 @@ define("PAGINATION", 5);
  */
 //define("ANCHOR_OFFSET", 3);
 
+/**
+ * Gallery password file
+ *
+ * Specifies file name, located in DATA_DIR root folder, where user names and passwords are stored.
+ * Access to this file will be prohibited from web.
+ *
+ *  Default value: galpasswd.txt
+ */
+//define("PASSWD_FILE", "galpasswd.txt");
+
+/**
+ * Gallery access file
+ *
+ * Specifies file name, located in each gallery folder, that will include access control lists for that
+ * particular gallery.
+ * Access to this file will be prohibited from web.
+ *
+ * Default value: galaccess.txt
+ */
+//define("ACCESS_FILE", "galaccess.txt");
+
+
+/**
+ * Salt
+ *
+ * Used for securing gallery sessions. Should be unique and long enough!
+ */
+define("SALT", "asdlfkjcv+04sz=)sadlkfdsxcmsdf0+=)(efdksdc+02,LKO");
 
 ?>

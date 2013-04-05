@@ -19,7 +19,7 @@
 			<?php if(!$layout->isRoot()) $layout->printFolderTree(); ?>
 		</div>
 		<div class="main">
-			<div class="head"><?php $layout->printBreadcrumb(); ?></div>
+			<div class="head"><?php $layout->printBreadcrumb(); ?><?php $layout->printLoginDialog(); ?></div>
 			<?php $layout->printFolderContents($layout->isRoot()); ?>
 		</div>
 	</body>

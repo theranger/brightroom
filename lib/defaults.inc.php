@@ -19,3 +19,7 @@ define("DEF_THEME", "default");
 define("DEF_ANCHOR_OFFSET", 3);
 
 define("DEF_OVERLAY_TITLE", false);
+
+define ("DEF_PASSWD_FILE", "galpasswd.txt");
+
+define ("DEF_ACCESS_FILE", "galaccess.txt");

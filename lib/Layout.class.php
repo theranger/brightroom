@@ -7,6 +7,7 @@ include ("defaults.inc.php");
 class Layout {
 
 	private $fileSystemHandler;
+	private $sessionHandler;
 
 	// Settings from config files
 	private $imagesOnly;
@@ -22,8 +23,9 @@ class Layout {
 	private $anchorOffset;
 	private $version;
 
-	public function __construct($fileSystemHandler) {
+	public function __construct($fileSystemHandler, $sessionHandler) {
 		$this->fileSystemHandler = $fileSystemHandler;
+		$this->sessionHandler = $sessionHandler;
 
 		$this->imagesOnly = defined("SHOW_IMAGES_ONLY")?SHOW_IMAGES_ONLY:DEF_SHOW_IMAGES_ONLY;
 		$this->thumbnailSize = defined("THUMBNAIL_SIZE") && is_numeric("THUMBNAIL_SIZE")?THUMBNAIL_SIZE:DEF_THUMBNAIL_SIZE;
@@ -81,6 +83,22 @@ class Layout {
 			$url.='/'.$el;
 			print '<a href="'.$url.'" class="breadcrumb">/'.$el.'</a>';
 		}
+	}
+
+	public function printLoginDialog() {
+		if($this->sessionHandler->isLoggedIn()) {
+			print '<form class="login">';
+			print 'Logged in as '.$this->sessionHandler->getLoggedInUser().'. ';
+			print '<a href="?logout=true">Log out</a>';
+			print '</form>';
+			return;
+		}
+
+		print '<form method="post" class="login">';
+		print 'U: <input type="text" name="user" />';
+		print 'P: <input type="password" name="pass" />';
+		print '<input type="submit" value="Log In" class="button" />';
+		print '</form>';
 	}
 
 	public function setURLParser($urlParser) {

@@ -32,3 +32,7 @@ div.single img { position: relative; max-width: 100%; max-height: 100%; }
 ul.foldertree { list-style-type: square; padding-left: 15px; }
 
 .alpha20 { background: rgb(255, 255, 255); background: rgba(255, 255, 255, 0.3); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4CFFFFFF, endColorstr=#4CFFFFFF); }
+
+form.login { float: right; }
+form.login input { width: 80px; border: 1px solid #e7e7e7; margin-right: 10px; font-size: 0.9em; }
+form.login input.button { width: auto; }
