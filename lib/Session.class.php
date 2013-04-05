@@ -43,6 +43,18 @@ class Session {
 		return false;
 	}
 
+	public function authorize($path) {
+		$accessFile = new File($this->fileSystemHandler);
+		if($accessFile->open($path.'/'.$this->accessFile) == false) return true;
+
+		while($accessFile->hasNext()) {
+			$r = $accessFile->readLine();
+			if(strpos($r, $this->userName) === 0) return true;
+		}
+
+		return false;
+	}
+
 	public function clear() {
 		if(!$this->isLoggedIn()) return;
 

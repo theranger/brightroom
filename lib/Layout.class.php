@@ -143,6 +143,8 @@ class Layout {
 
 		print '<ul class="foldertree">';
 		for($i = 0; $i < $items["count"]; $i++) {
+			if(!$this->sessionHandler->authorize($items[$i]["link"])) continue;
+
 			print '<li>';
 			print '<a href="'.$items[$i]["link"].'">'.$items[$i]["name"].'</a>';
 			$this->printFolderTree($items[$i]["items"]);
