@@ -57,10 +57,17 @@ class URLParser {
 
 		//Clear path from nasty things
 		$url = $this->fsh->clearPath($_GET["q"]);
+		$file = basename($url);
 
 		//Chcek if the URL is allowed
-		if(!$this->fsh->exists($url) || (defined("CACHE_FOLDER") && basename($url) == CACHE_FOLDER)) {
-			echo "Folder does not exist or is not readable";
+		if(!$this->fsh->exists($url) ||
+			(defined("CACHE_FOLDER") && $file == CACHE_FOLDER) ||
+			(defined("DEF_PASSWD_FILE") && $file == DEF_PASSWD_FILE) ||
+			(defined("PASSWD_FILE") && $file == PASSWD_FILE) ||
+			(defined("DEF_ACCESS_FILE") && $file == DEF_ACCESS_FILE) ||
+			(defined("ACCESS_FILE") && $file == ACCESS_FILE)
+		) {
+			echo "Item does not exist or is not readable";
 			return;
 		}
 
