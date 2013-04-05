@@ -25,9 +25,11 @@ class Session {
 		$passwordFile = new File($this->fileSystemHandler);
 		$passwordFile->open($this->passwdFile);
 
+		$token = $user.":{SHA}".base64_encode(sha1($password, true));
+
 		while($passwordFile->hasNext()) {
 			$r = $passwordFile->readLine();
-			if(strpos($r, $user.":".$password) === 0) {
+			if(strpos($r, $token) === 0) {
 				if(!$this->isLoggedIn()) session_start();
 
 				$this->userName = $user;
