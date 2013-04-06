@@ -88,7 +88,7 @@ class Session {
 	}
 
 	public function isLoggedIn() {
-		return session_status() == PHP_SESSION_ACTIVE;
+		return (isset($_SESSION["hash"]));
 	}
 
 	private function init() {
