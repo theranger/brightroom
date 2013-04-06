@@ -73,7 +73,7 @@ class Layout {
 
 	public function printBreadcrumb() {
 
-		print '<a href="/" class="breadcrumb">http://'.$_SERVER["SERVER_NAME"].'</a>';
+		print '<a href="/" class="breadcrumb">http'.(isset($_SERVER["HTTPS"])?"s":"").'://'.$_SERVER["SERVER_NAME"].'</a>';
 
 		$url="";
 		$path = explode("/",$this->urlParser->getURL());
