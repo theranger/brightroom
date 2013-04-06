@@ -28,6 +28,8 @@ if(!$urlParser->isValid()) die();
 //Logout, if requested
 if(isset($_GET["logout"])) {
 	$session->clear();
+	header("Location: /");
+	die();
 }
 
 //Authenticate, if login in progress
