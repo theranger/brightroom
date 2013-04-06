@@ -11,6 +11,12 @@ $session = new Session($fsh);
 $layout = new Layout($fsh, $session);
 $urlParser = new URLParser($_GET["q"], $fsh);
 
+//Check if we have the permission to view URL
+if(!$session->authorize($urlParser->getDirectory())) {
+	print 'You don\'t have permission to view this object';
+	die();
+}
+
 //If this URL points to full screen image
 if($urlParser->isFullImage()) {
 	if(!$urlParser->isDirectory()) $layout->getFile($urlParser->getURL(), isset($_GET["size"])?$_GET["size"]:null);
