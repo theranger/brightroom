@@ -127,7 +127,7 @@ class Layout {
 			$anchor = $items[$i-$this->anchorOffset>=0?$i-$this->anchorOffset:0]["name"];
 			$name = $items[$i]["name"];
 
-			if($items[$i]["type"]=="directory" && $folders == true)
+			if($items[$i]["type"]=="directory" && $folders == true && $this->sessionHandler->authorize($directory."/".$name))
 				$this->renderImage('/themes/'.$this->getTheme().'/images/directory.jpg', $directory."/".$name, null, $name, $name == $file);
 			elseif($items[$i]["type"]=="image" && $files == true)
 				$this->renderImage('/img'.$directory.'/'.$name.'?size='.$this->thumbnailSize, $directory."/".$name, $anchor, null, $name == $file);
