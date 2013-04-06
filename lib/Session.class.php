@@ -50,12 +50,10 @@ class Session {
 		if(empty($path)) return true;
 
 		if(isset($this->cachedPath[$path])) {
-			error_log("GALLERY: Authorizing from cache ".$path);
 			if($this->cachedPath[$path]) return $this->authorize(substr($path, 0, strrpos($path,"/")));
 			return false;
 		}
 
-		error_log("GALLERY: Authorizing ".$path);
 		$accessFile = new File($this->fileSystemHandler);
 		if($accessFile->open($path.'/'.$this->accessFile) == false) {
 			$this->cachedPath[$path] = true;
