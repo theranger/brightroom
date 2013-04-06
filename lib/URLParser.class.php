@@ -65,7 +65,8 @@ class URLParser {
 			(defined("DEF_PASSWD_FILE") && $file == DEF_PASSWD_FILE) ||
 			(defined("PASSWD_FILE") && $file == PASSWD_FILE) ||
 			(defined("DEF_ACCESS_FILE") && $file == DEF_ACCESS_FILE) ||
-			(defined("ACCESS_FILE") && $file == ACCESS_FILE)
+			(defined("ACCESS_FILE") && $file == ACCESS_FILE) ||
+			(defined("VETO_FOLDERS") && strpos(VETO_FOLDERS, '/'.$file.'/') !== false)
 		) {
 			echo "Item does not exist or is not readable";
 			return;

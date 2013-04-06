@@ -85,6 +85,17 @@ define("PAGINATION", 5);
 //define("ANCHOR_OFFSET", 3);
 
 /**
+ * Veto folders
+ *
+ * Define array of folders that will be hidden and inaccessible from web.
+ * Note that items must be surrounded by forward slashes. For more examples, search "SAMBA veto files" from web.
+ *
+ * Default value: /@eaDir/
+ */
+define("VETO_FOLDERS", "/@eaDir/");
+
+
+/**
  * Gallery password file
  *
  * Specifies file name, located in DATA_DIR root folder, where user names and passwords are stored.
