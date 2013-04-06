@@ -9,6 +9,7 @@ class Session {
 	private $passwdFile;
 	private $accessFile;
 	private $salt;
+	private $cachedPath = array();
 
 	public function __construct($fileSystemHandler) {
 		$this->fileSystemHandler = $fileSystemHandler;
@@ -46,14 +47,30 @@ class Session {
 	}
 
 	public function authorize($path) {
+		if(empty($path)) return true;
+
+		if(isset($this->cachedPath[$path])) {
+			error_log("GALLERY: Authorizing from cache ".$path);
+			if($this->cachedPath[$path]) return $this->authorize(substr($path, 0, strrpos($path,"/")));
+			return false;
+		}
+
+		error_log("GALLERY: Authorizing ".$path);
 		$accessFile = new File($this->fileSystemHandler);
-		if($accessFile->open($path.'/'.$this->accessFile) == false) return true;
+		if($accessFile->open($path.'/'.$this->accessFile) == false) {
+			$this->cachedPath[$path] = true;
+			return $this->authorize(substr($path, 0, strrpos($path,"/")));
+		}
 
 		while($accessFile->hasNext()) {
 			$r = $accessFile->readLine();
-			if(strpos($r, $this->userName) === 0) return true;
+			if(strpos($r, $this->userName) === 0) {
+				$this->cachedPath[$path] = true;
+				return $this->authorize(substr($path, 0, strrpos($path,"/")));
+			}
 		}
 
+		$this->cachedPath[$path] = false;
 		return false;
 	}
 
