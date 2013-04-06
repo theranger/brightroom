@@ -6,6 +6,12 @@ include ("lib/Layout.class.php");
 include ("lib/Session.class.php");
 include ("config.inc.php");
 
+//Force HTTPS if needed
+if(defined("FORCE_HTTPS") && FORCE_HTTPS == true && !isset($_SERVER["HTTPS"])) {
+	header("Location:https://".$_SERVER["SERVER_NAME"].$_GET["q"]);
+	die();
+}
+
 $fsh = new FileSystemHandler(DATA_DIR);
 $session = new Session($fsh);
 $layout = new Layout($fsh, $session);

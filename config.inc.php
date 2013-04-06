@@ -30,6 +30,15 @@ define("IMG_PREFIX", "/img");
 define("CACHE_FOLDER", ".cache");
 
 /**
+ * Force HTTPS.
+ *
+ * If set to true, non-HTTPS connections will be automatically redirected to HTTPS.
+ *
+ * Default value: false
+ */
+//define("FORCE_HTTPS", true);
+
+/**
  * Thumbnail size
  *
  * Image size for folder listings
