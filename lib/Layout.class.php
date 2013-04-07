@@ -139,9 +139,14 @@ class Layout {
 
 	public function printFolderTree(&$items = null) {
 		if($items != null && $items["count"] == 0) return;
-		if($items == null) $items = $this->fileSystemHandler->getFolderArray($this->urlParser->getDirectory());
+		$level="";
 
-		print '<ul class="foldertree">';
+		if($items == null) {
+			$items = $this->fileSystemHandler->getFolderArray($this->urlParser->getDirectory());
+			$level = "root";
+		}
+
+		print '<ul class="foldertree '.$level.'">';
 		for($i = 0; $i < $items["count"]; $i++) {
 			if(!$this->sessionHandler->authorize($items[$i]["link"])) continue;
 			if(defined("VETO_FOLDERS") && strpos(VETO_FOLDERS, '/'.$items[$i]["name"].'/') !== false) continue;
