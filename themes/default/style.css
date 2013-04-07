@@ -32,7 +32,7 @@ div.single img { position: relative; max-width: 100%; max-height: 100%; }
 ul.foldertree { list-style-type: square; padding-left: 15px; background-color: #fff; }
 ul.foldertree li { padding: 1px 0px 1px 0px; }
 ul.root { list-style-type: none; padding-left: 0px; }
-ul.root > li { margin-bottom: 15px; background-color: #3333FF; padding: 2px; }
+ul.root > li { margin-bottom: 15px; background-color: #3366FF; padding: 2px; }
 ul.root > li > a { color: #fff; text-decoration: none; }
 ul.root > li > a:hover { text-decoration: underline; color: #99CCFF; }
 ul.root > li > ul { padding-top: 5px; padding-bottom: 5px; padding-left: 20px; }
