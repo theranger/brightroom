@@ -133,4 +133,14 @@ define("VETO_FOLDERS", "/@eaDir/");
  */
 define("SALT", "asdlfkjcv+04sz=)sadlkfdsxcmsdf0+=)(efdksdc+02,LKO");
 
+/**
+ * Theme
+ * 
+ * Specify custom theme. Name indicates a subfolder in a theme/ directory.
+ * 
+ * Default value: default
+ */
+define("THEME", "embed");
+
+
 ?>
