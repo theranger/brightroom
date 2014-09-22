@@ -1,9 +1,9 @@
 $(document).ready(init);
 
 function init() {
-	$("a.image").click(loadImage);
-	$("a.next").click(loadImage);
-	$("a.previous").click(loadImage);
+	$("a.sfg-image").click(loadImage);
+	$("a.sfg-next").click(loadImage);
+	$("a.sfg-previous").click(loadImage);
 }
 
 function loadImage() {
@@ -11,7 +11,7 @@ function loadImage() {
 	
 	$.ajax({
 		url:		url,
-		data:		{ ajax: true },
+		data:		{ "sfg-ajax": true },
 		success:	renderResponse,
 	});
 	
@@ -21,14 +21,14 @@ function loadImage() {
 function renderResponse(response) {
 	var request = this.url.replace(/^.*\/|#[^#]*|\?[^\?]*$/g, '');
 	
-	$("div.main").html(response);
-	$("div.image").each(function() {
-		$(this).removeClass("selected");
+	$("div.sfg-main").html(response);
+	$("div.sfg-image").each(function() {
+		$(this).removeClass("sfg-selected");
 		
 		var url = $(this).children("a").attr("href").replace(/^.*\/|#[^#]*|\?[^\?]*$/g, '');
 		if(request == url) {
-			$(this).addClass("selected");
-			var scroll = $(this).parents("div.sidebar");
+			$(this).addClass("sfg-selected");
+			var scroll = $(this).parents("div.sfg-sidebar");
 			var height = scroll.height()/2;
 			var pos = $(this).position().top + $(this).height()/2;
 			
@@ -37,6 +37,6 @@ function renderResponse(response) {
 		}
 	});
 	
-	$("a.next").click(loadImage);
-	$("a.previous").click(loadImage);
+	$("a.sfg-next").click(loadImage);
+	$("a.sfg-previous").click(loadImage);
 }

@@ -73,7 +73,7 @@ class Layout {
 
 	public function printBreadcrumb() {
 
-		print '<a href="/" class="breadcrumb">http'.(isset($_SERVER["HTTPS"])?"s":"").'://'.$_SERVER["SERVER_NAME"].'</a>';
+		print '<a href="/" class="sfg-breadcrumb">http'.(isset($_SERVER["HTTPS"])?"s":"").'://'.$_SERVER["SERVER_NAME"].'</a>';
 
 		$url="";
 		$path = explode("/",$this->urlParser->getURL());
@@ -87,17 +87,17 @@ class Layout {
 
 	public function printLoginDialog() {
 		if($this->sessionHandler->isLoggedIn()) {
-			print '<form class="login">';
+			print '<form class="sfg-login">';
 			print 'Logged in as '.$this->sessionHandler->getLoggedInUser().'. ';
 			print '<a href="?logout=true">Log out</a>';
 			print '</form>';
 			return;
 		}
 
-		print '<form method="post" class="login">';
+		print '<form method="post" class="sfg-login">';
 		print 'U: <input type="text" name="user" />';
 		print 'P: <input type="password" name="pass" />';
-		print '<input type="submit" value="Log In" class="button" />';
+		print '<input type="submit" value="Log In" class="sfg-button" />';
 		print '</form>';
 	}
 
@@ -114,7 +114,7 @@ class Layout {
 		$file = $this->urlParser->getImage();
 		$items = $this->fileSystemHandler->getFilesArray($directory);
 
-		print '<div class="imagelist">';
+		print '<div class="sfg-imagelist">';
 
 		// If url is not empty, we are in a subgallery. Show link to parent gallery
 		if($folders == true && !empty($directory))
@@ -130,9 +130,9 @@ class Layout {
 			if($items[$i]["type"]=="directory" && $folders == true && $this->sessionHandler->authorize($directory."/".$name) && (!defined("VETO_FOLDERS") || strpos(VETO_FOLDERS, '/'.$name.'/') === false))
 				$this->renderImage('/themes/'.$this->getTheme().'/images/directory.jpg', $directory."/".$name, null, $name, $name == $file);
 			elseif($items[$i]["type"]=="image" && $files == true)
-				$this->renderImage('/img'.$directory.'/'.$name.'?size='.$this->thumbnailSize, $directory."/".$name, $anchor, null, $name == $file);
+				$this->renderImage('/img'.$directory.'/'.$name.'?sfg-size='.$this->thumbnailSize, $directory."/".$name, $anchor, null, $name == $file);
 			elseif($this->imagesOnly == false && $files == true)
-				$this->renderImage('/img'.$directory.'/'.$name.'?size='.$this->thumbnailSize, $directory."/".$name, $anchor, $name, $name == $file);
+				$this->renderImage('/img'.$directory.'/'.$name.'?sfg-size='.$this->thumbnailSize, $directory."/".$name, $anchor, $name, $name == $file);
 		}
 		print '</div>';
 	}
@@ -146,7 +146,7 @@ class Layout {
 			$level = "root";
 		}
 
-		print '<ul class="foldertree '.$level.'">';
+		print '<ul class="sfg-foldertree '.$level.'">';
 		for($i = 0; $i < $items["count"]; $i++) {
 			if(!$this->sessionHandler->authorize($items[$i]["link"])) continue;
 			if(defined("VETO_FOLDERS") && strpos(VETO_FOLDERS, '/'.$items[$i]["name"].'/') !== false) continue;
@@ -175,11 +175,11 @@ class Layout {
 		$nextFile = $this->fileSystemHandler->getIndexOf($directory, $file, 1, false);
 		$nextBookmark = $this->fileSystemHandler->getIndexOf($directory, $file, -($this->anchorOffset-1), false);
 
-		print '<div class="single">';
-		print '<img src="/img'.$url.'?size='.($size>0?$size:$this->imageSize).'" />';
-		print '<a class="previous" href="'.$previousFile.'#'.$previousBookmark.'"></a>';
-		print '<a class="next" href="'.$nextFile.'#'.$nextBookmark.'"></a>';
-		if($this->overlayTitle && $this->getExif()->getDescription() != "") print '<h1 class="alpha20">'.$this->getExif()->getDescription().'</h1>';
+		print '<div class="sfg-single">';
+		print '<img src="/img'.$url.'?sfg-size='.($size>0?$size:$this->imageSize).'" />';
+		print '<a class="sfg-previous" href="'.$previousFile.'#'.$previousBookmark.'"></a>';
+		print '<a class="sfg-next" href="'.$nextFile.'#'.$nextBookmark.'"></a>';
+		if($this->overlayTitle && $this->getExif()->getDescription() != "") print '<h1 class="sfg-alpha20">'.$this->getExif()->getDescription().'</h1>';
 		print '</div>';
 	}
 
@@ -205,12 +205,12 @@ class Layout {
 	}
 
 	private function renderImage($imageURL, $linkURL, $anchorName, $imageText, $isCurrent) {
-		print '<div class="image '.($isCurrent?"selected":"").'">';
+		print '<div class="sfg-image '.($isCurrent?"sfg-selected":"").'">';
 
 		if($anchorName == null)
 			print '<a href="'.$linkURL.'"><img src="'.$imageURL.'" /></a>';
 		else
-			print '<a class="image" name="'.basename($linkURL).'" href="'.$linkURL.'#'.$anchorName.'"><img src="'.$imageURL.'" /></a>';
+			print '<a class="sfg-image" name="'.basename($linkURL).'" href="'.$linkURL.'#'.$anchorName.'"><img src="'.$imageURL.'" /></a>';
 
 		print $imageText;
 		print '</div>';

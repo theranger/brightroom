@@ -56,7 +56,7 @@ class URLParser {
 		}
 
 		//Clear path from nasty things
-		$url = $this->fsh->clearPath($_GET["q"]);
+		$url = $this->fsh->clearPath($_GET["sfg-q"]);
 		$file = basename($url);
 
 		//Chcek if the URL is allowed

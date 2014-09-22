@@ -34,8 +34,8 @@ class Session {
 				if(!$this->isLoggedIn()) session_start();
 
 				$this->userName = $user;
-				$_SESSION["user"] = $user;
-				$_SESSION["hash"] = $this->makeHash($this->userName, $this->salt);
+				$_SESSION["sfg-user"] = $user;
+				$_SESSION["sfg-hash"] = $this->makeHash($this->userName, $this->salt);
 
 				$passwordFile->close();
 				return true;
@@ -88,7 +88,7 @@ class Session {
 	}
 
 	public function isLoggedIn() {
-		return (isset($_SESSION["hash"]));
+		return (isset($_SESSION["sfg-hash"]));
 	}
 
 	private function init() {
@@ -97,9 +97,9 @@ class Session {
 
 		session_start();
 
-		if(isset($_SESSION["hash"]) && isset($_SESSION["user"])) {
-			if($this->makeHash($_SESSION["user"], $this->salt) == $_SESSION["hash"]) {
-				$this->userName = $_SESSION["user"];
+		if(isset($_SESSION["sfg-hash"]) && isset($_SESSION["sfg-user"])) {
+			if($this->makeHash($_SESSION["sfg-user"], $this->salt) == $_SESSION["sfg-hash"]) {
+				$this->userName = $_SESSION["sfg-user"];
 				return true;
 			}
 		}

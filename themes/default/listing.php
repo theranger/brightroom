@@ -9,7 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="<?php $layout->printThemeURL(); ?>/style.css" />
 	</head>
 	<body>
-		<div class="sidebar">
+		<div class="sfg-sidebar">
 			<p><?php $layout->printReadme(); ?></p>
 			<table>
 				<tr><td>File count:</td><td><?php $layout->printFileCount(); ?></td></tr>
@@ -18,8 +18,8 @@
 
 			<?php if(!$layout->isRoot()) $layout->printFolderTree(); ?>
 		</div>
-		<div class="main">
-			<div class="head"><?php $layout->printBreadcrumb(); ?><?php $layout->printLoginDialog(); ?></div>
+		<div class="sfg-main">
+			<div class="sfg-head"><?php $layout->printBreadcrumb(); ?><?php $layout->printLoginDialog(); ?></div>
 			<?php $layout->printFolderContents($layout->isRoot()); ?>
 		</div>
 	</body>

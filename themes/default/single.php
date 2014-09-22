@@ -1,4 +1,4 @@
-<?php if(!isset($_GET["ajax"])) :?>
+<?php if(!isset($_GET["sfg-ajax"])) :?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 	<head>
@@ -12,18 +12,18 @@
 		<script src="<?php $layout->printThemeURL(); ?>/default.js"></script>
 	</head>
 	<body>
-		<div class="sidebar">
+		<div class="sfg-sidebar">
 			<?php $layout->printFolderContents(false); ?>
 		</div>
 <?php endif; ?>
-		<div class="main">
-			<div class="head"><?php $layout->printBreadcrumb(); ?><?php $layout->printLoginDialog(); ?></div>
-			<div class="content">
+		<div class="sfg-main">
+			<div class="sfg-head"><?php $layout->printBreadcrumb(); ?><?php $layout->printLoginDialog(); ?></div>
+			<div class="sfg-content">
 				<?php $layout->getImage(1024); ?>
 			</div>
 		</div>
 
-<?php if(!isset($_GET["ajax"])) :?>
+<?php if(!isset($_GET["sfg-ajax"])) :?>
 	</body>
 </html>
 <?php endif; ?>
