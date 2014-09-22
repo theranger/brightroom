@@ -95,7 +95,14 @@ class Session {
 		if($this->isLoggedIn()) return true;
 		if($this->salt === null) return false;
 
-		session_start();
+		//Try to start the session only if headers have not been sent and session is not already started
+		if(!headers_sent() && session_status() == PHP_SESSION_NONE) {
+			session_name(DEF_SESSION_NAME);
+			session_start();
+		}
+		
+		//No session exists, nothing to do
+		if(!session_status() != PHP_SESSION_ACTIVE) return false;
 
 		if(isset($_SESSION["sfg-hash"]) && isset($_SESSION["sfg-user"])) {
 			if($this->makeHash($_SESSION["sfg-user"], $this->salt) == $_SESSION["sfg-hash"]) {
@@ -105,7 +112,9 @@ class Session {
 		}
 
 		$this->userName == null;
-		session_destroy();
+		
+		//Destroy only if this is our session
+		if(session_name() == DEF_SESSION_NAME) session_destroy();
 		return false;
 	}
 

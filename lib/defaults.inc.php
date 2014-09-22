@@ -25,3 +25,5 @@ define("DEF_PASSWD_FILE", "galpasswd.txt");
 define("DEF_ACCESS_FILE", "galaccess.txt");
 
 define("DEF_FORCE_HTTPS", false);
+
+define("DEF_SESSION_NAME", "SFG-SESSION");
