@@ -1,4 +1,10 @@
-<?php include("lib/index.php");
+<?php 
+
+//Fake the working directory so that including will be handled properly
+$sfg_chdir = getcwd();
+chdir(dirname(__FILE__));
+
+include("lib/index.php");
 
 //Load layout for displaying single image
 if($layout->isImage()) {
@@ -23,6 +29,8 @@ if(!file_exists($f)) {
 }
 
 include $f;
-return;
+
+//Work done, change back to previous workdir
+chdir($sfg_chdir);
 
 ?>
