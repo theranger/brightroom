@@ -4,12 +4,11 @@ body { font-family: verdana, arial, helvetica, sans-serif; font-size: 0.75em; }
 img { border: 0px }
 a { outline: none; }
 
-div.sfg-sidebar { position: fixed; top: 0px; bottom: 0px; overflow: auto; width: 200px; }
-div.sfg-main { position: fixed; top: 0px; bottom: 0px; right: 0px; left: 220px; overflow-y: auto; padding: 5px; }
+div.sfg-main { margin: 5px; }
 
 div.sfg-meta table td:first-child { padding-right: 10px; }
 div.sfg-head { border-bottom: 1px dashed #e7e7e7; margin-bottom: 10px; }
-div.sfg-content { position: fixed; text-align: center; top: 30px; bottom: 0; left: 220px; right: 5px; }
+div.sfg-content { position: fixed; text-align: center; top: 30px; bottom: 0; left: 5px; right: 5px; }
 div.sfg-content h1 { color: #000; position: relative; margin-top: -80px;}
 
 a.sfg-breadcrumb { color: blue; text-decoration: none; }
@@ -38,7 +37,3 @@ ul.sfg-root > li > a:hover { text-decoration: underline; color: #99CCFF; }
 ul.sfg-root > li > ul { padding-top: 5px; padding-bottom: 5px; padding-left: 20px; }
 
 .sfg-alpha20 { background: rgb(255, 255, 255); background: rgba(255, 255, 255, 0.3); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4CFFFFFF, endColorstr=#4CFFFFFF); }
-
-form.sfg-login { float: right; }
-form.sfg-login input { width: 80px; border: 1px solid #e7e7e7; margin-right: 10px; font-size: 0.9em; }
-form.sfg-login input.sfg-button { width: auto; }
