@@ -1,0 +1,4 @@
+Options +FollowSymLinks
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ /doc/samples/embed.php?sfg-q=/$1&%{QUERY_STRING} [L]
