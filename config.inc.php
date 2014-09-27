@@ -19,6 +19,14 @@ define("DATA_DIR", "files");
 define("IMG_PREFIX", "/img");
 
 /**
+ * URL prefix if content will not be displayed from web root directory
+ * 
+ * Must begin with /. Comment out if content is in web root.
+ */
+
+//define("URL_PREFIX", "/doc/samples");
+
+/**
  * Directory to store thumbnails and other resized images
  *
  * Created in every gallery folder

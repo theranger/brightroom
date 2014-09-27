@@ -73,7 +73,7 @@ class Layout {
 
 	public function printBreadcrumb() {
 
-		print '<a href="/" class="sfg-breadcrumb">http'.(isset($_SERVER["HTTPS"])?"s":"").'://'.$_SERVER["SERVER_NAME"].'</a>';
+		print '<a href="'.$this->urlParser->getPrefix().'/" class="sfg-breadcrumb">http'.(isset($_SERVER["HTTPS"])?"s":"").'://'.$_SERVER["SERVER_NAME"].$this->urlParser->getPrefix().'</a>';
 
 		$url="";
 		$path = explode("/",$this->urlParser->getURL());
@@ -208,9 +208,9 @@ class Layout {
 		print '<div class="sfg-image '.($isCurrent?"sfg-selected":"").'">';
 
 		if($anchorName == null)
-			print '<a href="'.$linkURL.'"><img src="'.$imageURL.'" /></a>';
+			print '<a href="'.$this->urlParser->getPrefix().$linkURL.'"><img src="'.$imageURL.'" /></a>';
 		else
-			print '<a class="sfg-image" name="'.basename($linkURL).'" href="'.$linkURL.'#'.$anchorName.'"><img src="'.$imageURL.'" /></a>';
+			print '<a class="sfg-image" name="'.basename($linkURL).'" href="'.$this->urlParser->getPrefix().$linkURL.'#'.$anchorName.'"><img src="'.$imageURL.'" /></a>';
 
 		print $imageText;
 		print '</div>';

@@ -4,18 +4,24 @@ class URLParser {
 
 	private $url;
 	private $fsh;
+	private $prefix;
 
 	private $fullImage = false;
 	private $isValid = false;
 
-	public function __construct($url, $fsh) {
+	public function __construct($url, $fsh, $prefix) {
 		$this->fsh = $fsh;
-
-		$this->parseURL($url);
+		$this->prefix = $prefix;
+		
+		$this->parseURL($url, $prefix);
 	}
 
 	public function getURL() {
 		return $this->url;
+	}
+	
+	public function getPrefix() {
+		return $this->prefix;
 	}
 
 	public function isFullImage() {
@@ -46,7 +52,12 @@ class URLParser {
 		return basename($this->url);
 	}
 
-	private function parseURL($url) {
+	private function parseURL($url, $prefix) {
+		//Strip prefix
+		if(strncmp($url, $prefix, strlen($prefix)) == 0) {
+			$url = substr($url, strlen($prefix));
+		}
+		
 		//Check for IMG prefix
 		if(strncmp($url, IMG_PREFIX, strlen(IMG_PREFIX)) == 0) {
 			$this->url = $this->fsh->clearPath(substr($url, strlen(IMG_PREFIX)));

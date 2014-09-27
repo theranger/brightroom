@@ -15,7 +15,9 @@ if(defined("FORCE_HTTPS") && FORCE_HTTPS == true && !isset($_SERVER["HTTPS"])) {
 $fsh = new FileSystemHandler(DATA_DIR);
 $session = new Session($fsh);
 $layout = new Layout($fsh, $session);
-$urlParser = new URLParser($_GET["sfg-q"], $fsh);
+
+if(!isset($_GET["sfg-q"])) $_GET["sfg-q"] = "/";
+$urlParser = new URLParser($_GET["sfg-q"], $fsh, defined("URL_PREFIX")?URL_PREFIX:"");
 
 //Check if we have the permission to view URL
 if(!$session->authorize($urlParser->getDirectory())) {
