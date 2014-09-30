@@ -4,24 +4,36 @@ class URLParser {
 
 	private $url;
 	private $fsh;
-	private $prefix;
 
 	private $fullImage = false;
 	private $isValid = false;
 
-	public function __construct($url, $fsh, $prefix) {
+	public function __construct($url, $fsh) {
 		$this->fsh = $fsh;
-		$this->prefix = $prefix;
 		
-		$this->parseURL($url, $prefix);
+		$this->parseURL($url);
 	}
 
 	public function getURL() {
 		return $this->url;
 	}
 	
-	public function getPrefix() {
-		return $this->prefix;
+	public function getDocumentRoot() {
+		return defined("DOCUMENT_ROOT")?DOCUMENT_ROOT:"";
+	}
+	
+	public function getImagePrefix() {
+		if(defined("GALLERY_URL")) return GALLERY_URL.IMG_PREFIX;
+		if(defined("DOCUMENT_ROOT")) return DOCUMENT_ROOT.IMG_PREFIX;
+		
+		return IMG_PREFIX;
+	}
+	
+	public function getThemePrefix() {
+		if(defined("GALLERY_URL")) return GALLERY_URL."/themes";
+		if(defined("DOCUMENT_ROOT")) return DOCUMENT_ROOT."/themes";
+		
+		return "/themes";
 	}
 
 	public function isFullImage() {
@@ -52,10 +64,10 @@ class URLParser {
 		return basename($this->url);
 	}
 
-	private function parseURL($url, $prefix) {
+	private function parseURL($url) {
 		//Strip prefix
-		if(strncmp($url, $prefix, strlen($prefix)) == 0) {
-			$url = substr($url, strlen($prefix));
+		if(strncmp($url, $this->getDocumentRoot(), strlen($this->getDocumentRoot())) == 0) {
+			$url = substr($url, strlen($this->getDocumentRoot()));
 		}
 		
 		//Check for IMG prefix
