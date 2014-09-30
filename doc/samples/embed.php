@@ -5,15 +5,18 @@
 	
 	<body>
 		<h1>Embedding Sample</h1>
-		This sample demonstrates how to embed the gallery into existing web page
+		<p>This sample demonstrates how to embed the gallery into existing web page.</p>
 		
 		<?php
-			//Since this sample is not in web root, set the prefix so that
-			//future requests would be also served by this script.
-			//Note that webroot .htaccess contains exception that allows this
-			define("URL_PREFIX", "/doc/samples");
-			
+			//If embedded system needs to redefine some configuration constants
+			//create a separate configuration file and include it beforehand
+			include("config.inc.php");
+		
+			//To embed, simply include main instance index file
+			//Can be a separate copy of the php script to specify different
+			//theme and configuration parameters.
 			include("../../index.php");
 		?>
+		<p>Embedded gallery section ended, main document continues...</p>
 	</body>
 </html>
