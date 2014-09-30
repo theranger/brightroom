@@ -64,7 +64,11 @@ class Layout {
 	}
 
 	public function printThemeURL() {
-		print "/themes/".$this->getTheme();
+		print $this->urlParser->getThemePrefix()."/".$this->getTheme();
+	}
+	
+	public function getThemeURL() {
+		return $this->urlParser->getThemePrefix()."/".$this->getTheme();
 	}
 
 	public function printVersion() {
@@ -73,7 +77,7 @@ class Layout {
 
 	public function printBreadcrumb() {
 
-		print '<a href="'.$this->urlParser->getPrefix().'/" class="sfg-breadcrumb">http'.(isset($_SERVER["HTTPS"])?"s":"").'://'.$_SERVER["SERVER_NAME"].$this->urlParser->getPrefix().'</a>';
+		print '<a href="'.$this->urlParser->getDocumentRoot().'/" class="sfg-breadcrumb">http'.(isset($_SERVER["HTTPS"])?"s":"").'://'.$_SERVER["SERVER_NAME"].$this->urlParser->getDocumentRoot().'</a>';
 
 		$url="";
 		$path = explode("/",$this->urlParser->getURL());
@@ -81,7 +85,7 @@ class Layout {
 			if(empty($el)) continue;
 
 			$url.='/'.$el;
-			print '<a href="'.$url.'" class="breadcrumb">/'.$el.'</a>';
+			print '<a href="'.$this->urlParser->getDocumentRoot().$url.'" class="breadcrumb">/'.$el.'</a>';
 		}
 	}
 
@@ -118,7 +122,7 @@ class Layout {
 
 		// If url is not empty, we are in a subgallery. Show link to parent gallery
 		if($folders == true && !empty($directory))
-			$this->renderImage('/themes/'.$this->getTheme().'/images/upfolder.png', dirname($directory), null, "..", false);
+			$this->renderImage($this->getThemeURL().'/images/upfolder.png', dirname($directory), null, "..", false);
 
 		$k=count($items);
 		for($i=0;$i<$k;$i++) {
@@ -128,11 +132,11 @@ class Layout {
 			$name = $items[$i]["name"];
 
 			if($items[$i]["type"]=="directory" && $folders == true && $this->sessionHandler->authorize($directory."/".$name) && (!defined("VETO_FOLDERS") || strpos(VETO_FOLDERS, '/'.$name.'/') === false))
-				$this->renderImage('/themes/'.$this->getTheme().'/images/directory.jpg', $directory."/".$name, null, $name, $name == $file);
+				$this->renderImage($this->getThemeURL().'/images/directory.jpg', $directory."/".$name, null, $name, $name == $file);
 			elseif($items[$i]["type"]=="image" && $files == true)
-				$this->renderImage('/img'.$directory.'/'.$name.'?sfg-size='.$this->thumbnailSize, $directory."/".$name, $anchor, null, $name == $file);
+				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->thumbnailSize, $directory."/".$name, $anchor, null, $name == $file);
 			elseif($this->imagesOnly == false && $files == true)
-				$this->renderImage('/img'.$directory.'/'.$name.'?sfg-size='.$this->thumbnailSize, $directory."/".$name, $anchor, $name, $name == $file);
+				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->thumbnailSize, $directory."/".$name, $anchor, $name, $name == $file);
 		}
 		print '</div>';
 	}
@@ -176,7 +180,7 @@ class Layout {
 		$nextBookmark = $this->fileSystemHandler->getIndexOf($directory, $file, -($this->anchorOffset-1), false);
 
 		print '<div class="sfg-single">';
-		print '<img src="/img'.$url.'?sfg-size='.($size>0?$size:$this->imageSize).'" />';
+		print '<img src="'.$this->urlParser->getImagePrefix().$url.'?sfg-size='.($size>0?$size:$this->imageSize).'" />';
 		print '<a class="sfg-previous" href="'.$previousFile.'#'.$previousBookmark.'"></a>';
 		print '<a class="sfg-next" href="'.$nextFile.'#'.$nextBookmark.'"></a>';
 		if($this->overlayTitle && $this->getExif()->getDescription() != "") print '<h1 class="sfg-alpha20">'.$this->getExif()->getDescription().'</h1>';
@@ -208,9 +212,9 @@ class Layout {
 		print '<div class="sfg-image '.($isCurrent?"sfg-selected":"").'">';
 
 		if($anchorName == null)
-			print '<a href="'.$this->urlParser->getPrefix().$linkURL.'"><img src="'.$imageURL.'" /></a>';
+			print '<a href="'.$this->urlParser->getDocumentRoot().$linkURL.'"><img src="'.$imageURL.'" /></a>';
 		else
-			print '<a class="sfg-image" name="'.basename($linkURL).'" href="'.$this->urlParser->getPrefix().$linkURL.'#'.$anchorName.'"><img src="'.$imageURL.'" /></a>';
+			print '<a class="sfg-image" name="'.basename($linkURL).'" href="'.$this->urlParser->getDocumentRoot().$linkURL.'#'.$anchorName.'"><img src="'.$imageURL.'" /></a>';
 
 		print $imageText;
 		print '</div>';
