@@ -17,7 +17,7 @@ $session = new Session($fsh);
 $layout = new Layout($fsh, $session);
 
 if(!isset($_GET["sfg-q"])) $_GET["sfg-q"] = "/";
-$urlParser = new URLParser($_GET["sfg-q"], $fsh, defined("URL_PREFIX")?URL_PREFIX:"");
+$urlParser = new URLParser($_GET["sfg-q"], $fsh);
 
 //Check if we have the permission to view URL
 if(!$session->authorize($urlParser->getDirectory())) {
