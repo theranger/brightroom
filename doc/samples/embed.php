@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>This is the sample how to embed Simple Folder Gallery</title>
