@@ -159,7 +159,7 @@ define("SALT", "asdlfkjcv+04sz=)sadlkfdsxcmsdf0+=)(efdksdc+02,LKO");
  * 
  * Default value: default
  */
-define("THEME", "embed");
+define("THEME", "default");
 
 
 ?>
