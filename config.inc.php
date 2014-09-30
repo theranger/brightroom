@@ -1,6 +1,8 @@
 <?php
 
 // General configuration file
+// Check if some configuration is already loaded.
+if(defined("DATA_DIR")) return;
 
 /**
  * Directory where your image files are located
@@ -19,12 +21,21 @@ define("DATA_DIR", "files");
 define("IMG_PREFIX", "/img");
 
 /**
+ * Gallery URL where to load themes and images from. Must be specified if
+ * external gallery instance will be used for loading themes and images.
+ * This is most common when embedding gallery into existing CMS.
+ * 
+ * Comment out if only one instance is used.
+ */
+//define("GALLERY_URL", "");
+
+/**
  * URL prefix if content will not be displayed from web root directory
  * 
  * Must begin with /. Comment out if content is in web root.
  */
 
-//define("URL_PREFIX", "/doc/samples");
+define("DOCUMENT_ROOT", "/photos/sfg");
 
 /**
  * Directory to store thumbnails and other resized images
