@@ -1,3 +1,14 @@
+<?php
+	//Handle ajax request and strip container
+	if(isset($_GET["sfg-ajax"])) {
+		
+		//See below for documentation about following includes
+		include("config.inc.php");
+		include("../../index.php");
+		
+		return;
+	}	
+?>
 <!DOCTYPE html>
 <html>
 	<head>
