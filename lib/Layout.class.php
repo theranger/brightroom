@@ -74,6 +74,10 @@ class Layout {
 	public function printVersion() {
 		print $this->version;
 	}
+	
+	public function printDirectoryURL() {
+		print $this->urlParser->getDocumentRoot().$this->urlParser->getDirectory();
+	}
 
 	public function printBreadcrumb() {
 
@@ -85,7 +89,7 @@ class Layout {
 			if(empty($el)) continue;
 
 			$url.='/'.$el;
-			print '<a href="'.$this->urlParser->getDocumentRoot().$url.'" class="breadcrumb">/'.$el.'</a>';
+			print '<a href="'.$this->urlParser->getDocumentRoot().$url.'" class="sfg-breadcrumb">/'.$el.'</a>';
 		}
 	}
 
