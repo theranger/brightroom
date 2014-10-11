@@ -220,7 +220,7 @@ class Layout {
 		else
 			print '<a class="sfg-image" name="'.basename($linkURL).'" href="'.$this->urlParser->getDocumentRoot().$linkURL.'#'.$anchorName.'"><img src="'.$imageURL.'" /></a>';
 
-		print $imageText;
+		print '<p>'.$imageText.'</p>';
 		print '</div>';
 	}
 
