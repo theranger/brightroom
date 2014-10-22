@@ -23,18 +23,18 @@ div.sfg-image p { display:table-caption; caption-side:bottom; }
 
 /* Single image and navigation display */
 div.sfg-nav { position: absolute; z-index: 1; bottom: 0; left: 0; width: 100vw; background-color: white;}
-div.sfg-nav div.sfg-imagelist { white-space: nowrap; height: 70px; overflow-x: scroll; }
+div.sfg-nav div.sfg-imagelist { white-space: nowrap; height: 80px; overflow-x: scroll; }
 div.sfg-nav div.sfg-image { display: inline-block; float: none; padding: 2px; margin: 0 5px 0 0; }
 div.sfg-nav div.sfg-selected { background-color: red; }
 div.sfg-nav div.sfg-imagelist img { width: auto; height: auto; max-height: 50px; }
 div.sfg-nav div.sfg-image p { display: none; }
 
-div.sfg-container { position: absolute; top: 0; bottom: 70px; left: 0; right: 0; text-align: center; background-color: white; }
+div.sfg-container { position: absolute; top: 0; bottom: 80px; left: 0; right: 0; text-align: center; background-color: white; }
 div.sfg-container h1 { padding: 0; background: 0; color: #000; position: relative; margin-top: -80px; }
 div.sfg-container a.sfg-back { position: relative; display: block; float: right; margin-top: -24px; width: 50px; z-index: 200; text-decoration: none; font-size: 18px; font-weight: bold; color: white; background-color: black; border: 2px solid black; border-radius: 6px 6px 0 0; }
 
 div.sfg-single { height: 100%; background-color: black; }
-div.sfg-single a.sfg-previous { position: absolute; z-index: 100; left: 0; right: 50%; height: 100%; text-align: left; background-image:url(about:blank); }
+div.sfg-single a.sfg-previous { position: absolute; left: 0; right: 50%; height: 100%; text-align: left; background-image:url(about:blank); }
 div.sfg-single a.sfg-previous:hover { background:url(images/left.png) no-repeat 0% 50%; }
 div.sfg-single a.sfg-next { position: absolute; left: 50%; right: 0; height: 100%; text-align: right; background-image:url(about:blank); }
 div.sfg-single a.sfg-next:hover { background:url(images/right.png) no-repeat 100% 50%; }
