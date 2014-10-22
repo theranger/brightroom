@@ -185,8 +185,8 @@ class Layout {
 
 		print '<div class="sfg-single">';
 		print '<img src="'.$this->urlParser->getImagePrefix().$url.'?sfg-size='.($size>0?$size:$this->imageSize).'" />';
-		print '<a class="sfg-previous" href="'.$previousFile.'#'.$previousBookmark.'"></a>';
-		print '<a class="sfg-next" href="'.$nextFile.'#'.$nextBookmark.'"></a>';
+		print '<a class="sfg-previous" href="'.$this->urlParser->getDocumentRoot().$directory."/".$previousFile.'#'.$previousBookmark.'"></a>';
+		print '<a class="sfg-next" href="'.$this->urlParser->getDocumentRoot().$directory."/".$nextFile.'#'.$nextBookmark.'"></a>';
 		if($this->overlayTitle && $this->getExif()->getDescription() != "") print '<h1 class="sfg-alpha20">'.$this->getExif()->getDescription().'</h1>';
 		print '</div>';
 	}
