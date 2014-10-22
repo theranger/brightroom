@@ -33,9 +33,10 @@ define("IMG_PREFIX", "/img");
  * URL prefix if content will not be displayed from web root directory
  * 
  * Must begin with /. Comment out if content is in web root.
+ * Note that enabling this option requires modification in .htaccess file as well!
  */
 
-define("DOCUMENT_ROOT", "/photos/sfg");
+//define("DOCUMENT_ROOT", "/photos/sfg");
 
 /**
  * Directory to store thumbnails and other resized images
