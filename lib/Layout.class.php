@@ -70,6 +70,14 @@ class Layout {
 	public function getThemeURL() {
 		return $this->urlParser->getThemePrefix()."/".$this->getTheme();
 	}
+	
+	/**
+	 * Retrieve local filesystem path of current theme directory
+	 * @return String to file system path of the current theme
+	 */
+	public function getThemePath() {
+		return dirname(__FILE__)."/../themes/".$this->getTheme();
+	}
 
 	public function printVersion() {
 		print $this->version;
@@ -125,7 +133,7 @@ class Layout {
 		print '<div class="sfg-imagelist">';
 
 		// If url is not empty, we are in a subgallery. Show link to parent gallery
-		if($folders == true && !empty($directory))
+		if($folders == true && !empty($directory) && file_exists($this->getThemePath().'/images/upfolder.png'))
 			$this->renderImage($this->getThemeURL().'/images/upfolder.png', dirname($directory), null, "..", false);
 
 		$k=count($items);
