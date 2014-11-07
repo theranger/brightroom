@@ -72,6 +72,53 @@ class ImageHandler {
 
 		if($cache != NULL) $cache->getFromCache($cachedImgName);
 	}
+	
+	public function assembleImage($fileSystemHandler, $directoryURL, $size) {
+		if(!$this->imageRenderer) return;
+
+		if(defined("CACHE_FOLDER")) {
+			$cache = new ImageCache($fileSystemHandler->getFullPath($directoryURL).'/'.CACHE_FOLDER);
+			
+			if(!$cache->prepareCache()) return;
+			$cachedImgName = $size.'_Badge.jpg';
+			
+			if($cache->inCache($cachedImgName)) {
+				$cache->getFromCache($cachedImgName);
+				return;
+			}
+			
+			$cachedImgPath = $cache->getFullPath($cachedImgName);
+		}
+		
+		$img = imagecreatetruecolor($size * 2, $size);
+		
+		$filesArray = $fileSystemHandler->getFilesArray($directoryURL);
+		$posX = 0;
+		$k = count($filesArray);
+		
+		for($i = 0; $i < $k; $i++) {
+			if($posX > $size * 2) break;
+			if($filesArray[$i]["folder"]) continue;
+			$orig = $this->imageRenderer->loadFile($fileSystemHandler->getFullPath($directoryURL.'/'.$filesArray[$i]["name"]));
+			syslog(LOG_INFO, $filesArray[$i]["name"]);
+			$origW = imagesx($orig);
+			$origH = imagesy($orig);
+			$ratio = $origH/$origW;
+			
+			$newW = $size;
+			$newH = $size / $ratio;
+			
+			$offset = $origW/2;
+			 
+			imagecopyresampled($img, $orig, $posX, 0, $offset, 0, $newW-30, $newH, $origW-$offset, $origH);
+			$posX += $newW-30;
+		}
+		
+		$this->imageRenderer->setHandle($img);
+		$this->imageRenderer->outputImage($cachedImgPath);
+		syslog(LOG_INFO, "Badge prepared");
+		if($cache != NULL) $cache->getFromCache($cachedImgName);
+	}
 }
 
 
