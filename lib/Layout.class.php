@@ -136,7 +136,7 @@ class Layout {
 			$name = $items[$i]["name"];
 
 			if($items[$i]["type"]=="directory" && $folders == true && $this->sessionHandler->authorize($directory."/".$name) && (!defined("VETO_FOLDERS") || strpos(VETO_FOLDERS, '/'.$name.'/') === false))
-				$this->renderImage($this->getThemeURL().'/images/directory.jpg', $directory."/".$name, null, $name, $name == $file);
+				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->thumbnailSize, $directory."/".$name, null, $name, $name == $file);
 			elseif($items[$i]["type"]=="image" && $files == true)
 				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->thumbnailSize, $directory."/".$name, $anchor, null, $name == $file);
 			elseif($this->imagesOnly == false && $files == true)
@@ -209,6 +209,17 @@ class Layout {
 		}
 		else {
 			$this->fileSystemHandler->getFile($url);
+		}
+	}
+	
+	public function getBadge($directoryURL, $size) {
+		//header("Content-Type: image/jpeg");
+		if(is_numeric($size) && $size > 0) {
+			$ih = new ImageHandler("image/jpeg");
+			$ih->assembleImage($this->fileSystemHandler, $directoryURL, $size);
+		}
+		else {
+			$this->fileSystemHandler->getFile($this->getThemeURL().'/images/directory.jpg');
 		}
 	}
 

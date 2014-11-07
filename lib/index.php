@@ -27,11 +27,18 @@ if(!$session->authorize($urlParser->getDirectory())) {
 
 //If this URL points to full screen image
 if($urlParser->isFullImage()) {
-	if(!$urlParser->isDirectory()) $layout->getFile($urlParser->getURL(), isset($_GET["sfg-size"])?$_GET["sfg-size"]:null);
+	if($urlParser->isDirectory())
+		$layout->getBadge($urlParser->getURL(), isset($_GET["sfg-size"])?$_GET["sfg-size"]:null);
+	else
+		$layout->getFile($urlParser->getURL(), isset($_GET["sfg-size"])?$_GET["sfg-size"]:null);
+	
 	die();
 }
 
-if(!$urlParser->isValid()) die();
+if(!$urlParser->isValid()) {
+	print 'Requested URL is not valid';
+	die();
+}
 
 //Logout, if requested
 if(isset($_GET["sfg-logout"])) {
