@@ -75,6 +75,8 @@ class ImageHandler {
 	
 	public function assembleImage($fileSystemHandler, $directoryURL, $size, $defaultImage) {
 		if(!$this->imageRenderer) return;
+		$cachedImgPath = NULL;
+		$cache = NULL;
 
 		if(defined("CACHE_FOLDER")) {
 			$cache = new ImageCache($fileSystemHandler->getFullPath($directoryURL).'/'.CACHE_FOLDER);
@@ -109,13 +111,21 @@ class ImageHandler {
 			if(($k - $i) < 3) break;
 
 			$orig = $this->imageRenderer->loadFile($fileSystemHandler->getFullPath($directoryURL.'/'.$filesArray[$i]["name"]));
-			syslog(LOG_INFO, $filesArray[$i]["name"]);
+			
 			$origW = imagesx($orig);
 			$origH = imagesy($orig);
 			$ratio = $origH/$origW;
 			
-			$newW = $size;
-			$newH = $size / $ratio;
+			if($origW > $origH) {
+				// landscape
+				$newW = $size;
+				$newH = $size / $ratio;
+			}
+			else {
+				// portrait
+				$newW = $size;
+				$newH = $size;
+			}
 			
 			$offset = $origW/2;
 			 
@@ -125,7 +135,6 @@ class ImageHandler {
 		
 		$this->imageRenderer->setHandle($img);
 		$this->imageRenderer->outputImage($cachedImgPath);
-		syslog(LOG_INFO, "Badge prepared");
 		if($cache != NULL) $cache->getFromCache($cachedImgName);
 	}
 }
