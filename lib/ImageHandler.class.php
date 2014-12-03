@@ -73,7 +73,7 @@ class ImageHandler {
 		if($cache != NULL) $cache->getFromCache($cachedImgName);
 	}
 	
-	public function assembleImage($fileSystemHandler, $directoryURL, $size) {
+	public function assembleImage($fileSystemHandler, $directoryURL, $size, $defaultImage) {
 		if(!$this->imageRenderer) return;
 
 		if(defined("CACHE_FOLDER")) {
@@ -91,6 +91,11 @@ class ImageHandler {
 		}
 		
 		$img = imagecreatetruecolor($size * 2, $size);
+
+		if($defaultImage != null) {
+			$default = $this->imageRenderer->loadFile($defaultImage);
+			imagecopyresampled($img, $default, 0, 0, 0, 0, imagesx($img), imagesy($img), imagesx($default), imagesy($default));
+		}
 		
 		$filesArray = $fileSystemHandler->getFilesArray($directoryURL);
 		$posX = 0;
@@ -99,6 +104,10 @@ class ImageHandler {
 		for($i = 0; $i < $k; $i++) {
 			if($posX > $size * 2) break;
 			if($filesArray[$i]["folder"]) continue;
+
+			//Badge must contain 3 images
+			if(($k - $i) < 3) break;
+
 			$orig = $this->imageRenderer->loadFile($fileSystemHandler->getFullPath($directoryURL.'/'.$filesArray[$i]["name"]));
 			syslog(LOG_INFO, $filesArray[$i]["name"]);
 			$origW = imagesx($orig);

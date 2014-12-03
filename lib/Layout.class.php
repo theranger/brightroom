@@ -221,10 +221,10 @@ class Layout {
 	}
 	
 	public function getBadge($directoryURL, $size) {
-		//header("Content-Type: image/jpeg");
+		header("Content-Type: image/jpeg");
 		if(is_numeric($size) && $size > 0) {
 			$ih = new ImageHandler("image/jpeg");
-			$ih->assembleImage($this->fileSystemHandler, $directoryURL, $size);
+			$ih->assembleImage($this->fileSystemHandler, $directoryURL, $size, $this->getThemePath().'/images/directory.jpg');
 		}
 		else {
 			$this->fileSystemHandler->getFile($this->getThemeURL().'/images/directory.jpg');
