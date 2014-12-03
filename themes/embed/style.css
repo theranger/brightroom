@@ -15,9 +15,7 @@ a.sfg-breadcrumb:hover { color: red; text-decoration: underline; }
 /* Folder contents view */
 div.sfg-imagelist { overflow: auto; min-width: 150px; }
 div.sfg-image { position: relative; border: 1px solid #e7e7e7; padding: 5px; margin: 5px; background-color: #f0f0f0; font-size: 0.90em; float: left; }
-div.sfg-image a { background-color: #fff; display: block; border: 1px solid #e7e7e7; }
-div.sfg-selected { background-color: #000066; }
-div.sfg-image img { vertical-align: bottom; }
+div.sfg-image img { margin: 0; vertical-align: top;}
 div.sfg-image p { display: block; position: absolute; bottom: 5px; left: 5px; margin: 0; padding: 0; right: 5px; background-color: #fff; }
 
 
