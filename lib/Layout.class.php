@@ -232,7 +232,7 @@ class Layout {
 	}
 
 	private function renderImage($imageURL, $linkURL, $anchorName, $imageText, $isCurrent) {
-		print '<div class="sfg-image '.($isCurrent?"sfg-selected":"").'">';
+		print '<div class="sfg-image'.($isCurrent?" sfg-selected":"").'">';
 
 		if($anchorName == null)
 			print '<a href="'.$this->urlParser->getDocumentRoot().$linkURL.'"><img src="'.$imageURL.'" /></a>';
