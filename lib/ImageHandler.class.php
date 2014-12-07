@@ -102,13 +102,14 @@ class ImageHandler {
 		$filesArray = $fileSystemHandler->getFilesArray($directoryURL);
 		$posX = 0;
 		$k = count($filesArray);
+		$first = true;
 		
 		for($i = 0; $i < $k; $i++) {
 			if($posX > $size * 2) break;
 			if($filesArray[$i]["folder"]) continue;
 
 			//Badge must contain 3 images
-			if(($k - $i) < 3) break;
+			if($first && ($k - $i) < 3) break;
 
 			$orig = $this->imageRenderer->loadFile($fileSystemHandler->getFullPath($directoryURL.'/'.$filesArray[$i]["name"]));
 			
@@ -128,7 +129,8 @@ class ImageHandler {
 			}
 			
 			$offset = $origW/2;
-			 
+			
+			$first = false;
 			imagecopyresampled($img, $orig, $posX, 0, $offset, 0, $newW-30, $newH, $origW-$offset, $origH);
 			$posX += $newW-30;
 		}
