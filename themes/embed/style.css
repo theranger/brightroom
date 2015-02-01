@@ -1,9 +1,5 @@
 @CHARSET "UTF-8";
 
-body { font-family: verdana, arial, helvetica, sans-serif; font-size: 0.75em; }
-img { border: 0px }
-a { outline: none; }
-
 div.sfg-meta table td:first-child { padding-right: 10px; }
 div.sfg-head { border-bottom: 1px dashed #e7e7e7; margin-bottom: 10px; }
 
