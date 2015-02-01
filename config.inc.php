@@ -73,6 +73,24 @@ define("THUMBNAIL_SIZE", 70);
 define("IMAGE_SIZE", 600);
 
 /**
+ * Badge width
+ * 
+ * Width of the directory badge. Badge height is the same as THUMBNAIL_SIZE
+ * 
+ * Default value: 200
+ */
+//define("BADGE_WIDTH", 200);
+
+/**
+ * Badge image count
+ * 
+ * Number of small images to be displayed on badge
+ * 
+ * Default value: 3
+ */
+//define("BADGE_ELEMENT_COUNT", 3);
+
+/**
  * Show EXIF info under image
  */
 define("SHOW_EXIF", true);

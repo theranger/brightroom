@@ -6,6 +6,10 @@ define("DEF_THUMBNAIL_SIZE", 100);
 
 define("DEF_IMAGE_SIZE", 600);
 
+define("DEF_BADGE_WIDTH", 200);
+
+define("DEF_BADGE_ELEMENT_COUNT", 3);
+
 define("DEF_SHOW_EXIF", false);
 
 define("DEF_SHOW_IMAGES_ONLY", true);
