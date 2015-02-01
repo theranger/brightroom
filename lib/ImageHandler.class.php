@@ -14,8 +14,13 @@ interface ImageRenderer {
 class ImageHandler {
 
 	private $imageRenderer;
-
+	private $badgeElementCount;
+	private $badgeWidth;
+	
 	public function __construct($mimeType) {
+		$this->badgeElementCount = defined("BADGE_ELEMENT_COUNT")?BADGE_ELEMENT_COUNT:DEF_BADGE_ELEMENT_COUNT;
+		$this->badgeWidth = defined("BADGE_WIDTH")?BADGE_WIDTH:DEF_BADGE_WIDTH;
+		
 		switch($mimeType) {
 			case "image/jpeg":
 				$this->imageRenderer = new ImageJPEGRenderer();
@@ -73,7 +78,7 @@ class ImageHandler {
 		if($cache != NULL) $cache->getFromCache($cachedImgName);
 	}
 	
-	public function assembleImage($fileSystemHandler, $directoryURL, $size, $defaultImage) {
+	public function assembleImage($fileSystemHandler, $directoryURL, $bdgH, $defaultImage) {
 		if(!$this->imageRenderer) return;
 		$cachedImgPath = NULL;
 		$cache = NULL;
@@ -82,7 +87,7 @@ class ImageHandler {
 			$cache = new ImageCache($fileSystemHandler->getFullPath($directoryURL).'/'.CACHE_FOLDER);
 			
 			if(!$cache->prepareCache()) return;
-			$cachedImgName = $size.'_Badge.jpg';
+			$cachedImgName = $bdgH.'_Badge.jpg';
 			
 			if($cache->inCache($cachedImgName)) {
 				$cache->getFromCache($cachedImgName);
@@ -92,7 +97,7 @@ class ImageHandler {
 			$cachedImgPath = $cache->getFullPath($cachedImgName);
 		}
 		
-		$img = imagecreatetruecolor($size * 2, $size);
+		$img = imagecreatetruecolor($this->badgeWidth, $bdgH);
 
 		if($defaultImage != null) {
 			$default = $this->imageRenderer->loadFile($defaultImage);
@@ -100,39 +105,34 @@ class ImageHandler {
 		}
 		
 		$filesArray = $fileSystemHandler->getFilesArray($directoryURL);
-		$posX = 0;
 		$k = count($filesArray);
-		$first = true;
-		
+		$posX = 0;
+		$dstH = $bdgH;
+		$dstW = round($this->badgeWidth/$this->badgeElementCount); // Number of displayed images
+				
 		for($i = 0; $i < $k; $i++) {
-			if($posX > $size * 2) break;
+			//Current pos is moved behind badge width, stop
+			if($posX > $this->badgeWidth) break;
+			
+			//Skip folders
 			if($filesArray[$i]["folder"]) continue;
 
-			//Badge must contain 3 images
-			if($first && ($k - $i) < 3) break;
+			//Directory must contain at least images needed for badge generation
+			if(($posX == 0) && ($k - $i) < $this->badgeElementCount) break;
 
 			$orig = $this->imageRenderer->loadFile($fileSystemHandler->getFullPath($directoryURL.'/'.$filesArray[$i]["name"]));
-			
-			$origW = imagesx($orig);
 			$origH = imagesy($orig);
-			$ratio = $origH/$origW;
+			$origW = ($dstW*$origH)/$dstH;
 			
-			if($origW > $origH) {
-				// landscape
-				$newW = $size;
-				$newH = $size / $ratio;
-			}
-			else {
-				// portrait
-				$newW = $size;
-				$newH = $size;
-			}
+			imagecopyresampled(
+				$img, $orig,		//dst, src
+				$posX, 0,			//dst_x, dst_y
+				0, 0,				//src_x, src_y
+				$dstW, $dstH,		//dst_w, dst_h
+				$origW, $origH		//src_w, src_h
+			);
 			
-			$offset = $origW/2;
-			
-			$first = false;
-			imagecopyresampled($img, $orig, $posX, 0, $offset, 0, $newW-30, $newH, $origW-$offset, $origH);
-			$posX += $newW-30;
+			$posX += $dstW;
 		}
 		
 		$this->imageRenderer->setHandle($img);
