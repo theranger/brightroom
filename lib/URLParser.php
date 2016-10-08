@@ -8,7 +8,7 @@ class URLParser {
 	private $fullImage = false;
 	private $isValid = false;
 
-	public function __construct(string $url, FileSystemHandler $fsh, Settings $settings) {
+	public function __construct(string $url, FileSystemHandler &$fsh, Settings &$settings) {
 		$this->fsh = $fsh;
 		$this->settings = $settings;
 		$this->parseURL($url);

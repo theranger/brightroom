@@ -9,7 +9,7 @@ class Session {
 	private $settings;
 	private $cachedPath = array();
 
-	public function __construct(FileSystemHandler $fileSystemHandler, Settings $settings) {
+	public function __construct(FileSystemHandler &$fileSystemHandler, Settings &$settings) {
 		$this->fileSystemHandler = $fileSystemHandler;
 		$this->settings = $settings;
 		$this->init();

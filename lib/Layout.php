@@ -6,7 +6,7 @@ include_once "ExifParser.php";
 class Layout {
 
 	private $fileSystemHandler;
-	private $sessionHandler;
+	private $session;
 	private $settings;
 	private $urlParser;
 
@@ -14,9 +14,9 @@ class Layout {
 	private $isImage;
 	private $isRoot;
 
-	public function __construct(FileSystemHandler $fileSystemHandler, Session $sessionHandler, URLParser $urlParser, Settings $settings) {
+	public function __construct(FileSystemHandler &$fileSystemHandler, Session &$session, URLParser &$urlParser, Settings &$settings) {
 		$this->fileSystemHandler = $fileSystemHandler;
-		$this->sessionHandler = $sessionHandler;
+		$this->session = $session;
 		$this->urlParser = $urlParser;
 		$this->settings = $settings;
 		$this->isImage = !$this->fileSystemHandler->isDirectory($urlParser->getURL());
@@ -88,9 +88,9 @@ class Layout {
 	}
 
 	public function printLoginDialog() {
-		if($this->sessionHandler->isLoggedIn()) {
+		if($this->session->isLoggedIn()) {
 			print '<form class="sfg-login">';
-			print 'Logged in as '.$this->sessionHandler->getLoggedInUser().'. ';
+			print 'Logged in as '.$this->session->getLoggedInUser().'. ';
 			print '<a href="?logout=true">Log out</a>';
 			print '</form>';
 			return;
@@ -121,7 +121,7 @@ class Layout {
 			$anchor = $items[$i-$this->settings->anchorOffset>=0?$i-$this->settings->anchorOffset:0]["name"];
 			$name = $items[$i]["name"];
 
-			if($items[$i]["type"]=="directory" && $folders == true && $this->sessionHandler->authorize($directory."/".$name) && (!defined("VETO_FOLDERS") || strpos(VETO_FOLDERS, '/'.$name.'/') === false))
+			if($items[$i]["type"]=="directory" && $folders == true && $this->session->authorize($directory."/".$name) && (!defined("VETO_FOLDERS") || strpos(VETO_FOLDERS, '/'.$name.'/') === false))
 				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->settings->thumbnailSize, $directory."/".$name, null, $name, $name == $file);
 			elseif($items[$i]["type"]=="image" && $files == true)
 				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->settings->thumbnailSize, $directory."/".$name, $anchor, null, $name == $file);
@@ -142,7 +142,7 @@ class Layout {
 
 		print '<ul class="sfg-foldertree '.$level.'">';
 		for($i = 0; $i < $items["count"]; $i++) {
-			if(!$this->sessionHandler->authorize($items[$i]["link"])) continue;
+			if(!$this->session->authorize($items[$i]["link"])) continue;
 			if(defined("VETO_FOLDERS") && strpos(VETO_FOLDERS, '/'.$items[$i]["name"].'/') !== false) continue;
 
 			print '<li>';

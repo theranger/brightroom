@@ -16,7 +16,7 @@ class Request {
 	private $urlParser;
 	private $settings;
 
-	public function __construct(string $url, Settings $settings) {
+	public function __construct(string $url, Settings &$settings) {
 		$fileSystemHandler = new FileSystemHandler($settings->dataDirectory);
 		$this->session = new Session($fileSystemHandler, $settings);
 		$this->urlParser = new URLParser($url, $fileSystemHandler, $settings);
