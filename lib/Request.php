@@ -19,7 +19,7 @@ class Request {
 	public function __construct(string $url, Settings $settings) {
 		$fileSystemHandler = new FileSystemHandler($settings->dataDirectory);
 		$this->session = new Session($fileSystemHandler, $settings);
-		$this->urlParser = new URLParser($url, $fileSystemHandler);
+		$this->urlParser = new URLParser($url, $fileSystemHandler, $settings);
 		$this->layout = new Layout($fileSystemHandler, $this->session, $this->urlParser, $settings);
 		$this->settings = $settings;
 	}

@@ -7,12 +7,10 @@ include_once "ImageCache.php";
 class ImageHandler {
 
 	private $imageRenderer;
-	private $badgeElementCount;
-	private $badgeWidth;
+	private $settings;
 
-	public function __construct(string $mimeType) {
-		$this->badgeElementCount = defined("BADGE_ELEMENT_COUNT")?BADGE_ELEMENT_COUNT:DEF_BADGE_ELEMENT_COUNT;
-		$this->badgeWidth = defined("BADGE_WIDTH")?BADGE_WIDTH:DEF_BADGE_WIDTH;
+	public function __construct(string $mimeType, Settings $settings) {
+		$this->settings = $settings;
 
 		switch($mimeType) {
 			case "image/jpeg":
@@ -31,13 +29,13 @@ class ImageHandler {
 		$cache = NULL;
 		$cachedImgName = $size.'_'.basename($path);
 
-		if(defined("CACHE_FOLDER")) {
-			$cache = new ImageCache(dirname($path).'/'.CACHE_FOLDER);
+		if(!empty($this->settings->cacheFolder)) {
+			$cache = new ImageCache(dirname($path).'/'.$this->settings->cacheFolder);
 			if(!$cache->prepareCache()) return;
 
 			if($cache->inCache($cachedImgName)) {
 				$imagestat = stat($path);
-				$cachestat = stat(dirname($path).'/'.CACHE_FOLDER.'/'.$cachedImgName);
+				$cachestat = stat(dirname($path).'/'.$this->settings->cacheFolder.'/'.$cachedImgName);
 
 				if($imagestat['mtime'] < $cachestat['mtime']) {
 					$cache->getFromCache($cachedImgName);
@@ -78,8 +76,8 @@ class ImageHandler {
 		$cache = NULL;
 		$cachedImgName = $bdgH.'_Badge.jpg';
 
-		if(defined("CACHE_FOLDER")) {
-			$cache = new ImageCache($fileSystemHandler->getFullPath($directoryURL).'/'.CACHE_FOLDER);
+		if(!empty($this->settings->cacheFolder)) {
+			$cache = new ImageCache($fileSystemHandler->getFullPath($directoryURL).'/'.$this->settings->cacheFolder);
 			if(!$cache->prepareCache()) return;
 
 			if($cache->inCache($cachedImgName)) {
@@ -90,7 +88,7 @@ class ImageHandler {
 			$cachedImgPath = $cache->getFullPath($cachedImgName);
 		}
 
-		$img = imagecreatetruecolor($this->badgeWidth, $bdgH);
+		$img = imagecreatetruecolor($this->settings->badgeWidth, $bdgH);
 
 		if(!empty($defaultImage)) {
 			$default = $this->imageRenderer->loadFile($defaultImage);
@@ -101,17 +99,17 @@ class ImageHandler {
 		$k = count($filesArray);
 		$posX = 0;
 		$dstH = $bdgH;
-		$dstW = round($this->badgeWidth/$this->badgeElementCount); // Number of displayed images
+		$dstW = round($this->settings->badgeWidth/$this->settings->badgeElementCount); // Number of displayed images
 
 		for($i = 0; $i < $k; $i++) {
 			//Current pos is moved behind badge width, stop
-			if($posX > $this->badgeWidth) break;
+			if($posX > $this->settings->badgeWidth) break;
 
 			//Skip folders
 			if($filesArray[$i]["folder"]) continue;
 
 			//Directory must contain at least images needed for badge generation
-			if(($posX == 0) && ($k - $i) < $this->badgeElementCount) break;
+			if(($posX == 0) && ($k - $i) < $this->settings->badgeElementCount) break;
 
 			$orig = $this->imageRenderer->loadFile($fileSystemHandler->getFullPath($directoryURL.'/'.$filesArray[$i]["name"]));
 			$origH = imagesy($orig);

@@ -3,12 +3,14 @@
 class URLParser {
 
 	private $fsh;
+	private $settings;
 	private $url = "";
 	private $fullImage = false;
 	private $isValid = false;
 
-	public function __construct(string $url, FileSystemHandler $fsh) {
+	public function __construct(string $url, FileSystemHandler $fsh, Settings $settings) {
 		$this->fsh = $fsh;
+		$this->settings = $settings;
 		$this->parseURL($url);
 	}
 
@@ -17,20 +19,18 @@ class URLParser {
 	}
 
 	public function getDocumentRoot(): string {
-		return defined("DOCUMENT_ROOT")?DOCUMENT_ROOT:"";
+		return $this->settings->documentRoot;
 	}
 
 	public function getImagePrefix(): string {
-		if(defined("GALLERY_URL")) return GALLERY_URL.IMG_PREFIX;
-		if(defined("DOCUMENT_ROOT")) return DOCUMENT_ROOT.IMG_PREFIX;
-
-		return IMG_PREFIX;
+		if(!empty($this->settings->galleryURL)) return $this->settings->galleryURL.$this->settings->imagePrefix;
+		if(!empty($this->settings->documentRoot)) return $this->settings->documentRoot.$this->settings->imagePrefix;
+		return $this->settings->imagePrefix;
 	}
 
 	public function getThemePrefix(): string {
-		if(defined("GALLERY_URL")) return GALLERY_URL."/themes";
-		if(defined("DOCUMENT_ROOT")) return DOCUMENT_ROOT."/themes";
-
+		if(!empty($this->settings->galleryURL)) return $this->settings->galleryURL."/themes";
+		if(!empty($this->settings->documentRoot)) return $this->settings->documentRoot."/themes";
 		return "/themes";
 	}
 
@@ -69,8 +69,8 @@ class URLParser {
 		}
 
 		//Check for IMG prefix
-		if(strncmp($url, IMG_PREFIX, strlen(IMG_PREFIX)) == 0) {
-			$this->url = $this->fsh->clearPath(substr($url, strlen(IMG_PREFIX)));
+		if(strncmp($url, $this->settings->imagePrefix, strlen($this->settings->imagePrefix)) == 0) {
+			$this->url = $this->fsh->clearPath(substr($url, strlen($this->settings->imagePrefix)));
 			$this->fullImage = true;
 			return;
 		}
@@ -81,12 +81,10 @@ class URLParser {
 
 		//Check if the URL is allowed
 		if(!$this->fsh->exists($url) ||
-			(defined("CACHE_FOLDER") && $file == CACHE_FOLDER) ||
-			(defined("DEF_PASSWD_FILE") && $file == DEF_PASSWD_FILE) ||
-			(defined("PASSWD_FILE") && $file == PASSWD_FILE) ||
-			(defined("DEF_ACCESS_FILE") && $file == DEF_ACCESS_FILE) ||
-			(defined("ACCESS_FILE") && $file == ACCESS_FILE) ||
-			(defined("VETO_FOLDERS") && strpos(VETO_FOLDERS, '/'.$file.'/') !== false)
+			($this->settings->cacheFolder && $file == $this->settings->cacheFolder) ||
+			($this->settings->passwordFile && $file == $this->settings->passwordFile) ||
+			($this->settings->accessFile && $file == $this->settings->accessFile) ||
+			($this->settings->vetoFolders && strpos($this->settings->vetoFolders, '/'.$file.'/') !== false)
 		) {
 			echo "Item does not exist or is not readable";
 			return;

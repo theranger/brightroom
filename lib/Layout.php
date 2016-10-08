@@ -188,7 +188,7 @@ class Layout {
 		header("Content-Type: ".$mimeType);
 
 		if(is_numeric($size) && $size > 0) {
-			$ih = new ImageHandler($mimeType);
+			$ih = new ImageHandler($mimeType, $this->settings);
 
 			$exif = new ExifParser($this->fileSystemHandler->getFullPath($url));
 			$ih->resizeImage($this->fileSystemHandler->getFullPath($url), $size, $exif->getOrientation());
@@ -201,7 +201,7 @@ class Layout {
 	public function getBadge(string $directoryURL, int $size) {
 		header("Content-Type: image/jpeg");
 		if(is_numeric($size) && $size > 0) {
-			$ih = new ImageHandler("image/jpeg");
+			$ih = new ImageHandler("image/jpeg", $this->settings);
 			$ih->assembleImage($this->fileSystemHandler, $directoryURL, $size, $this->getThemePath().'/images/directory.jpg');
 		}
 		else {
