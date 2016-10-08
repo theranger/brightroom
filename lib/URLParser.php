@@ -58,7 +58,7 @@ class URLParser {
 	}
 
 	public function getImage(): string {
-		if($this->isDirectory()) return null;
+		if($this->isDirectory()) return "";
 
 		return basename($this->url);
 	}

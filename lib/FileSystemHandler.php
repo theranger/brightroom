@@ -130,8 +130,8 @@ class FileSystemHandler {
 	}
 
 	public function readFile(string $url): string {
-		if(empty($url)) return null;
-		if(!$this->exists($url)) return null;
+		if(empty($url)) return "";
+		if(!$this->exists($url)) return "";
 
 		return file_get_contents($this->dataPath.'/'.$url);
 	}
