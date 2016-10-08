@@ -1,8 +1,8 @@
 <?php
 
-include "ImageJPEGRenderer.php";
-include "ImagePNGRenderer.php";
-include "ImageCache.php";
+include_once "ImageJPEGRenderer.php";
+include_once "ImagePNGRenderer.php";
+include_once "ImageCache.php";
 
 class ImageHandler {
 
@@ -24,16 +24,16 @@ class ImageHandler {
 		}
 	}
 
-	public function resizeImage(string $path, $size, $orientation) {
+	public function resizeImage(string $path, int $size, int $orientation) {
 		if(!$this->imageRenderer) return;
+
 		$cachedImgPath = NULL;
 		$cache = NULL;
+		$cachedImgName = $size.'_'.basename($path);
 
 		if(defined("CACHE_FOLDER")) {
 			$cache = new ImageCache(dirname($path).'/'.CACHE_FOLDER);
-
 			if(!$cache->prepareCache()) return;
-			$cachedImgName = $size.'_'.basename($path);
 
 			if($cache->inCache($cachedImgName)) {
 				$imagestat = stat($path);
@@ -71,16 +71,16 @@ class ImageHandler {
 		if($cache != NULL) $cache->getFromCache($cachedImgName);
 	}
 
-	public function assembleImage(FileSystemHandler $fileSystemHandler, $directoryURL, $bdgH, $defaultImage) {
+	public function assembleImage(FileSystemHandler $fileSystemHandler, string $directoryURL, int $bdgH, string $defaultImage) {
 		if(!$this->imageRenderer) return;
+
 		$cachedImgPath = NULL;
 		$cache = NULL;
+		$cachedImgName = $bdgH.'_Badge.jpg';
 
 		if(defined("CACHE_FOLDER")) {
 			$cache = new ImageCache($fileSystemHandler->getFullPath($directoryURL).'/'.CACHE_FOLDER);
-
 			if(!$cache->prepareCache()) return;
-			$cachedImgName = $bdgH.'_Badge.jpg';
 
 			if($cache->inCache($cachedImgName)) {
 				$cache->getFromCache($cachedImgName);
@@ -92,7 +92,7 @@ class ImageHandler {
 
 		$img = imagecreatetruecolor($this->badgeWidth, $bdgH);
 
-		if($defaultImage != null) {
+		if(!empty($defaultImage)) {
 			$default = $this->imageRenderer->loadFile($defaultImage);
 			imagecopyresampled($img, $default, 0, 0, 0, 0, imagesx($img), imagesy($img), imagesx($default), imagesy($default));
 		}

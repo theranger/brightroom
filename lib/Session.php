@@ -1,6 +1,6 @@
 <?php
 
-include("File.php");
+include_once "File.php";
 
 class Session {
 
@@ -11,7 +11,7 @@ class Session {
 	private $salt;
 	private $cachedPath = array();
 
-	public function __construct($fileSystemHandler) {
+	public function __construct(FileSystemHandler $fileSystemHandler) {
 		$this->fileSystemHandler = $fileSystemHandler;
 		$this->passwdFile = defined("PASSWD_FILE")?PASSWD_FILE:DEF_PASSWD_FILE;
 		$this->accessFile = defined("ACCESS_FILE")?ACCESS_FILE:DEF_ACCESS_FILE;
@@ -20,8 +20,8 @@ class Session {
 		$this->init();
 	}
 
-	public function authenticate($user, $password) {
-		if(empty($user) || empty($password)) return;
+	public function authenticate(string $user, string $password): bool {
+		if(empty($user) || empty($password)) return false;
 
 		$passwordFile = new File($this->fileSystemHandler);
 		$passwordFile->open($this->passwdFile);
@@ -46,7 +46,7 @@ class Session {
 		return false;
 	}
 
-	public function authorize($path) {
+	public function authorize(string $path): bool {
 		if(empty($path)) return true;
 
 		if(isset($this->cachedPath[$path])) {
@@ -79,7 +79,7 @@ class Session {
 		session_destroy();
 	}
 
-	public function getLoggedInUser() {
+	public function getLoggedInUser(): string {
 		return $this->userName;
 	}
 
@@ -87,11 +87,11 @@ class Session {
 		print $this->userName;
 	}
 
-	public function isLoggedIn() {
-		return (isset($_SESSION["sfg-hash"]));
+	public function isLoggedIn(): bool {
+		return isset($_SESSION["sfg-hash"]);
 	}
 
-	private function init() {
+	private function init(): bool {
 		if($this->isLoggedIn()) return true;
 		if($this->salt === null) return false;
 
@@ -111,16 +111,14 @@ class Session {
 			}
 		}
 
-		$this->userName == null;
+		$this->userName = "";
 
 		//Destroy only if this is our session
 		if(session_name() == DEF_SESSION_NAME) session_destroy();
 		return false;
 	}
 
-	private function makeHash($user, $salt) {
+	private function makeHash(string $user, string $salt): string {
 		return md5($user.$salt);
 	}
 }
-
-?>

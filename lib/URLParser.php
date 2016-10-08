@@ -2,9 +2,8 @@
 
 class URLParser {
 
-	private $url;
 	private $fsh;
-
+	private $url = "";
 	private $fullImage = false;
 	private $isValid = false;
 
@@ -63,7 +62,7 @@ class URLParser {
 		return basename($this->url);
 	}
 
-	private function parseURL($url) {
+	private function parseURL(string $url) {
 		//Strip prefix
 		if(strncmp($url, $this->getDocumentRoot(), strlen($this->getDocumentRoot())) == 0) {
 			$url = substr($url, strlen($this->getDocumentRoot()));
