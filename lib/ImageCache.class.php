@@ -51,5 +51,3 @@ class ImageCache {
 		return $this->fileSystemHandler->getFullPath($imgName);
 	}
 }
-
-?>
