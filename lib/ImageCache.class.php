@@ -17,7 +17,7 @@ class ImageCache {
 	public function putToCache($imgName, $imgData) {
 		if(!$this->prepareCache()) return false;
 
-		$this->fileSystemHandler->saveFile($imgName, $imgData);
+		return $this->fileSystemHandler->saveFile($imgName, $imgData);
 	}
 
 	public function inCache($imgName) {
