@@ -4,23 +4,23 @@ class ImageJPEGRenderer implements ImageRenderer {
 
 	private $img;
 
-	public function loadFile($path) {
+	public function loadFile(string $path): resource {
 		$this->img = imagecreatefromjpeg($path);
 		return $this->img;
 	}
 
-	public function outputImage($img) {
-		if($img != NULL) header('Content-Type: image/jpeg');
+	public function outputImage(string $fileName) {
+		if($fileName != NULL) header('Content-Type: image/jpeg');
 
-		imagejpeg($this->img, $img);
+		imagejpeg($this->img, $fileName);
 		imagedestroy($this->img);
 	}
 
-	public function getHandle() {
+	public function getHandle(): resource {
 		return $this->img;
 	}
 
-	public function setHandle($img) {
+	public function setHandle(resource $img) {
 		imagedestroy($this->img);
 		$this->img = $img;
 	}

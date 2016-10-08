@@ -1,6 +1,6 @@
 <?php
 
-include ("File.class.php");
+include("File.php");
 
 class Session {
 
@@ -100,7 +100,7 @@ class Session {
 			session_name(DEF_SESSION_NAME);
 			session_start();
 		}
-		
+
 		//No session exists, nothing to do
 		if(!session_status() != PHP_SESSION_ACTIVE) return false;
 
@@ -112,7 +112,7 @@ class Session {
 		}
 
 		$this->userName == null;
-		
+
 		//Destroy only if this is our session
 		if(session_name() == DEF_SESSION_NAME) session_destroy();
 		return false;

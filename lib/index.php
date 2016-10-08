@@ -1,7 +1,7 @@
 <?php
 
 include ("lib/FileSystemHandler.class.php");
-include ("lib/URLParser.class.php");
+include ("lib/URLParser.php");
 include ("lib/Layout.class.php");
 include ("lib/Session.class.php");
 include ("config.inc.php");
@@ -31,7 +31,7 @@ if($urlParser->isFullImage()) {
 		$layout->getBadge($urlParser->getURL(), isset($_GET["sfg-size"])?$_GET["sfg-size"]:null);
 	else
 		$layout->getFile($urlParser->getURL(), isset($_GET["sfg-size"])?$_GET["sfg-size"]:null);
-	
+
 	die();
 }
 

@@ -1,7 +1,7 @@
 <?php
 
 include ("ImageHandler.class.php");
-include ("ExifParser.class.php");
+include("ExifParser.php");
 include ("defaults.inc.php");
 
 class Layout {
@@ -66,11 +66,11 @@ class Layout {
 	public function printThemeURL() {
 		print $this->urlParser->getThemePrefix()."/".$this->getTheme();
 	}
-	
+
 	public function getThemeURL() {
 		return $this->urlParser->getThemePrefix()."/".$this->getTheme();
 	}
-	
+
 	/**
 	 * Retrieve local filesystem path of current theme directory
 	 * @return String to file system path of the current theme
@@ -82,7 +82,7 @@ class Layout {
 	public function printVersion() {
 		print $this->version;
 	}
-	
+
 	public function printDirectoryURL() {
 		print $this->urlParser->getDocumentRoot().$this->urlParser->getDirectory();
 	}
@@ -219,7 +219,7 @@ class Layout {
 			$this->fileSystemHandler->getFile($url);
 		}
 	}
-	
+
 	public function getBadge($directoryURL, $size) {
 		header("Content-Type: image/jpeg");
 		if(is_numeric($size) && $size > 0) {

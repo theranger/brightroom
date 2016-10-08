@@ -10,7 +10,7 @@ class ImageHandler {
 	private $badgeElementCount;
 	private $badgeWidth;
 
-	public function __construct($mimeType) {
+	public function __construct(string $mimeType) {
 		$this->badgeElementCount = defined("BADGE_ELEMENT_COUNT")?BADGE_ELEMENT_COUNT:DEF_BADGE_ELEMENT_COUNT;
 		$this->badgeWidth = defined("BADGE_WIDTH")?BADGE_WIDTH:DEF_BADGE_WIDTH;
 
@@ -24,7 +24,7 @@ class ImageHandler {
 		}
 	}
 
-	public function resizeImage($path, $size, $orientation) {
+	public function resizeImage(string $path, $size, $orientation) {
 		if(!$this->imageRenderer) return;
 		$cachedImgPath = NULL;
 		$cache = NULL;
@@ -71,7 +71,7 @@ class ImageHandler {
 		if($cache != NULL) $cache->getFromCache($cachedImgName);
 	}
 
-	public function assembleImage($fileSystemHandler, $directoryURL, $bdgH, $defaultImage) {
+	public function assembleImage(FileSystemHandler $fileSystemHandler, $directoryURL, $bdgH, $defaultImage) {
 		if(!$this->imageRenderer) return;
 		$cachedImgPath = NULL;
 		$cache = NULL;
