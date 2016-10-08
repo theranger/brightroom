@@ -2,14 +2,14 @@
 
 // General configuration file
 // Check if some configuration is already loaded.
-if(defined("DATA_DIR")) return;
+if (isset($settings)) return;
 
 /**
  * Directory where your image files are located
  *
  * Can be absolute path and begin with / or relative path to this directory
  */
-define("DATA_DIR", "files");
+$settings["dataDirectory"] = "files";
 
 /**
  * URL prefix where actual image files can be retrieved
@@ -18,7 +18,7 @@ define("DATA_DIR", "files");
  * Must start with / and can be any name
  * If there is a gallery folder with the same name, it cannot be accessed!
  */
-define("IMG_PREFIX", "/img");
+$settings["imagePrefix"] = "/img";
 
 /**
  * Gallery URL where to load themes and images from. Must be specified if
@@ -27,7 +27,7 @@ define("IMG_PREFIX", "/img");
  *
  * Comment out if only one instance is used.
  */
-define("GALLERY_URL", "");
+//$settings["galleryURL"] = "";
 
 /**
  * URL prefix if content will not be displayed from web root directory
@@ -36,18 +36,16 @@ define("GALLERY_URL", "");
  * Note that enabling this option requires modification in .htaccess file as well!
  */
 
-define("DOCUMENT_ROOT", "/photos/sfg");
+//$settings["documentRoot"] = "/photos/sfg";
 
 /**
  * Directory to store thumbnails and other resized images
  *
  * Created in every gallery folder
  * Therefore the gallery folder must be writable to the webserver
- * To disable caching comment out this variable:
- *
- *      //define("CACHE_FOLDER", ".cache");
+ * Comment out to disable caching.
  */
-define("CACHE_FOLDER", ".cache");
+$settings["cacheFolder"] = ".cache";
 
 /**
  * Force HTTPS.
@@ -56,21 +54,21 @@ define("CACHE_FOLDER", ".cache");
  *
  * Default value: false
  */
-define("FORCE_HTTPS", false);
+//$settings["forceHTTPS"] = false;
 
 /**
  * Thumbnail size
  *
  * Image size for folder listings
  */
-define("THUMBNAIL_SIZE", 70);
+$settings["thumbnailSize"] = 70;
 
 /**
  * Full image size
  *
  * Image size for full image preview
  */
-define("IMAGE_SIZE", 600);
+$settings["imageSize"] = 600;
 
 /**
  * Badge width
@@ -79,7 +77,7 @@ define("IMAGE_SIZE", 600);
  *
  * Default value: 200
  */
-define("BADGE_WIDTH", 200);
+//$settings["badgeWidth"] = 200;
 
 /**
  * Badge image count
@@ -88,17 +86,17 @@ define("BADGE_WIDTH", 200);
  *
  * Default value: 3
  */
-define("BADGE_ELEMENT_COUNT", 3);
+//$settings["badgeElementCount"] = 3;
 
 /**
  * Show EXIF info under image
  */
-define("SHOW_EXIF", true);
+$settings["showExif"] = true;
 
 /**
  * Create overlay with a title for each big image
  */
-define("OVERLAY_TITLE", true);
+$settings["overlayTitle"] = true;
 
 /**
  * Readme file name
@@ -106,7 +104,7 @@ define("OVERLAY_TITLE", true);
  * The contents of this file will be shown in gallery listings
  * Can be used to describe the contents of the gallery folder
  */
-define("README_FILE", "readme.html");
+$settings["readmeFile"] = "readme.html";
 
 
 /**
@@ -118,7 +116,7 @@ define("README_FILE", "readme.html");
  *
  * Default value: 200
  */
-define("PAGINATION", 5);
+$settings["pagination"] = 5;
 
 
 /**
@@ -129,7 +127,7 @@ define("PAGINATION", 5);
  *
  * Default value: 3
  */
-define("ANCHOR_OFFSET", 3);
+//$settings["anchorOffset"] = 3;
 
 /**
  * Veto folders
@@ -139,7 +137,7 @@ define("ANCHOR_OFFSET", 3);
  *
  * Default value: /@eaDir/
  */
-define("VETO_FOLDERS", "/@eaDir/");
+//$settings["vetoFolders"] = "/@eaDir/";
 
 
 /**
@@ -150,7 +148,7 @@ define("VETO_FOLDERS", "/@eaDir/");
  *
  *  Default value: galpasswd.txt
  */
-define("PASSWD_FILE", "galpasswd.txt");
+//$settings["passwordFile"] = "galpasswd.txt";
 
 /**
  * Gallery access file
@@ -161,7 +159,7 @@ define("PASSWD_FILE", "galpasswd.txt");
  *
  * Default value: galaccess.txt
  */
-define("ACCESS_FILE", "galaccess.txt");
+//$settings["accessFile"] = "galaccess.txt";
 
 
 /**
@@ -169,7 +167,7 @@ define("ACCESS_FILE", "galaccess.txt");
  *
  * Used for securing gallery sessions. Should be unique and long enough!
  */
-define("SALT", "asdlfkjcv+04sz=)sadlkfdsxcmsdf0+=)(efdksdc+02,LKO");
+$settings["salt"] = "asdlfkjcv+04sz=)sadlkfdsxcmsdf0+=)(efdksdc+02,LKO";
 
 /**
  * Theme
@@ -178,4 +176,4 @@ define("SALT", "asdlfkjcv+04sz=)sadlkfdsxcmsdf0+=)(efdksdc+02,LKO");
  *
  * Default value: default
  */
-define("THEME", "default");
+//$settings["theme"] = "default";
