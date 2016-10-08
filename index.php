@@ -1,7 +1,9 @@
 <?php
 
-include_once "config.inc.php";
+include_once "config.php";
 include_once "lib/Request.php";
+include_once "lib/Settings.php";
 
-$request = new Request(isset($_GET["sfg-q"]) ? $_GET["sfg-q"] : "/");
+$settings = new Settings();
+$request = new Request($_SERVER["REQUEST_URI"], $settings);
 $request->handleRequest();

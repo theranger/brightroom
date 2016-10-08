@@ -2,47 +2,29 @@
 
 include_once "ImageHandler.php";
 include_once "ExifParser.php";
-include_once "URLParser.php";
-include_once "defaults.inc.php";
 
 class Layout {
 
 	private $fileSystemHandler;
 	private $sessionHandler;
-
-	// Settings from config files
-	private $imagesOnly;
-	private $thumbnailSize;
-	private $imageSize;
-	private $showExif;
-	private $readmeFile;
-	private $overlayTitle;
+	private $settings;
 	private $urlParser;
+
 	private $exifParser;
 	private $isImage;
 	private $isRoot;
-	private $anchorOffset;
-	private $version;
 
-	public function __construct(FileSystemHandler $fileSystemHandler, Session $sessionHandler, URLParser $urlParser) {
+	public function __construct(FileSystemHandler $fileSystemHandler, Session $sessionHandler, URLParser $urlParser, Settings $settings) {
 		$this->fileSystemHandler = $fileSystemHandler;
 		$this->sessionHandler = $sessionHandler;
 		$this->urlParser = $urlParser;
+		$this->settings = $settings;
 		$this->isImage = !$this->fileSystemHandler->isDirectory($urlParser->getURL());
 		$this->isRoot = $this->urlParser->isRoot();
-
-		$this->imagesOnly = defined("SHOW_IMAGES_ONLY")?SHOW_IMAGES_ONLY:DEF_SHOW_IMAGES_ONLY;
-		$this->thumbnailSize = defined("THUMBNAIL_SIZE") && is_numeric("THUMBNAIL_SIZE")?THUMBNAIL_SIZE:DEF_THUMBNAIL_SIZE;
-		$this->imageSize = defined("IMAGE_SIZE") && is_numeric("IMAGE_SIZE")?IMAGE_SIZE:DEF_IMAGE_SIZE;
-		$this->showExif = defined("SHOW_EXIF")?SHOW_EXIF:DEF_SHOW_EXIF;
-		$this->readmeFile = defined("README_FILE")?README_FILE:DEF_README_FILE;
-		$this->anchorOffset = defined("ANCHOR_OFFSET")?ANCHOR_OFFSET:DEF_ANCHOR_OFFSET;
-		$this->overlayTitle = defined("OVERLAY_TITLE")?OVERLAY_TITLE:DEF_OVERLAY_TITLE;
-		$this->version = defined("DEF_VERSION")?DEF_VERSION:"Unknown version";
 	}
 
 	public function isShowExif(): bool {
-		return $this->showExif;
+		return $this->settings->showExif;
 	}
 
 	public function isImage(): bool {
@@ -64,7 +46,7 @@ class Layout {
 	}
 
 	public function getTheme(): string {
-		return defined("THEME")?THEME:DEF_THEME;
+		return $this->settings->theme;
 	}
 
 	public function printThemeURL() {
@@ -84,7 +66,7 @@ class Layout {
 	}
 
 	public function printVersion() {
-		print $this->version;
+		print $this->settings->version;
 	}
 
 	public function printDirectoryURL() {
@@ -136,15 +118,15 @@ class Layout {
 		for($i=0;$i<$k;$i++) {
 
 			//Anchor some images backwards, this way some previous images can also be seen from listing
-			$anchor = $items[$i-$this->anchorOffset>=0?$i-$this->anchorOffset:0]["name"];
+			$anchor = $items[$i-$this->settings->anchorOffset>=0?$i-$this->settings->anchorOffset:0]["name"];
 			$name = $items[$i]["name"];
 
 			if($items[$i]["type"]=="directory" && $folders == true && $this->sessionHandler->authorize($directory."/".$name) && (!defined("VETO_FOLDERS") || strpos(VETO_FOLDERS, '/'.$name.'/') === false))
-				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->thumbnailSize, $directory."/".$name, null, $name, $name == $file);
+				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->settings->thumbnailSize, $directory."/".$name, null, $name, $name == $file);
 			elseif($items[$i]["type"]=="image" && $files == true)
-				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->thumbnailSize, $directory."/".$name, $anchor, null, $name == $file);
-			elseif($this->imagesOnly == false && $files == true)
-				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->thumbnailSize, $directory."/".$name, $anchor, $name, $name == $file);
+				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->settings->thumbnailSize, $directory."/".$name, $anchor, null, $name == $file);
+			elseif($this->settings->showImagesOnly == false && $files == true)
+				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->settings->thumbnailSize, $directory."/".$name, $anchor, $name, $name == $file);
 		}
 		print '</div>';
 	}
@@ -176,22 +158,22 @@ class Layout {
 		if($this->fileSystemHandler->isDirectory($url)) return;
 
 		$mimeType = dirname($this->fileSystemHandler->getMimeType($url));
-		if($this->imagesOnly == true && $mimeType != "image") return;
+		if($this->settings->showImagesOnly == true && $mimeType != "image") return;
 
 		$directory = $this->urlParser->getDirectory();
 		$file = $this->urlParser->getImage();
 
 		$previousFile = $this->fileSystemHandler->getIndexOf($directory, $file, -1, false);
-		$previousBookmark =  $this->fileSystemHandler->getIndexOf($directory, $file, -($this->anchorOffset+1), false);
+		$previousBookmark =  $this->fileSystemHandler->getIndexOf($directory, $file, -($this->settings->anchorOffset+1), false);
 
 		$nextFile = $this->fileSystemHandler->getIndexOf($directory, $file, 1, false);
-		$nextBookmark = $this->fileSystemHandler->getIndexOf($directory, $file, -($this->anchorOffset-1), false);
+		$nextBookmark = $this->fileSystemHandler->getIndexOf($directory, $file, -($this->settings->anchorOffset-1), false);
 
 		print '<div class="sfg-single">';
-		print '<img src="'.$this->urlParser->getImagePrefix().$url.'?sfg-size='.($size>0?$size:$this->imageSize).'" />';
+		print '<img src="'.$this->urlParser->getImagePrefix().$url.'?sfg-size='.($size>0?$size:$this->settings->imageSize).'" />';
 		print '<a class="sfg-previous" href="'.$this->urlParser->getDocumentRoot().$directory."/".$previousFile.'#'.$previousBookmark.'"></a>';
 		print '<a class="sfg-next" href="'.$this->urlParser->getDocumentRoot().$directory."/".$nextFile.'#'.$nextBookmark.'"></a>';
-		if($this->overlayTitle && $this->getExif()->getDescription() != "") print '<h1 class="sfg-alpha20">'.$this->getExif()->getDescription().'</h1>';
+		if($this->settings->overlayTitle && $this->getExif()->getDescription() != "") print '<h1 class="sfg-alpha20">'.$this->getExif()->getDescription().'</h1>';
 		print '</div>';
 	}
 
@@ -240,7 +222,7 @@ class Layout {
 	}
 
 	public function printReadme() {
-		print $this->fileSystemHandler->readFile($this->urlParser->getURL()."/".$this->readmeFile);
+		print $this->fileSystemHandler->readFile($this->urlParser->getURL()."/".$this->settings->readmeFile);
 	}
 
 	public function printFileCount() {

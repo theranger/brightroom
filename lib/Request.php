@@ -14,18 +14,20 @@ class Request {
 	private $session;
 	private $layout;
 	private $urlParser;
+	private $settings;
 
-	public function __construct(string $url) {
-		$fileSystemHandler = new FileSystemHandler(DATA_DIR);
-		$this->session = new Session($fileSystemHandler);
+	public function __construct(string $url, Settings $settings) {
+		$fileSystemHandler = new FileSystemHandler($settings->dataDirectory);
+		$this->session = new Session($fileSystemHandler, $settings);
 		$this->urlParser = new URLParser($url, $fileSystemHandler);
-		$this->layout = new Layout($fileSystemHandler, $this->session, $this->urlParser);
+		$this->layout = new Layout($fileSystemHandler, $this->session, $this->urlParser, $settings);
+		$this->settings = $settings;
 	}
 
 	public function handleRequest(): bool {
 		//Force HTTPS if needed
-		if(defined("FORCE_HTTPS") && FORCE_HTTPS == true && !isset($_SERVER["HTTPS"])) {
-			header("Location:https://".$_SERVER["SERVER_NAME"].$_GET["sfg-q"]);
+		if($this->settings->forceHTTPS == true && !isset($_SERVER["HTTPS"])) {
+			header("Location:https://".$this->urlParser->getURL());
 			return false;
 		}
 

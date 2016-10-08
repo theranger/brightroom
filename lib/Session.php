@@ -6,17 +6,12 @@ class Session {
 
 	private $userName;
 	private $fileSystemHandler;
-	private $passwdFile;
-	private $accessFile;
-	private $salt;
+	private $settings;
 	private $cachedPath = array();
 
-	public function __construct(FileSystemHandler $fileSystemHandler) {
+	public function __construct(FileSystemHandler $fileSystemHandler, Settings $settings) {
 		$this->fileSystemHandler = $fileSystemHandler;
-		$this->passwdFile = defined("PASSWD_FILE")?PASSWD_FILE:DEF_PASSWD_FILE;
-		$this->accessFile = defined("ACCESS_FILE")?ACCESS_FILE:DEF_ACCESS_FILE;
-		$this->salt = defined("SALT")?SALT:null;
-
+		$this->settings = $settings;
 		$this->init();
 	}
 
@@ -24,7 +19,7 @@ class Session {
 		if(empty($user) || empty($password)) return false;
 
 		$passwordFile = new File($this->fileSystemHandler);
-		$passwordFile->open($this->passwdFile);
+		$passwordFile->open($this->settings->passwordFile);
 
 		$token = $user.":{SHA}".base64_encode(sha1($password, true));
 
@@ -35,7 +30,7 @@ class Session {
 
 				$this->userName = $user;
 				$_SESSION["sfg-user"] = $user;
-				$_SESSION["sfg-hash"] = $this->makeHash($this->userName, $this->salt);
+				$_SESSION["sfg-hash"] = $this->makeHash($this->userName, $this->settings->salt);
 
 				$passwordFile->close();
 				return true;
@@ -55,7 +50,7 @@ class Session {
 		}
 
 		$accessFile = new File($this->fileSystemHandler);
-		if($accessFile->open($path.'/'.$this->accessFile) == false) {
+		if($accessFile->open($path.'/'.$this->settings->accessFile) == false) {
 			$this->cachedPath[$path] = true;
 			return $this->authorize(substr($path, 0, strrpos($path,"/")));
 		}
@@ -93,11 +88,11 @@ class Session {
 
 	private function init(): bool {
 		if($this->isLoggedIn()) return true;
-		if($this->salt === null) return false;
+		if($this->settings->salt === null) return false;
 
 		//Try to start the session only if headers have not been sent and session is not already started
 		if(!headers_sent() && session_status() == PHP_SESSION_NONE) {
-			session_name(DEF_SESSION_NAME);
+			session_name($this->settings->sessionName);
 			session_start();
 		}
 
@@ -105,7 +100,7 @@ class Session {
 		if(!session_status() != PHP_SESSION_ACTIVE) return false;
 
 		if(isset($_SESSION["sfg-hash"]) && isset($_SESSION["sfg-user"])) {
-			if($this->makeHash($_SESSION["sfg-user"], $this->salt) == $_SESSION["sfg-hash"]) {
+			if($this->makeHash($_SESSION["sfg-user"], $this->settings->salt) == $_SESSION["sfg-hash"]) {
 				$this->userName = $_SESSION["sfg-user"];
 				return true;
 			}
@@ -114,7 +109,7 @@ class Session {
 		$this->userName = "";
 
 		//Destroy only if this is our session
-		if(session_name() == DEF_SESSION_NAME) session_destroy();
+		if(session_name() == $this->settings->sessionName) session_destroy();
 		return false;
 	}
 
