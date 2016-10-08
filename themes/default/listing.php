@@ -5,22 +5,22 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="author" content="The Ranger (ranger.risk.ee)" />
 		<meta name="description" content="My photo site provided by simple folder based gallery engine" />
-		<meta name="generator" content="Simple Folder Gallery <?php $layout->printVersion(); ?>" />
-		<link rel="stylesheet" type="text/css" href="<?php $layout->printThemeURL(); ?>/style.css" />
+		<meta name="generator" content="Simple Folder Gallery <?php $this->layout->printVersion(); ?>" />
+		<link rel="stylesheet" type="text/css" href="<?php $this->layout->printThemeURL(); ?>/style.css" />
 	</head>
 	<body>
 		<div class="sfg-sidebar">
-			<p><?php $layout->printReadme(); ?></p>
+			<p><?php $this->layout->printReadme(); ?></p>
 			<table>
-				<tr><td>File count:</td><td><?php $layout->printFileCount(); ?></td></tr>
-				<tr><td>Folder size:</td><td><?php $layout->printDirectorySize(); ?></td></tr>
+				<tr><td>File count:</td><td><?php $this->layout->printFileCount(); ?></td></tr>
+				<tr><td>Folder size:</td><td><?php $this->layout->printDirectorySize(); ?></td></tr>
 			</table>
 
-			<?php if(!$layout->isRoot()) $layout->printFolderTree(); ?>
+			<?php if(!$this->layout->isRoot()) $this->layout->printFolderTree(); ?>
 		</div>
 		<div class="sfg-main">
-			<div class="sfg-head"><?php $layout->printBreadcrumb(); ?><?php $layout->printLoginDialog(); ?></div>
-			<?php $layout->printFolderContents($layout->isRoot()); ?>
+			<div class="sfg-head"><?php $this->layout->printBreadcrumb(); ?><?php $this->layout->printLoginDialog(); ?></div>
+			<?php $this->layout->printFolderContents($this->layout->isRoot()); ?>
 		</div>
 	</body>
 </html>
