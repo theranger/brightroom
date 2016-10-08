@@ -31,13 +31,13 @@ class Request {
 			return false;
 		}
 
-		if (!$this->authorize()) return false;
-		if ($this->handleFullImage()) return true;
-
 		if(!$this->urlParser->isValid()) {
-			print 'Requested URL is not valid';
+			print 'Requested URL '.$this->urlParser->getURL().' is not accessible.';
 			return false;
 		}
+
+		if (!$this->authorize()) return false;
+		if ($this->handleFullImage()) return true;
 
 		//Logout, if requested
 		if(isset($_GET["sfg-logout"])) {

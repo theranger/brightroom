@@ -11,6 +11,7 @@ class URLParser {
 	public function __construct(string $url, FileSystemHandler &$fsh, Settings &$settings) {
 		$this->fsh = $fsh;
 		$this->settings = $settings;
+		$this->url = $url;
 		$this->parseURL($url);
 	}
 
@@ -85,10 +86,7 @@ class URLParser {
 			($this->settings->passwordFile && $file == $this->settings->passwordFile) ||
 			($this->settings->accessFile && $file == $this->settings->accessFile) ||
 			($this->settings->vetoFolders && strpos($this->settings->vetoFolders, '/'.$file.'/') !== false)
-		) {
-			echo "Item does not exist or is not readable";
-			return;
-		}
+		) return;
 
 		$this->url = rtrim($url, "/");
 		$this->isValid = true;
