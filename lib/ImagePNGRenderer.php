@@ -1,5 +1,7 @@
 <?php
 
+include_once "ImageRenderer.php";
+
 class ImagePNGRenderer implements ImageRenderer {
 
 	private $img;
