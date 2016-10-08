@@ -112,7 +112,7 @@ class Layout {
 
 		// If url is not empty, we are in a subgallery. Show link to parent gallery
 		if($folders == true && !empty($directory) && file_exists($this->getThemePath().'/images/upfolder.png'))
-			$this->renderImage($this->getThemeURL().'/images/upfolder.png', dirname($directory), null, "..", false);
+			$this->renderImage($this->getThemeURL().'/images/upfolder.png', dirname($directory), "", "..", false);
 
 		$k=count($items);
 		for($i=0;$i<$k;$i++) {
@@ -122,9 +122,9 @@ class Layout {
 			$name = $items[$i]["name"];
 
 			if($items[$i]["type"]=="directory" && $folders == true && $this->session->authorize($directory."/".$name) && (!defined("VETO_FOLDERS") || strpos(VETO_FOLDERS, '/'.$name.'/') === false))
-				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->settings->thumbnailSize, $directory."/".$name, null, $name, $name == $file);
+				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->settings->thumbnailSize, $directory."/".$name, "", $name, $name == $file);
 			elseif($items[$i]["type"]=="image" && $files == true)
-				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->settings->thumbnailSize, $directory."/".$name, $anchor, null, $name == $file);
+				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->settings->thumbnailSize, $directory."/".$name, $anchor, "", $name == $file);
 			elseif($this->settings->showImagesOnly == false && $files == true)
 				$this->renderImage($this->urlParser->getImagePrefix().$directory.'/'.$name.'?sfg-size='.$this->settings->thumbnailSize, $directory."/".$name, $anchor, $name, $name == $file);
 		}
