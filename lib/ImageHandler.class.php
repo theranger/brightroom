@@ -1,8 +1,8 @@
 <?php
 
-include "ImageJPEGRenderer.class.php";
-include "ImagePNGRenderer.class.php";
-include "ImageCache.class.php";
+include "ImageJPEGRenderer.php";
+include "ImagePNGRenderer.php";
+include "ImageCache.php";
 
 class ImageHandler {
 
