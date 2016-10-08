@@ -52,7 +52,7 @@ class Settings {
 
 	public $salt = "";
 
-	public function __construct(array $settings) {
+	public function __construct(array &$settings) {
 		foreach($settings as $key => $value) {
 			$this->$key = $value;
 		}
