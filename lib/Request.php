@@ -15,13 +15,55 @@ class Request {
 	private $layout;
 	private $urlParser;
 	private $settings;
+	private $requestType = RequestType::UNKNOWN;
+	private $fileSystemHandler;
 
 	public function __construct(string $url, Settings &$settings) {
-		$fileSystemHandler = new FileSystemHandler($settings->dataDirectory);
-		$this->session = new Session($fileSystemHandler, $settings);
-		$this->urlParser = new URLParser($url, $fileSystemHandler, $settings);
-		$this->layout = new Layout($fileSystemHandler, $this->session, $this->urlParser, $settings);
+		$this->fileSystemHandler = new FileSystemHandler($settings->dataDirectory);
+		$this->session = new Session($this->fileSystemHandler, $settings);
+		$this->urlParser = new URLParser($url, $this->fileSystemHandler, $settings);
+		$this->layout = new Layout($this->fileSystemHandler, $this->session, $this->urlParser, $settings);
 		$this->settings = $settings;
+		$this->parseRequest();
+	}
+
+	public function getType(): int {
+		return $this->requestType;
+	}
+
+	public function getURL(): string {
+		return $this->urlParser->getURL();
+	}
+
+	public function isSecure(): bool {
+		return isset($_SERVER["HTTPS"]);
+	}
+
+	private function parseRequest() {
+		$resourceName = $this->urlParser->getResourceName();
+		if (empty($resourceName)) return;
+
+		if ($resourceName == $this->settings->accessFile) {
+			$this->requestType = RequestType::ACCESS_FILE;
+			return;
+		}
+
+		if ($resourceName == $this->settings->passwordFile) {
+			$this->requestType = RequestType::PASSWORD_FILE;
+			return;
+		}
+
+		if (strpos($this->settings->vetoFolders, '/'.$resourceName.'/') !== false) {
+			$this->requestType = RequestType::VETO_FILE;
+			return;
+		}
+
+		if ($this->fileSystemHandler->isDirectory($this->urlParser->getURL())) {
+			$this->requestType = RequestType::IMAGE_FOLDER;
+			return;
+		}
+
+		$this->requestType = RequestType::IMAGE_FILE;
 	}
 
 	public function handleRequest(): bool {

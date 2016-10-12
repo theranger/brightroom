@@ -63,6 +63,10 @@ class URLParser {
 		return basename($this->url);
 	}
 
+	public function getResourceName(): string {
+		return basename($this->url);
+	}
+
 	private function parseURL(string $url) {
 		//Strip prefix
 		if(strncmp($url, $this->getDocumentRoot(), strlen($this->getDocumentRoot())) == 0) {
