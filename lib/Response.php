@@ -1,5 +1,7 @@
 <?php
 
+include_once "ResponseType.php";
+
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-12
  *

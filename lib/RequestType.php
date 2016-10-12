@@ -5,6 +5,7 @@
  *
  */
 abstract class RequestType {
+	const INVALID			= -1;
 	const UNKNOWN			= 0;
 	const IMAGE_FOLDER		= 1;
 	const CACHE_FOLDER		= 2;

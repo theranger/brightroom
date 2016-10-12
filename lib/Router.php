@@ -1,5 +1,8 @@
 <?php
 
+include_once "Request.php";
+include_once "Response.php";
+
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-12
  *
@@ -22,10 +25,16 @@ class Router {
 			case RequestType::UNKNOWN:
 				return new Response(ResponseType::BAD_REQUEST);
 
+			case RequestType::INVALID:
+				echo "Not found";
+				return new Response(ResponseType::NOT_FOUND);
+
 			case RequestType::IMAGE_FILE:
+				echo "Showing image file";
 				return new Response(ResponseType::OK);
 
 			case RequestType::IMAGE_FOLDER:
+				echo "Showing image folder";
 				return new Response(ResponseType::OK);
 		}
 

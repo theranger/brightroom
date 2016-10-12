@@ -4,6 +4,7 @@ include_once "Session.php";
 include_once "FileSystemHandler.php";
 include_once "URLParser.php";
 include_once "Layout.php";
+include_once "RequestType.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-08
@@ -55,6 +56,11 @@ class Request {
 
 		if (strpos($this->settings->vetoFolders, '/'.$resourceName.'/') !== false) {
 			$this->requestType = RequestType::VETO_FILE;
+			return;
+		}
+
+		if (!$this->fileSystemHandler->exists($this->urlParser->getURL())) {
+			$this->requestType = RequestType::INVALID;
 			return;
 		}
 
