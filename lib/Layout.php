@@ -1,7 +1,7 @@
 <?php
 
-include_once "ImageHandler.php";
-include_once "ExifParser.php";
+include_once "img/ImageHandler.php";
+include_once "img/ExifParser.php";
 
 class Layout {
 

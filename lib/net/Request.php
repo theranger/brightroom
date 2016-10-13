@@ -1,7 +1,7 @@
 <?php
 
 include_once "Session.php";
-include_once "FileSystemHandler.php";
+include_once "io/FileSystemHandler.php";
 include_once "URLParser.php";
 include_once "Layout.php";
 include_once "RequestType.php";

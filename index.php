@@ -1,9 +1,11 @@
 <?php
 
+set_include_path(dirname(__FILE__)."/lib");
+
 include_once "config.php";
-include_once "lib/Request.php";
-include_once "lib/Settings.php";
-include_once "lib/Router.php";
+include_once "net/Request.php";
+include_once "Settings.php";
+include_once "net/Router.php";
 
 $settings = new Settings($GLOBALS["settings"]);
 $router = new Router($settings);

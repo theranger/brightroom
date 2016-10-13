@@ -2,7 +2,7 @@
 
 include_once "ImageJPEGRenderer.php";
 include_once "ImagePNGRenderer.php";
-include_once "ImageCache.php";
+include_once "io/ImageCache.php";
 
 class ImageHandler {
 
