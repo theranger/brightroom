@@ -221,10 +221,6 @@ class FileSystemHandler {
 		return $ret !== false;
 	}
 
-	public function clearPath(string $url): string {
-		return preg_replace('/\w+\/\.\.\//', '', $url);
-	}
-
 	public function getDirectorySize(string $url): int {
 		$this->getFilesArray($url);
 		return $this->dirSize;

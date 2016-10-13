@@ -10,9 +10,11 @@ include_once "Response.php";
 class Router {
 
 	private $settings;
+	private $session;
 
-	public function __construct(Settings $settings) {
+	public function __construct(Settings $settings, FileSystemHandler $fileSystemHandler) {
 		$this->settings = $settings;
+		$this->session = new Session($fileSystemHandler, $settings);
 	}
 
 	public function route(Request $request): Response {
@@ -32,11 +34,18 @@ class Router {
 				return new Response(ResponseType::NOT_FOUND);
 
 			case RequestType::IMAGE_FILE:
-				return new Response(ResponseType::OK, "themes/".$this->settings->theme."/single.php");
+				if ($this->session->authorize($request->getURL()))
+					return new Response(ResponseType::OK, "themes/".$this->settings->theme."/single.php");
+
+				error_log($request->getURL().": Unauthorized");
+				return new Response(ResponseType::UNAUTHORIZED);
 
 			case RequestType::IMAGE_FOLDER:
-				echo "Showing image folder";
-				return new Response(ResponseType::OK, "themes/".$this->settings->theme."/listing.php");
+				if ($this->session->authorize($request->getURL()))
+					return new Response(ResponseType::OK, "themes/".$this->settings->theme."/listing.php");
+
+				error_log($request->getURL().": Unauthorized");
+				return new Response(ResponseType::UNAUTHORIZED);
 		}
 
 		error_log($request->getURL().": Access denied");

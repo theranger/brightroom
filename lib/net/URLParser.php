@@ -2,25 +2,23 @@
 
 class URLParser {
 
-	private $fsh;
 	private $settings;
-	private $url = "";
-	private $fullImage = false;
-	private $isValid = false;
+	private $url;
 
-	public function __construct(string $url, FileSystemHandler &$fsh, Settings &$settings) {
-		$this->fsh = $fsh;
+	public function __construct(string $url, Settings &$settings) {
 		$this->settings = $settings;
-		$this->url = $url;
-		$this->parseURL($url);
+
+		// Cleanup the bad things
+		$url = preg_replace('/\w+\/\.\.\//', '', $url);
+
+		// Strip prefix
+		if(strncmp($url, $this->settings->documentRoot, strlen($this->settings->documentRoot)) == 0) {
+			$this->url = substr($url, strlen($this->settings->documentRoot));
+		}
 	}
 
 	public function getURL(): string {
 		return $this->url;
-	}
-
-	public function getDocumentRoot(): string {
-		return $this->settings->documentRoot;
 	}
 
 	public function getImagePrefix(): string {
@@ -35,64 +33,11 @@ class URLParser {
 		return "/themes";
 	}
 
-	public function isFullImage(): bool {
-		return $this->fullImage;
-	}
-
-	public function isValid(): bool {
-		return $this->isValid;
-	}
-
-	public function isDirectory(): bool {
-		return $this->fsh->isDirectory($this->url);
-	}
-
 	public function isRoot(): bool {
-		return trim($this->url,"/") == '';
-	}
-
-	public function getDirectory(): string {
-		if($this->isDirectory()) return $this->url;
-
-		return dirname($this->url);
-	}
-
-	public function getImage(): string {
-		if($this->isDirectory()) return "";
-
-		return basename($this->url);
+		return trim($this->url, "/") == '';
 	}
 
 	public function getResourceName(): string {
 		return basename($this->url);
-	}
-
-	private function parseURL(string $url) {
-		//Strip prefix
-		if(strncmp($url, $this->getDocumentRoot(), strlen($this->getDocumentRoot())) == 0) {
-			$url = substr($url, strlen($this->getDocumentRoot()));
-		}
-
-		//Check for IMG prefix
-		if(strncmp($url, $this->settings->imagePrefix, strlen($this->settings->imagePrefix)) == 0) {
-			$this->url = $this->fsh->clearPath(substr($url, strlen($this->settings->imagePrefix)));
-			$this->fullImage = true;
-			return;
-		}
-
-		//Clear path from nasty things
-		$url = $this->fsh->clearPath($url);
-		$file = basename($url);
-
-		//Check if the URL is allowed
-		if(!$this->fsh->exists($url) ||
-			($this->settings->cacheFolder && $file == $this->settings->cacheFolder) ||
-			($this->settings->passwordFile && $file == $this->settings->passwordFile) ||
-			($this->settings->accessFile && $file == $this->settings->accessFile) ||
-			($this->settings->vetoFolders && strpos($this->settings->vetoFolders, '/'.$file.'/') !== false)
-		) return;
-
-		$this->url = rtrim($url, "/");
-		$this->isValid = true;
 	}
 }
