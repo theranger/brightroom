@@ -37,6 +37,11 @@ class Request {
 	}
 
 	private function parseRequest() {
+		if ($this->fileSystemHandler->isDirectory($this->urlParser->getURL())) {
+			$this->requestType = RequestType::IMAGE_FOLDER;
+			return;
+		}
+
 		$resourceName = $this->urlParser->getResourceName();
 		if (empty($resourceName)) return;
 
@@ -57,11 +62,6 @@ class Request {
 
 		if (!$this->fileSystemHandler->exists($this->urlParser->getURL())) {
 			$this->requestType = RequestType::INVALID;
-			return;
-		}
-
-		if ($this->fileSystemHandler->isDirectory($this->urlParser->getURL())) {
-			$this->requestType = RequestType::IMAGE_FOLDER;
 			return;
 		}
 

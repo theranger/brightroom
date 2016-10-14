@@ -13,8 +13,10 @@ class URLParser {
 
 		// Strip prefix
 		if(strncmp($url, $this->settings->documentRoot, strlen($this->settings->documentRoot)) == 0) {
-			$this->url = substr($url, strlen($this->settings->documentRoot));
+			$url = substr($url, strlen($this->settings->documentRoot));
 		}
+
+		$this->url = trim($url, "/");
 	}
 
 	public function getURL(): string {

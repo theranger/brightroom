@@ -17,7 +17,7 @@ class FileSystemHandler {
 		if($dataPath[0]=='/')
 			$this->dataPath = $dataPath;
 		else
-			$this->dataPath = dirname(__FILE__).'/../'.$dataPath;
+			$this->dataPath = dirname(__FILE__).'/../../'.$dataPath;
 	}
 
 
