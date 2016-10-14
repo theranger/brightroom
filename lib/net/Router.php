@@ -24,31 +24,33 @@ class Router {
 			die();
 		}
 
+		$response = new Response($this->settings, $this->session);
+
 		switch($request->getType()) {
 			case RequestType::UNKNOWN:
 				error_log($request->getURL().": Unknown request type");
-				return new Response(ResponseType::BAD_REQUEST);
+				return $response->render(ResponseType::BAD_REQUEST);
 
 			case RequestType::INVALID:
 				error_log($request->getURL().": Requested file not found");
-				return new Response(ResponseType::NOT_FOUND);
+				return $response->render(ResponseType::NOT_FOUND);
 
 			case RequestType::IMAGE_FILE:
 				if ($this->session->authorize($request->getURL()))
-					return new Response(ResponseType::OK, "themes/".$this->settings->theme."/single.php");
+					return $response->render(ResponseType::OK, "themes/".$this->settings->theme."/single.php");
 
 				error_log($request->getURL().": Unauthorized");
-				return new Response(ResponseType::UNAUTHORIZED);
+				return $response->render(ResponseType::UNAUTHORIZED);
 
 			case RequestType::IMAGE_FOLDER:
 				if ($this->session->authorize($request->getURL()))
-					return new Response(ResponseType::OK, "themes/".$this->settings->theme."/listing.php");
+					return $response->render(ResponseType::OK, "themes/".$this->settings->theme."/listing.php");
 
 				error_log($request->getURL().": Unauthorized");
-				return new Response(ResponseType::UNAUTHORIZED);
+				return $response->render(ResponseType::UNAUTHORIZED);
 		}
 
 		error_log($request->getURL().": Access denied");
-		return new Response(ResponseType::FORBIDDEN);
+		return $response->render(ResponseType::FORBIDDEN);
 	}
 }

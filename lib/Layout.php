@@ -45,18 +45,6 @@ class Layout {
 		return $this->exifParser;
 	}
 
-	public function getTheme(): string {
-		return $this->settings->theme;
-	}
-
-	public function printThemeURL() {
-		print $this->urlParser->getThemePrefix()."/".$this->getTheme();
-	}
-
-	public function getThemeURL() {
-		return $this->urlParser->getThemePrefix()."/".$this->getTheme();
-	}
-
 	/**
 	 * Retrieve local filesystem path of current theme directory
 	 * @return String to file system path of the current theme
@@ -87,21 +75,7 @@ class Layout {
 		}
 	}
 
-	public function printLoginDialog() {
-		if($this->session->isLoggedIn()) {
-			print '<form class="sfg-login">';
-			print 'Logged in as '.$this->session->getLoggedInUser().'. ';
-			print '<a href="?logout=true">Log out</a>';
-			print '</form>';
-			return;
-		}
 
-		print '<form method="post" class="sfg-login">';
-		print 'U: <input type="text" name="user" />';
-		print 'P: <input type="password" name="pass" />';
-		print '<input type="submit" value="Log In" class="sfg-button" />';
-		print '</form>';
-	}
 
 	public function printFolderContents(bool $folders = true, bool $files = true) {
 		$directory = $this->urlParser->getDirectory();
