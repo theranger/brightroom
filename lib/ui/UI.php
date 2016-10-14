@@ -1,7 +1,7 @@
 <?php
 
-include_once "Auth.php";
-include_once "Folder.php";
+include_once "UIAuth.php";
+include_once "UIFolder.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-14
@@ -13,11 +13,11 @@ class UI {
 
 	public function __construct(Settings $settings, Session $session) {
 		self::$settings = $settings;
-		new Auth($session);
+		new UIAuth($session);
 	}
 
-	public static function Auth(): Auth {
-		return Auth::class;
+	public static function Auth(): UIAuth {
+		return UIAuth::class;
 	}
 
 	public static function Folder(): Folder {

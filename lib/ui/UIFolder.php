@@ -4,7 +4,7 @@
  * Created by The Ranger (ranger@risk.ee) on 2016-10-14
  *
  */
-class Folder {
+class UIFolder {
 
 	private static $items;
 

@@ -2,7 +2,7 @@
 
 include_once "Request.php";
 include_once "Response.php";
-include_once "controllers/FolderController.php";
+include_once "controllers/Folder.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-12
@@ -44,7 +44,7 @@ class Router {
 				return $response->render(ResponseType::UNAUTHORIZED);
 */
 			case RequestType::IMAGE_FOLDER:
-				$folderController = new FolderController($this->session, $this->settings, $this->fileSystemHandler);
+				$folderController = new Folder($this->session, $this->settings, $this->fileSystemHandler);
 				return $folderController->listing($request);
 		}
 

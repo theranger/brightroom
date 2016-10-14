@@ -6,7 +6,7 @@ include_once "Controller.php";
  * Created by The Ranger (ranger@risk.ee) on 2016-10-14
  *
  */
-class FolderController extends Controller {
+class Folder extends Controller {
 
 	private $fileSystemHandler;
 
@@ -34,7 +34,7 @@ class FolderController extends Controller {
 
 			case ContentType::HTML:
 				new UI($this->settings, $this->session);
-				new Folder($folders);
+				new UIFolder($folders);
 				return $response->render(ResponseType::OK, "themes/".$this->settings->theme."/listing.php");
 		}
 
