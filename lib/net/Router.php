@@ -2,6 +2,7 @@
 
 include_once "Request.php";
 include_once "Response.php";
+include_once "controllers/FolderController.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-12
@@ -11,9 +12,11 @@ class Router {
 
 	private $settings;
 	private $session;
+	private $fileSystemHandler;
 
 	public function __construct(Settings $settings, FileSystemHandler $fileSystemHandler) {
 		$this->settings = $settings;
+		$this->fileSystemHandler = $fileSystemHandler;
 		$this->session = new Session($fileSystemHandler, $settings);
 	}
 
@@ -24,33 +27,28 @@ class Router {
 			die();
 		}
 
-		$response = new Response($this->settings, $this->session);
-
-		switch($request->getType()) {
+		switch($request->getRequestType()) {
 			case RequestType::UNKNOWN:
 				error_log($request->getURL().": Unknown request type");
-				return $response->render(ResponseType::BAD_REQUEST);
+				return (new Response($request))->render(ResponseType::BAD_REQUEST);
 
 			case RequestType::INVALID:
 				error_log($request->getURL().": Requested file not found");
-				return $response->render(ResponseType::NOT_FOUND);
+				return (new Response($request))->render(ResponseType::NOT_FOUND);
 
-			case RequestType::IMAGE_FILE:
+/*			case RequestType::IMAGE_FILE:
 				if ($this->session->authorize($request->getURL()))
 					return $response->render(ResponseType::OK, "themes/".$this->settings->theme."/single.php");
 
 				error_log($request->getURL().": Unauthorized");
 				return $response->render(ResponseType::UNAUTHORIZED);
-
+*/
 			case RequestType::IMAGE_FOLDER:
-				if ($this->session->authorize($request->getURL()))
-					return $response->render(ResponseType::OK, "themes/".$this->settings->theme."/listing.php");
-
-				error_log($request->getURL().": Unauthorized");
-				return $response->render(ResponseType::UNAUTHORIZED);
+				$folderController = new FolderController($this->session, $this->settings, $this->fileSystemHandler);
+				return $folderController->listing($request);
 		}
 
 		error_log($request->getURL().": Access denied");
-		return $response->render(ResponseType::FORBIDDEN);
+		return (new Response($request))->render(ResponseType::FORBIDDEN);
 	}
 }

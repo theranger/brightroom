@@ -5,6 +5,7 @@ include_once "io/FileSystemHandler.php";
 include_once "URLParser.php";
 include_once "Layout.php";
 include_once "RequestType.php";
+include_once "ContentType.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-08
@@ -15,6 +16,7 @@ class Request {
 	private $urlParser;
 	private $settings;
 	private $requestType = RequestType::UNKNOWN;
+	private $acceptedType = ContentType::PLAIN;
 	private $fileSystemHandler;
 
 	public function __construct(string $url, Settings $settings, FileSystemHandler $fileSystemHandler) {
@@ -24,8 +26,12 @@ class Request {
 		$this->parseRequest();
 	}
 
-	public function getType(): int {
+	public function getRequestType(): int {
 		return $this->requestType;
+	}
+
+	public function getAcceptedType(): string {
+		return $this->acceptedType;
 	}
 
 	public function getURL(): string {

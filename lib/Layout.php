@@ -105,28 +105,6 @@ class Layout {
 		print '</div>';
 	}
 
-	public function printFolderTree(array &$items = null) {
-		if($items != null && $items["count"] == 0) return;
-		$level="";
-
-		if($items == null) {
-			$items = $this->fileSystemHandler->getFolderArray($this->urlParser->getDirectory());
-			$level = "root";
-		}
-
-		print '<ul class="sfg-foldertree '.$level.'">';
-		for($i = 0; $i < $items["count"]; $i++) {
-			if(!$this->session->authorize($items[$i]["link"])) continue;
-			if(defined("VETO_FOLDERS") && strpos(VETO_FOLDERS, '/'.$items[$i]["name"].'/') !== false) continue;
-
-			print '<li>';
-			print '<a href="'.$items[$i]["link"].'">'.$items[$i]["name"].'</a>';
-			$this->printFolderTree($items[$i]["items"]);
-			print '</li>';
-		}
-		print '</ul>';
-	}
-
 	public function getImage(int $size, string $url = "") {
 		if(empty($url)) $url = $this->urlParser->getURL();
 		if($this->fileSystemHandler->isDirectory($url)) return;

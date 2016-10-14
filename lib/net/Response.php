@@ -9,12 +9,10 @@ include_once "ui/UI.php";
  */
 class Response {
 
-	private $settings;
-	private $session;
+	private $request;
 
-	public function __construct(Settings $settings, Session $session) {
-		$this->settings = $settings;
-		$this->session = $session;
+	public function __construct(Request $request) {
+		$this->request = $request;
 	}
 
 	public function render(int $responseCode, string $includeFile = ""): Response {
@@ -27,8 +25,24 @@ class Response {
 			return $this;
 		}
 
-		new UI($this->settings, $this->session);
 		include_once $includeFile;
+		return $this;
+	}
+
+	public function asJson(int $responseCode, string $data): Response {
+		http_response_code($responseCode);
+		header("Content-Type: " . ContentType::JSON);
+		if (empty($data)) return $this;
+
+		print $data;
+		return $this;
+	}
+
+	public function asPlain(int $responseCode, string $data): Response {
+		http_response_code($responseCode);
+		header("Content-Type: " . ContentType::PLAIN);
+
+		print $data;
 		return $this;
 	}
 }
