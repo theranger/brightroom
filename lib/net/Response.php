@@ -29,20 +29,20 @@ class Response {
 		return $this;
 	}
 
-	public function asJson(int $responseCode, string $data): Response {
+	public function asJson(int $responseCode, $data): Response {
 		http_response_code($responseCode);
 		header("Content-Type: " . ContentType::JSON);
 		if (empty($data)) return $this;
 
-		print $data;
+		print json_encode($data);
 		return $this;
 	}
 
-	public function asPlain(int $responseCode, string $data): Response {
+	public function asPlain(int $responseCode, $data): Response {
 		http_response_code($responseCode);
 		header("Content-Type: " . ContentType::PLAIN);
 
-		print $data;
+		print_r($data);
 		return $this;
 	}
 }

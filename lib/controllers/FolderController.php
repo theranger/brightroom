@@ -30,7 +30,7 @@ class FolderController extends Controller {
 				return $response->asJson(ResponseType::OK, $folders);
 
 			case ContentType::PLAIN:
-				return $response->asPlain(ResponseType::OK, print_r($folders, true));
+				return $response->asPlain(ResponseType::OK, $folders);
 
 			case ContentType::HTML:
 				new UI($this->settings, $this->session);
