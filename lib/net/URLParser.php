@@ -23,18 +23,6 @@ class URLParser {
 		return $this->url;
 	}
 
-	public function getImagePrefix(): string {
-		if(!empty($this->settings->galleryURL)) return $this->settings->galleryURL.$this->settings->imagePrefix;
-		if(!empty($this->settings->documentRoot)) return $this->settings->documentRoot.$this->settings->imagePrefix;
-		return $this->settings->imagePrefix;
-	}
-
-	public function getThemePrefix(): string {
-		if(!empty($this->settings->galleryURL)) return $this->settings->galleryURL."/themes";
-		if(!empty($this->settings->documentRoot)) return $this->settings->documentRoot."/themes";
-		return "/themes";
-	}
-
 	public function isRoot(): bool {
 		return trim($this->url, "/") == '';
 	}
