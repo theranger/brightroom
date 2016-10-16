@@ -5,7 +5,7 @@
 	</head>
 	<body>
 		<div class="sfg-sidebar">
-			<?php Folder::PrintTree() ?>
+			<?php UIFolder::PrintTree() ?>
 		</div>
 		<div class="sfg-main">
 		</div>
