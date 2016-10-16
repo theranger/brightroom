@@ -11,4 +11,19 @@ abstract class ContentType {
 	const PLAIN			= "text/plain";
 	const JPEG			= "image/jpeg";
 
+	private static $supportedTypes = array(
+		ContentType::JSON,
+		ContentType::JPEG,
+		ContentType::HTML,
+		ContentType::PLAIN
+	);
+
+	public static function getType(string $acceptHeader): string {
+		$acceptHeader = explode(",", $acceptHeader);
+		foreach ($acceptHeader as $value) {
+			$key = array_search($value, ContentType::$supportedTypes);
+			if ($key !== false) return ContentType::$supportedTypes[$key];
+		}
+		return ContentType::PLAIN;
+	}
 }
