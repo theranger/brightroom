@@ -43,7 +43,8 @@ class Request {
 	}
 
 	private function parseRequest() {
-		$this->acceptedType = ContentType::getType($_SERVER["HTTP_ACCEPT"]);
+		$this->acceptedType = ContentType::parseAcceptHeader($_SERVER["HTTP_ACCEPT"]);
+		if ($this->acceptedType == ContentType::ANY) $this->acceptedType = ContentType::parseExtension($this->urlParser->getResourceName());
 
 		if ($this->fileSystemHandler->isDirectory($this->urlParser->getURL())) {
 			$this->requestType = RequestType::IMAGE_FOLDER;
