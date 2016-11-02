@@ -3,6 +3,7 @@
 include_once "Request.php";
 include_once "Response.php";
 include_once "controllers/Folder.php";
+include_once "controllers/Image.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-12
@@ -36,13 +37,10 @@ class Router {
 				error_log($request->getURL().": Requested file not found");
 				return (new Response($request))->render(ResponseType::NOT_FOUND);
 
-/*			case RequestType::IMAGE_FILE:
-				if ($this->session->authorize($request->getURL()))
-					return $response->render(ResponseType::OK, "themes/".$this->settings->theme."/single.php");
+			case RequestType::IMAGE_FILE:
+				$imageController = new Image($this->session, $this->settings, $this->fileSystemHandler);
+				return $imageController->get($request);
 
-				error_log($request->getURL().": Unauthorized");
-				return $response->render(ResponseType::UNAUTHORIZED);
-*/
 			case RequestType::IMAGE_FOLDER:
 				$folderController = new Folder($this->session, $this->settings, $this->fileSystemHandler);
 				return $folderController->listing($request);

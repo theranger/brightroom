@@ -20,7 +20,7 @@ class Response {
 		if (empty($includeFile)) return $this;
 
 		if (!file_exists($includeFile)) {
-			error_log($includeFile.": File cannot be loaded");
+			error_log($includeFile.": File cannot be loaded, working directory " . getcwd());
 			http_response_code(ResponseType::INTERNAL_SERVER_ERROR);
 			return $this;
 		}
@@ -43,6 +43,12 @@ class Response {
 		header("Content-Type: " . ContentType::PLAIN);
 
 		print_r($data);
+		return $this;
+	}
+
+	public function asJpeg(int $responseCode): Response {
+		http_response_code($responseCode);
+		header("Content-Type: " . ContentType::JPEG);
 		return $this;
 	}
 }
