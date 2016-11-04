@@ -44,6 +44,7 @@ class FileSystemHandler {
 		closedir($dh);
 
 		usort($this->cachedFiles,array($this,"sortDirectories"));
+		$this->cachedFiles["count"] = count($this->cachedFiles);
 
 		$this->cachedURL = $directory;
 		return $this->cachedFiles;
