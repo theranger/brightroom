@@ -23,7 +23,7 @@ class Folder extends Controller {
 			return $response->render(ResponseType::UNAUTHORIZED);
 		}
 
-		$folders = $this->fileSystemHandler->getFolderArray($request->getURL());
+		$folders = $this->fileSystemHandler->getFilesArray($request->getURL());
 
 		switch($request->getAcceptedType()) {
 			case ContentType::JSON:

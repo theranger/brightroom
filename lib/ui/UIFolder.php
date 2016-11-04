@@ -13,13 +13,14 @@ class UIFolder {
 	}
 
 	public static function PrintTree(array &$items = null) {
-		if($items != null && $items["count"] == 0) return;
-		$level="";
+		$level = "";
 
 		if($items == null) {
 			$items = self::$items;
 			$level = "root";
 		}
+
+		if($items == null || $items["count"] == 0) return;
 
 		print '<ul class="sfg-foldertree '.$level.'">';
 		for($i = 0; $i < $items["count"]; $i++) {
