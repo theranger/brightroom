@@ -10,6 +10,7 @@
 		<div class="sfg-main">
 			<?php
 				foreach (UIFolder::getItems() as &$item) {
+					if ($item->isDirectory()) continue;
 					echo '<img src="'.$item->getURL().'?thumbnail=true" alt="'.$item->getName().'" />';
 				}
 			?>

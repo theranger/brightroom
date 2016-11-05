@@ -28,6 +28,14 @@ class DirectoryEntry {
 		return $this->name;
 	}
 
+	public function isDirectory(): bool {
+		return is_dir($this->path);
+	}
+
+	public function isFile(): bool {
+		return is_file($this->path);
+	}
+
 	public function getType(): string {
 		if ($this->type !== null) return $this->type;
 
