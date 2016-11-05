@@ -9,7 +9,7 @@ class URLParser {
 		$this->settings = $settings;
 
 		// Cleanup the bad things
-		$url = preg_replace('/\w+\/\.\.\//', '', $url);
+		$url = preg_replace('/\w+\/\.\.\//', '', urldecode($url));
 
 		// Strip prefix
 		if(strncmp($url, $this->settings->documentRoot, strlen($this->settings->documentRoot)) == 0) {
