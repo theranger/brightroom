@@ -13,7 +13,7 @@ chdir(dirname(__FILE__));
 
 $settings = new Settings($GLOBALS["settings"]);
 $router = new Router($settings);
-$request = new Request($_SERVER["REQUEST_URI"], $settings);
+$request = new Request($_SERVER["PHP_SELF"], $settings);
 
 $router->route($request);
 chdir($cwd);
