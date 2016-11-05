@@ -67,6 +67,6 @@ class Settings {
 	public function getThemePrefix(): string {
 		if(!empty($this->galleryURL)) return $this->galleryURL."/themes";
 		if(!empty($this->documentRoot)) return $this->documentRoot."/themes";
-		return "themes";
+		return "/themes";
 	}
 }
