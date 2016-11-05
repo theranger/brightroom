@@ -17,6 +17,13 @@ class Folder {
 		return $this->path;
 	}
 
+	public function exists(): bool {
+		return is_dir($this->path);
+	}
+
+	/**
+	 * @return File[]
+	 */
 	public function getContents(): array {
 		//If we are accessing the same URL, show cached results
 		if (!empty($this->cachedContents)) return $this->cachedContents;
@@ -33,36 +40,36 @@ class Folder {
 
 		closedir($dh);
 
-		usort($this->cachedContents, array($this, "sortDirectories"));
+		//usort($this->cachedContents, array($this, "sortDirectories"));
 		return $this->cachedContents;
 	}
 
-	public function create(string $name, int $perms = 0): bool {
-		if (!mkdir($this->path . "" / "" . $name)) return false;
+	public function create(int $perms = 0): bool {
+		if (!mkdir($this->path)) return false;
 
 		if ($perms == 0) return true;
-		return chmod($this->path . "/" . $name, $perms);
+		return chmod($this->path, $perms);
 	}
 
-	public function remove(string $name): bool {
-		$dh = opendir($this->path . "/" . $name);
+	public function remove(): bool {
+		$dh = opendir($this->path);
 		if ($dh == false) return false;
 
 		while (($entry = readdir($dh)) !== false) {
 			if ($entry == '.' || $entry == '..') continue;
-			if (is_dir($this->path . "/" . $name . "/" . $entry)) {
-				$this->remove($name . "/" . $entry);
+			if (is_dir($this->path . "/" . $entry)) {
+				(new Folder($this->path . "/" . $entry))->remove();
 				continue;
 			}
 
-			if (!unlink($this->path . "/" . $name . "/" . $entry)) {
+			if (!unlink($this->path . "/" . $entry)) {
 				closedir($dh);
 				return false;
 			}
 		}
 
 		closedir($dh);
-		return rmdir($this->path . "/" . $name);
+		return rmdir($this->path);
 	}
 
 	private function sortDirectories(array $a, array $b): int {

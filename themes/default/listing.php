@@ -10,7 +10,7 @@
 		<div class="sfg-main">
 			<?php
 				foreach (UIFolder::getItems() as &$item) {
-					echo '<img src="'.$item["link"].'?thumbnail=true" alt="'.$item["name"].'" />';
+					echo '<img src="'.$item->getPath().'?thumbnail=true" alt="'.$item->getName().'" />';
 				}
 			?>
 		</div>

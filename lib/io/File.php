@@ -26,6 +26,10 @@ class File {
 		return $this->folder;
 	}
 
+	public function exists(): bool {
+		return is_file($this->path);
+	}
+
 	public function open($mode = "r"): bool {
 		if ($this->fh != null) $this->close();
 

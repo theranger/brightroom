@@ -1,53 +1,40 @@
 <?php
 
-class ImageCache {
+include_once "Folder.php";
 
-	private $fileSystemHandler;
+class ImageCache extends Folder {
 
-	public function __construct(string $cacheDir) {
-		$this->fileSystemHandler = new FileSystemHandler($cacheDir);
+	public function __construct($path) {
+		parent::__construct($path);
+		if (!$this->exists()) $this->create(0775);
 	}
 
-	public function getFromCache(string $imgName): bool {
-		if(!$this->fileSystemHandler->exists($imgName)) return false;
-
-		return $this->fileSystemHandler->getFile($imgName);
+	public function read(string $name): bool {
+		$file = new File($this, $name);
+		return $file->read();
 	}
 
-	public function putToCache(string $imgName, resource $imgData): bool {
-		if(!$this->prepareCache()) return false;
-
-		return $this->fileSystemHandler->saveFile($imgName, $imgData);
+	public function save(string $name, resource $data): bool {
+		$file = new File($this, $name);
+		return $file->save($data);
 	}
 
-	public function inCache(string $imgName): bool {
-		return $this->fileSystemHandler->exists($imgName);
+	public function inCache(string $name): bool {
+		return (new File($this, $name))->exists();
 	}
 
-	public function prepareCache(): bool {
-		if(!$this->fileSystemHandler->exists()) {
-			if(!$this->fileSystemHandler->createDirectory("",0775))
-				return false;
-		}
-
-		return true;
+	public function getImagePath(string $name): string {
+		return (new File($this, $name))->getPath();
 	}
 
 	public function invalidateCache(): bool {
-		if(!$this->fileSystemHandler->exists()) return false;
-		if(!$this->fileSystemHandler->removeDirectory()) return false;
-
-		return true;
+		if (!$this->exists()) return true;
+		return $this->remove();
 	}
 
-	public function invalidateImage(string $path): bool {
-		if(!$this->fileSystemHandler->exists()) return false;
-		if(!$this->fileSystemHandler->removeFile($path)) return false;
-
-		return true;
-	}
-
-	public function getFullPath(string $imgName): string {
-		return $this->fileSystemHandler->getFullPath($imgName);
+	public function invalidateImage(string $name): bool {
+		$file = new File($this, $name);
+		if (!$file->exists()) return true;
+		return $file->remove();
 	}
 }

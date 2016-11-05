@@ -5,6 +5,7 @@ include_once "Response.php";
 include_once "controllers/Collection.php";
 include_once "controllers/Image.php";
 include_once "controllers/Text.php";
+include_once "io/FileSystem.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-12

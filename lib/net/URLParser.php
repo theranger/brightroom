@@ -2,7 +2,7 @@
 
 class URLParser {
 
-	private static $urlPatterns = array('/index\.php\//','/\w+\/\.\.\//');
+	private static $urlPatterns = array('/index\.php/','/\w+\/\.\.\//');
 
 	private $settings;
 	private $url;
