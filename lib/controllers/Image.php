@@ -23,8 +23,9 @@ class Image extends Controller {
 		}
 
 		switch($request->getAcceptedType()) {
+			case ContentType::PNG:
 			case ContentType::JPEG:
-				$response->asType(ResponseType::OK, ContentType::JPEG);
+				$response->asType(ResponseType::OK, $request->getAcceptedType());
 				$this->fileSystemHandler->getFile($request->getURL());
 				return $response;
 

@@ -10,11 +10,13 @@ abstract class ContentType {
 	const HTML			= "text/html";
 	const PLAIN			= "text/plain";
 	const JPEG			= "image/jpeg";
+	const PNG			= "image/png";
 	const CSS			= "text/css";
 	const ANY			= "*/*";
 
 	private static $supportedTypes = array(
 		ContentType::JSON,
+		ContentType::PNG,
 		ContentType::JPEG,
 		ContentType::HTML,
 		ContentType::CSS,
@@ -40,6 +42,9 @@ abstract class ContentType {
 			case ".jpg":
 			case ".jpeg":
 				return ContentType::JPEG;
+
+			case ".png":
+				return ContentType::PNG;
 
 			case ".css":
 				return ContentType::CSS;
