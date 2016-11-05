@@ -51,6 +51,11 @@ class Request {
 			return;
 		}
 
+		if (isset($_GET["thumbnail"]) && $_GET["thumbnail"] == true) {
+			$this->requestType = RequestType::THUMBNAIL_FILE;
+			return;
+		}
+
 		$this->requestType = RequestType::IMAGE_FILE;
 	}
 

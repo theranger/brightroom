@@ -14,4 +14,5 @@ abstract class RequestType {
 	const ACCESS_FILE		= 5;
 	const VETO_FILE			= 6;
 	const THEME_FILE		= 7;
+	const THUMBNAIL_FILE	= 8;
 }

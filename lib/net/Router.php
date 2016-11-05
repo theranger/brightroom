@@ -38,6 +38,7 @@ class Router {
 				return (new Response($request))->render(ResponseCode::NOT_FOUND);
 
 			case RequestType::IMAGE_FILE:
+			case RequestType::THUMBNAIL_FILE:
 				$fileSystemHandler = new FileSystemHandler($this->settings->dataDirectory);
 				$session = new Session($fileSystemHandler, $this->settings);
 				$imageController = new Image($session, $this->settings, $fileSystemHandler);

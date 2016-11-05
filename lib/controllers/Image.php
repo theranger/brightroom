@@ -25,9 +25,7 @@ class Image extends Controller {
 		switch($request->getAcceptedType()) {
 			case ContentType::PNG:
 			case ContentType::JPEG:
-				$response->asType(ResponseCode::OK, $request->getAcceptedType());
-				$this->fileSystemHandler->getFile($request->getURL());
-				return $response;
+				return $this->handleImage($request, $response);
 
 			case ContentType::HTML:
 				$folders = $this->fileSystemHandler->getContents(dirname($request->getURL()));
@@ -38,5 +36,27 @@ class Image extends Controller {
 
 		error_log($request->getURL() . ": Invalid request");
 		return $response->render(ResponseCode::BAD_REQUEST);
+	}
+
+	private function handleImage(Request $request, Response $response): Response {
+		switch ($request->getRequestType()) {
+			case RequestType::IMAGE_FILE:
+				$response->asType(ResponseCode::OK, $request->getAcceptedType());
+				$this->fileSystemHandler->getFile($request->getURL());
+				return $response;
+
+			case RequestType::THUMBNAIL_FILE:
+				$response->asType(ResponseCode::OK, $request->getAcceptedType());
+				break;
+
+			default:
+				$response->asType(ResponseCode::INTERNAL_SERVER_ERROR, $request->getAcceptedType());
+				return $response;
+		}
+
+		// Thumbnail was requested
+		$imageHandler = new ImageHandler($request->getAcceptedType(), $this->settings);
+		$imageHandler->resizeImage($request->getURL(), $this->settings->thumbnailSize, 0);
+		return $response;
 	}
 }
