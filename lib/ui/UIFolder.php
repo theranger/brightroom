@@ -12,25 +12,34 @@ class UIFolder {
 		self::$items = $items;
 	}
 
-	public static function PrintTree(array &$items = null) {
-		$level = "";
+	public static function PrintTree() {
+		if (empty(self::$items)) return;
 
-		if($items == null) {
-			$items = self::$items;
-			$level = "root";
+		print '<ul class="sfg-tree">';
+		foreach(self::$items as &$item) {
+			print '<li><a href="'.$item["link"].'">'.$item["name"].'</a></li>';
 		}
+		print '</ul>';
+	}
 
-		if($items == null || $items["count"] == 0) return;
+	public static function PrintFolders() {
+		if (empty(self::$items)) return;
 
-		print '<ul class="sfg-foldertree '.$level.'">';
-		for($i = 0; $i < $items["count"]; $i++) {
-			//if(!$this->session->authorize($items[$i]["link"])) continue;
-			if(defined("VETO_FOLDERS") && strpos(VETO_FOLDERS, '/'.$items[$i]["name"].'/') !== false) continue;
+		print '<ul class="sfg-tree">';
+		foreach(self::$items as &$item) {
+			if(!$item["folder"]) continue;
+			print '<li><a href="'.$item["link"].'">'.$item["name"].'</a></li>';
+		}
+		print '</ul>';
+	}
 
-			print '<li>';
-			print '<a href="'.$items[$i]["link"].'">'.$items[$i]["name"].'</a>';
-			self::PrintTree($items[$i]["items"]);
-			print '</li>';
+	public static function PrintFiles() {
+		if (empty(self::$items)) return;
+
+		print '<ul class="sfg-tree">';
+		foreach(self::$items as &$item) {
+			if($item["folder"]) continue;
+			print '<li><a href="'.$item["link"].'">'.$item["name"].'</a></li>';
 		}
 		print '</ul>';
 	}

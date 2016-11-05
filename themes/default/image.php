@@ -5,7 +5,7 @@
 	</head>
 	<body>
 		<div class="sfg-sidebar">
-			<?php UIFolder::PrintTree() ?>
+			<?php UIFolder::PrintFolders() ?>
 		</div>
 		<div class="sfg-main">
 			<img src="/capri.jpg" alt="Test image" />

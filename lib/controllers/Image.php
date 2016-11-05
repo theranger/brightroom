@@ -29,7 +29,7 @@ class Image extends Controller {
 				return $response;
 
 			case ContentType::HTML:
-				$folders = $this->fileSystemHandler->getFolderArray(dirname($request->getURL()));
+				$folders = $this->fileSystemHandler->getContents(dirname($request->getURL()));
 				new UI($this->settings, $this->session);
 				new UIFolder($folders);
 				return $response->render(ResponseType::OK, "themes/".$this->settings->theme."/image.php");

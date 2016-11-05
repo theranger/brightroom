@@ -3,15 +3,8 @@
 class FileSystemHandler {
 
 	private $dataPath;
-	private $dirSize;
-
 	private $cachedURL;
-	private $cachedFiles = array();
-	private $cachedCurrentFile;
-	private $cachedCurrentIndex;
-
-	private $cachedRoot;
-	private $cachedFolders = array();
+	private $cachedContents = array();
 
 	public function __construct(string $dataPath) {
 		if($dataPath[0]=='/')
@@ -20,104 +13,29 @@ class FileSystemHandler {
 			$this->dataPath = dirname(__FILE__).'/../../'.$dataPath;
 	}
 
-
-	public function getFilesArray(string $directory): array {
+	public function getContents(string $directory): array {
 		//If we are accessing the same URL, show cached results
-		if(count($this->cachedFiles) > 0 && $this->cachedURL == $directory) return $this->cachedFiles;
+		if(count($this->cachedContents) > 0 && $this->cachedURL == $directory) return $this->cachedContents;
 
 		$dh = opendir($this->dataPath.'/'.$directory);
 		if($dh == false) return array();
 
-		$this->cachedFiles = array();
 		while(($entry = readdir($dh)) !== false) {
 			if($entry[0]=='.') continue;
 
 			$mime = $this->getMimeType($directory.'/'.$entry);
-			$this->cachedFiles[] = array(
-				"name"	=> $entry,
-				"type"	=> strpos($mime,'/') === false?$mime:dirname($mime),
-				"folder"	=> is_dir($this->dataPath.'/'.$directory.'/'.$entry),
+			$this->cachedContents[] = array(
+				"name"		=> $entry,
+				"type"		=> strpos($mime,'/') === false?$mime:dirname($mime),
+				"folder"	=> $this->isDirectory($directory.'/'.$entry),
+				"link"		=> $directory.'/'.$entry,
 			);
-			$this->dirSize += filesize($this->dataPath.'/'.$directory.'/'.$entry);
 		}
 
 		closedir($dh);
 
-		usort($this->cachedFiles,array($this,"sortDirectories"));
-		$this->cachedFiles["count"] = count($this->cachedFiles);
-
-		$this->cachedURL = $directory;
-		return $this->cachedFiles;
-	}
-
-	public function getFolderArray(string $directory, string $root = null): array {
-		//If we are loading the same root, show cached result
-		if(count($this->cachedFolders) > 0 && $this->cachedRoot == $directory) return $this->cachedFolders;
-
-		$path = explode('/', $directory, 2);
-		$workDir = rtrim($root.'/'.$path[0], '/');
-
-		$dh = opendir($this->dataPath.$workDir);
-		if($dh == false) return array();
-
-		$folders = array();
-		while(($entry = readdir($dh)) !== false) {
-			if($entry[0]=='.') continue;
-			if(!is_dir($this->dataPath.$workDir.'/'.$entry)) continue;
-
-			$folders[] = array(
-				"name"	=> $entry,
-				"link"	=> $workDir.'/'.$entry,
-				"items"	=> (count($path) > 1 && strpos($path[1], $entry) === 0)?$this->getFolderArray($path[1], $workDir):array("count" => 0),
-			);
-		}
-
-		sort($folders);
-		$folders["count"] = count($folders);
-		closedir($dh);
-
-		if($root == null) {
-			$this->cachedFolders = $folders;
-			$this->cachedRoot = $directory;
-		}
-
-		return $folders;
-	}
-
-	public function getIndexOf(string $directory, string $currentFile, int $index=0, bool $null = true, bool $folders = false): int {
-		$pos = $this->getCurrentIndexOf($directory, $currentFile);
-		if($pos === null) return -1;
-
-		$items = $this->getFilesArray($directory);
-		$k = count($items);
-
-		if($pos + $index >= $k) return $null?null:$items[$k-1]["name"];
-
-		if($pos + $index < 0) {
-			if($null) return -1;
-			return (!$folders && $items[0]["folder"])?$items[$pos]["name"]:$items[0]["name"];
-		}
-
-		return (!$folders && $items[$pos + $index]["folder"])?$items[$pos]["name"]:$items[$pos + $index]["name"];
-	}
-
-	private function getCurrentIndexOf(string $directory, string $currentFile): int {
-		if($directory == null || empty($directory)) return -1;
-		if($currentFile == null || empty($currentFile)) return -1;
-
-		if($this->cachedCurrentFile == $currentFile) return $this->cachedCurrentIndex;
-
-		$items = $this->getFilesArray($directory);
-		$k = count($items);
-
-		for($i=0; $i<$k; $i++) {
-			if(($items[$i]["name"] != $currentFile)) continue;
-
-			$this->cachedCurrentIndex = $i;
-			return $i;
-		}
-
-		return -1;
+		usort($this->cachedContents,array($this,"sortDirectories"));
+		return $this->cachedContents;
 	}
 
 	private function sortDirectories(array $a, array $b): int {
@@ -220,29 +138,5 @@ class FileSystemHandler {
 		fclose($fp);
 
 		return $ret !== false;
-	}
-
-	public function getDirectorySize(string $url): int {
-		$this->getFilesArray($url);
-		return $this->dirSize;
-	}
-
-	public function getDirectorySizeHuman(string $url): string {
-		$this->getFilesArray($url);
-		$size = $this->dirSize;
-
-		$units = array('B', 'KB', 'MB', 'GB', 'TB');
-
-		for($i = 1; $i<count($units); $i++) {
-			$size /= 1024;
-			if($size <= 1024) break;
-		}
-
-		return round($size,2).' '.$units[$i];
-	}
-
-	public function getFileCount(string $url): int {
-		$this->getFilesArray($url);
-		return count($this->cachedFiles);
 	}
 }

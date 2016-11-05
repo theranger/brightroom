@@ -5,9 +5,10 @@
 	</head>
 	<body>
 		<div class="sfg-sidebar">
-			<?php UIFolder::PrintTree() ?>
+			<?php UIFolder::PrintFolders() ?>
 		</div>
 		<div class="sfg-main">
+			<?php UIFolder::PrintFiles() ?>
 		</div>
 	</body>
 </html>
