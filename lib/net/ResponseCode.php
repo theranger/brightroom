@@ -4,7 +4,7 @@
  * Created by The Ranger (ranger@risk.ee) on 2016-10-12
  *
  */
-abstract class ResponseType {
+abstract class ResponseCode {
 	const OK						= 200;
 	const BAD_REQUEST				= 400;
 	const UNAUTHORIZED				= 401;

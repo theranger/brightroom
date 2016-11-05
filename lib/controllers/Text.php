@@ -19,10 +19,10 @@ class Text extends Controller {
 		$response = new Response($request);
 
 		if (!$this->session->authorize($request->getURL())) {
-			return $response->render(ResponseType::UNAUTHORIZED);
+			return $response->render(ResponseCode::UNAUTHORIZED);
 		}
 
-		$response->asType(ResponseType::OK, $request->getAcceptedType());
+		$response->asType(ResponseCode::OK, $request->getAcceptedType());
 		$this->fileSystemHandler->getFile($request->getURL());
 		return $response;
 	}

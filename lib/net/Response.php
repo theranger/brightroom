@@ -1,6 +1,6 @@
 <?php
 
-include_once "ResponseType.php";
+include_once "ResponseCode.php";
 include_once "ui/UI.php";
 
 /**
@@ -21,7 +21,7 @@ class Response {
 
 		if (!file_exists($includeFile)) {
 			error_log($includeFile.": File cannot be loaded, working directory " . getcwd());
-			http_response_code(ResponseType::INTERNAL_SERVER_ERROR);
+			http_response_code(ResponseCode::INTERNAL_SERVER_ERROR);
 			return $this;
 		}
 

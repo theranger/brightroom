@@ -20,24 +20,24 @@ class Folder extends Controller {
 		$response = new Response($request);
 
 		if (!$this->session->authorize($request->getURL())) {
-			return $response->render(ResponseType::UNAUTHORIZED);
+			return $response->render(ResponseCode::UNAUTHORIZED);
 		}
 
 		$folders = $this->fileSystemHandler->getContents($request->getURL());
 
 		switch($request->getAcceptedType()) {
 			case ContentType::JSON:
-				return $response->asJson(ResponseType::OK, $folders);
+				return $response->asJson(ResponseCode::OK, $folders);
 
 			case ContentType::PLAIN:
-				return $response->asPlain(ResponseType::OK, $folders);
+				return $response->asPlain(ResponseCode::OK, $folders);
 
 			case ContentType::HTML:
 				new UI($this->settings, $this->session);
 				new UIFolder($folders);
-				return $response->render(ResponseType::OK, "themes/".$this->settings->theme."/listing.php");
+				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/listing.php");
 		}
 
-		return $response->render(ResponseType::BAD_REQUEST);
+		return $response->render(ResponseCode::BAD_REQUEST);
 	}
 }

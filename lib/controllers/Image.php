@@ -19,13 +19,13 @@ class Image extends Controller {
 		$response = new Response($request);
 
 		if (!$this->session->authorize($request->getURL())) {
-			return $response->render(ResponseType::UNAUTHORIZED);
+			return $response->render(ResponseCode::UNAUTHORIZED);
 		}
 
 		switch($request->getAcceptedType()) {
 			case ContentType::PNG:
 			case ContentType::JPEG:
-				$response->asType(ResponseType::OK, $request->getAcceptedType());
+				$response->asType(ResponseCode::OK, $request->getAcceptedType());
 				$this->fileSystemHandler->getFile($request->getURL());
 				return $response;
 
@@ -33,10 +33,10 @@ class Image extends Controller {
 				$folders = $this->fileSystemHandler->getContents(dirname($request->getURL()));
 				new UI($this->settings, $this->session);
 				new UIFolder($folders);
-				return $response->render(ResponseType::OK, "themes/".$this->settings->theme."/image.php");
+				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/image.php");
 		}
 
 		error_log($request->getURL() . ": Invalid request");
-		return $response->render(ResponseType::BAD_REQUEST);
+		return $response->render(ResponseCode::BAD_REQUEST);
 	}
 }

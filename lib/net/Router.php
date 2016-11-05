@@ -31,11 +31,11 @@ class Router {
 				$request->updateType($fileSystemHandler);
 				if ($request->getRequestType() != RequestType::UNKNOWN) return $this->route($request);
 				error_log($request->getURL().": Unknown request type");
-				return (new Response($request))->render(ResponseType::BAD_REQUEST);
+				return (new Response($request))->render(ResponseCode::BAD_REQUEST);
 
 			case RequestType::INVALID:
 				error_log($request->getURL().": Requested file not found");
-				return (new Response($request))->render(ResponseType::NOT_FOUND);
+				return (new Response($request))->render(ResponseCode::NOT_FOUND);
 
 			case RequestType::IMAGE_FILE:
 				$fileSystemHandler = new FileSystemHandler($this->settings->dataDirectory);
@@ -57,6 +57,6 @@ class Router {
 		}
 
 		error_log($request->getURL().": Access denied");
-		return (new Response($request))->render(ResponseType::FORBIDDEN);
+		return (new Response($request))->render(ResponseCode::FORBIDDEN);
 	}
 }
