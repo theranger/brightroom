@@ -32,7 +32,7 @@ class Image extends Controller {
 				$folders = $this->fileSystemHandler->getFolderArray(dirname($request->getURL()));
 				new UI($this->settings, $this->session);
 				new UIFolder($folders);
-				return $response->render(ResponseType::OK, "themes/".$this->settings->theme."/single.php");
+				return $response->render(ResponseType::OK, "themes/".$this->settings->theme."/image.php");
 		}
 
 		error_log($request->getURL() . ": Invalid request");
