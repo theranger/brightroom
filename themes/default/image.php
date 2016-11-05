@@ -8,7 +8,7 @@
 			<?php UIFolder::PrintFolders() ?>
 		</div>
 		<div class="sfg-main">
-			<img src="/capri.jpg" alt="Test image" />
+			<img src="<?php echo $_SERVER['PHP_SELF']; ?>" alt="Test image" />
 		</div>
 	</body>
 </html>
