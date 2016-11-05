@@ -8,7 +8,11 @@
 			<?php UIFolder::PrintFolders() ?>
 		</div>
 		<div class="sfg-main">
-			<?php UIFolder::PrintFiles() ?>
+			<?php
+				foreach (UIFolder::getItems() as &$item) {
+					echo '<img src="'.$item["link"].'?thumbnail=true" alt="'.$item["name"].'" />';
+				}
+			?>
 		</div>
 	</body>
 </html>

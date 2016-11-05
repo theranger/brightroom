@@ -12,6 +12,10 @@ class UIFolder {
 		self::$items = $items;
 	}
 
+	public static function getItems(): array {
+		return self::$items;
+	}
+
 	public static function PrintTree() {
 		if (empty(self::$items)) return;
 
