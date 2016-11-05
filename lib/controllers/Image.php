@@ -57,7 +57,7 @@ class Image extends Controller {
 
 		// Thumbnail was requested
 		$imageHandler = new ImageHandler($request->getAcceptedType(), $this->settings, $this->file);
-		$imageHandler->resizeImage($request->getURL(), $this->settings->thumbnailSize, 0);
+		$imageHandler->resizeImage($this->settings->thumbnailSize, 0);
 		return $response;
 	}
 }

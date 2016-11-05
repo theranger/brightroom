@@ -25,20 +25,20 @@ class ImageHandler {
 		}
 	}
 
-	public function resizeImage(string $path, int $size, int $orientation) {
+	public function resizeImage(int $size, int $orientation) {
 		if (!$this->imageRenderer) return;
 
 		$cachedImgPath = NULL;
 		$cache = NULL;
-		$cachedImgName = $size . '_' . basename($path);
+		$cachedImgName = $size . '_' . basename($this->file->getPath());
 
 		if (!empty($this->settings->cacheFolder)) {
 			$cache = new ImageCache($this->file->getFolder()->getPath(), $this->settings->cacheFolder);
 			if (!$cache->exists()) return;
 
 			if ($cache->inCache($cachedImgName)) {
-				$imagestat = stat($path);
-				$cachestat = stat(dirname($path) . '/' . $this->settings->cacheFolder . '/' . $cachedImgName);
+				$imagestat = stat($this->file->getPath());
+				$cachestat = stat(dirname($this->file->getPath()) . '/' . $this->settings->cacheFolder . '/' . $cachedImgName);
 
 				if ($imagestat['mtime'] < $cachestat['mtime']) {
 					$cache->read($cachedImgName);
@@ -47,13 +47,13 @@ class ImageHandler {
 
 				//If we are here, original image mtime was newer than cached image mtime
 				//Invalidate stale cache
-				$cache->invalidateImage('*_' . basename($path));
+				$cache->invalidateImage('*_' . basename($this->file->getPath()));
 			}
 
 			$cachedImgPath = $cache->getImagePath($cachedImgName);
 		}
 
-		$orig = $this->imageRenderer->loadFile($path);
+		$orig = $this->imageRenderer->loadFile($this->file->getPath());
 		if ($orientation != 0) $orig = imagerotate($orig, $orientation, 0);
 
 		$origH = imagesx($orig);
