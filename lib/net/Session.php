@@ -5,12 +5,12 @@ include_once "io/File.php";
 class Session {
 
 	private $userName;
-	private $fileSystemHandler;
+	private $folder;
 	private $settings;
 	private $cachedPath = array();
 
-	public function __construct(FileSystemHandler &$fileSystemHandler, Settings &$settings) {
-		$this->fileSystemHandler = $fileSystemHandler;
+	public function __construct(Folder $folder, Settings $settings) {
+		$this->folder = $folder;
 		$this->settings = $settings;
 		$this->init();
 	}
@@ -18,8 +18,8 @@ class Session {
 	public function authenticate(string $user, string $password): bool {
 		if(empty($user) || empty($password)) return false;
 
-		$passwordFile = new File($this->fileSystemHandler);
-		$passwordFile->open($this->settings->passwordFile);
+		$passwordFile = new File($this->folder, $this->settings->passwordFile);
+		if (!$passwordFile->open()) return true;
 
 		$token = $user.":{SHA}".base64_encode(sha1($password, true));
 
@@ -49,7 +49,7 @@ class Session {
 			return false;
 		}
 
-		$accessFile = new File($this->fileSystemHandler);
+		$accessFile = new File($this->folder, $path . "/" . $this->settings->accessFile);
 		if($accessFile->open($path.'/'.$this->settings->accessFile) == false) {
 			$this->cachedPath[$path] = true;
 			return $this->authorize(substr($path, 0, strrpos($path,"/")));

@@ -8,11 +8,11 @@ include_once "Controller.php";
  */
 class Text extends Controller {
 
-	private $fileSystemHandler;
+	private $file;
 
-	public function __construct(Session $session, Settings $settings, FileSystemHandler $fileSystemHandler) {
+	public function __construct(Session $session, Settings $settings, File $file) {
 		parent::__construct($session, $settings);
-		$this->fileSystemHandler = $fileSystemHandler;
+		$this->file = $file;
 	}
 
 	public function get(Request $request): Response {
@@ -23,7 +23,7 @@ class Text extends Controller {
 		}
 
 		$response->asType(ResponseCode::OK, $request->getAcceptedType());
-		$this->fileSystemHandler->getFile($request->getURL());
+		$this->file->read();
 		return $response;
 	}
 }

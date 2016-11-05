@@ -6,13 +6,13 @@ include_once "Controller.php";
  * Created by The Ranger (ranger@risk.ee) on 2016-10-14
  *
  */
-class Folder extends Controller {
+class Collection extends Controller {
 
-	private $fileSystemHandler;
+	private $folder;
 
-	public function __construct(Session $session, Settings $settings, FileSystemHandler $fileSystemHandler) {
+	public function __construct(Session $session, Settings $settings, Folder $folder) {
 		parent::__construct($session, $settings);
-		$this->fileSystemHandler = $fileSystemHandler;
+		$this->folder = $folder;
 	}
 
 
@@ -23,7 +23,7 @@ class Folder extends Controller {
 			return $response->render(ResponseCode::UNAUTHORIZED);
 		}
 
-		$folders = $this->fileSystemHandler->getContents($request->getURL());
+		$folders = $this->folder->getContents();
 
 		switch($request->getAcceptedType()) {
 			case ContentType::JSON:

@@ -6,7 +6,6 @@ include_once "config.php";
 include_once "Settings.php";
 include_once "net/Request.php";
 include_once "net/Router.php";
-include_once "io/FileSystemHandler.php";
 
 $cwd = getcwd();
 chdir(dirname(__FILE__));

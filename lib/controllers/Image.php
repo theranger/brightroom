@@ -1,6 +1,7 @@
 <?php
 
 include_once "Controller.php";
+include_once "io/File.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-11-02
@@ -8,11 +9,11 @@ include_once "Controller.php";
  */
 class Image extends Controller {
 
-	private $fileSystemHandler;
+	private $file;
 
-	public function __construct(Session $session, Settings $settings, FileSystemHandler $fileSystemHandler) {
+	public function __construct(Session $session, Settings $settings, File $file) {
 		parent::__construct($session, $settings);
-		$this->fileSystemHandler = $fileSystemHandler;
+		$this->file = $file;
 	}
 
 	public function get(Request $request): Response {
@@ -28,7 +29,7 @@ class Image extends Controller {
 				return $this->handleImage($request, $response);
 
 			case ContentType::HTML:
-				$folders = $this->fileSystemHandler->getContents(dirname($request->getURL()));
+				$folders = $this->file->getFolder()->getContents();
 				new UI($this->settings, $this->session);
 				new UIFolder($folders);
 				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/image.php");
@@ -42,7 +43,7 @@ class Image extends Controller {
 		switch ($request->getRequestType()) {
 			case RequestType::IMAGE_FILE:
 				$response->asType(ResponseCode::OK, $request->getAcceptedType());
-				$this->fileSystemHandler->getFile($request->getURL());
+				$this->file->read();
 				return $response;
 
 			case RequestType::THUMBNAIL_FILE:

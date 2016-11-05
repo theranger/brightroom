@@ -12,6 +12,7 @@ abstract class ContentType {
 	const JPEG			= "image/jpeg";
 	const PNG			= "image/png";
 	const CSS			= "text/css";
+	const OCTETSTREAM	= "application/octet-stream";
 	const ANY			= "*/*";
 
 	private static $supportedTypes = array(

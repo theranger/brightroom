@@ -9,10 +9,11 @@ class ImageHandler {
 
 	private $imageRenderer;
 	private $settings;
+	private $fileSystemHandler;
 
-	public function __construct(string $mimeType, Settings $settings) {
-	public function __construct(string $mimeType, Settings $settings) {
+	public function __construct(string $mimeType, Settings $settings, FileSystemHandler $fileSystemHandler) {
 		$this->settings = $settings;
+		$this->fileSystemHandler = $fileSystemHandler;
 
 		switch($mimeType) {
 			case ContentType::JPEG:

@@ -2,7 +2,7 @@
 
 include_once "Request.php";
 include_once "Response.php";
-include_once "controllers/Folder.php";
+include_once "controllers/Collection.php";
 include_once "controllers/Image.php";
 include_once "controllers/Text.php";
 
@@ -25,13 +25,12 @@ class Router {
 			die();
 		}
 
+		$fileSystem = new FileSystem($this->settings->dataDirectory, $request->getURL());
+
 		switch($request->getRequestType()) {
 			case RequestType::UNKNOWN:
-				$fileSystemHandler = new FileSystemHandler($this->settings->dataDirectory);
-				$request->updateType($fileSystemHandler);
-				if ($request->getRequestType() != RequestType::UNKNOWN) return $this->route($request);
-				error_log($request->getURL().": Unknown request type");
-				return (new Response($request))->render(ResponseCode::BAD_REQUEST);
+				$request->elaborateType($fileSystem);
+				return $this->route($request);
 
 			case RequestType::INVALID:
 				error_log($request->getURL().": Requested file not found");
@@ -39,25 +38,33 @@ class Router {
 
 			case RequestType::IMAGE_FILE:
 			case RequestType::THUMBNAIL_FILE:
-				$fileSystemHandler = new FileSystemHandler($this->settings->dataDirectory);
-				$session = new Session($fileSystemHandler, $this->settings);
-				$imageController = new Image($session, $this->settings, $fileSystemHandler);
+				$file = $fileSystem->createFile();
+				if ($file == null) $this->renderResponse($request, ResponseCode::BAD_REQUEST);
+
+				$session = new Session($file->getFolder(), $this->settings);
+				$imageController = new Image($session, $this->settings, $file);
 				return $imageController->get($request);
 
 			case RequestType::IMAGE_FOLDER:
-				$fileSystemHandler = new FileSystemHandler($this->settings->dataDirectory);
-				$session = new Session($fileSystemHandler, $this->settings);
-				$folderController = new Folder($session, $this->settings, $fileSystemHandler);
-				return $folderController->listing($request);
+				$folder = $fileSystem->createFolder();
+				$session = new Session($folder, $this->settings);
+				$collectionController = new Collection($session, $this->settings, $folder);
+				return $collectionController->listing($request);
 
 			case RequestType::THEME_FILE:
-				$fileSystemHandler = new FileSystemHandler(getcwd());
-				$session = new Session($fileSystemHandler, $this->settings);
-				$fileController = new Text($session, $this->settings, $fileSystemHandler);
+				$file = (new FileSystem(getcwd(), $request->getURL()))->createFile();
+				if ($file == null) return $this->renderResponse($request, ResponseCode::BAD_REQUEST);
+
+				$session = new Session($file->getFolder(), $this->settings);
+				$fileController = new Text($session, $this->settings, $file);
 				return $fileController->get($request);
 		}
 
 		error_log($request->getURL().": Access denied");
-		return (new Response($request))->render(ResponseCode::FORBIDDEN);
+		return $this->renderResponse($request, ResponseCode::FORBIDDEN);
+	}
+
+	private function renderResponse(Request $request, int $responseCode): Response {
+		return (new Response($request))->render($responseCode);
 	}
 }

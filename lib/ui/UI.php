@@ -20,8 +20,8 @@ class UI {
 		return UIAuth::class;
 	}
 
-	public static function Folder(): Folder {
-		return Folder::class;
+	public static function Folder(): Collection {
+		return Collection::class;
 	}
 
 	public static function PrintThemeUrl() {

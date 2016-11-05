@@ -40,23 +40,20 @@ class Request {
 		return isset($_SERVER["HTTPS"]);
 	}
 
-	public function updateType(FileSystemHandler $fileSystemHandler) {
-		if ($fileSystemHandler->isDirectory($this->urlParser->getURL())) {
+	public function elaborateType(FileSystem $fileSystem) {
+		if ($this->requestType != RequestType::UNKNOWN) return;
+
+		if ($fileSystem->isDirectory()) {
 			$this->requestType = RequestType::IMAGE_FOLDER;
 			return;
 		}
 
-		if (!$fileSystemHandler->exists($this->urlParser->getURL())) {
-			$this->requestType = RequestType::INVALID;
+		if ($fileSystem->isFile()) {
+			$this->requestType = RequestType::IMAGE_FILE;
 			return;
 		}
 
-		if (isset($_GET["thumbnail"]) && $_GET["thumbnail"] == true) {
-			$this->requestType = RequestType::THUMBNAIL_FILE;
-			return;
-		}
-
-		$this->requestType = RequestType::IMAGE_FILE;
+		$this->requestType = RequestType::INVALID;
 	}
 
 	private function parseRequest() {
@@ -65,6 +62,11 @@ class Request {
 
 		if (strpos($this->urlParser->getURL(), trim($this->settings->getThemePrefix(), "/")) === 0) {
 			$this->requestType = RequestType::THEME_FILE;
+			return;
+		}
+
+		if (isset($_GET["thumbnail"]) && $_GET["thumbnail"] == true) {
+			$this->requestType = RequestType::THUMBNAIL_FILE;
 			return;
 		}
 
