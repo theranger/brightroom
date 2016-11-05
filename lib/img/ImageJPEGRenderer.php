@@ -6,7 +6,7 @@ class ImageJPEGRenderer implements ImageRenderer {
 
 	private $img;
 
-	public function loadFile(string $path): resource {
+	public function loadFile(string $path) {
 		$this->img = imagecreatefromjpeg($path);
 		return $this->img;
 	}
@@ -18,11 +18,11 @@ class ImageJPEGRenderer implements ImageRenderer {
 		imagedestroy($this->img);
 	}
 
-	public function getHandle(): resource {
+	public function getHandle() {
 		return $this->img;
 	}
 
-	public function setHandle(resource $img) {
+	public function setHandle($img) {
 		imagedestroy($this->img);
 		$this->img = $img;
 	}

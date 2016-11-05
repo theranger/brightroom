@@ -5,8 +5,8 @@
  *
  */
 interface ImageRenderer {
-	public function loadFile(string $path): resource;
+	public function loadFile(string $path);
 	public function outputImage(string $fileName);
-	public function getHandle(): resource;
-	public function setHandle(resource $img);
+	public function getHandle();
+	public function setHandle($img);
 }
