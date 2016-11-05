@@ -22,7 +22,7 @@ class Router {
 	}
 
 	public function route(Request $request): Response {
-		if($this->settings->forceHTTPS == true && !isset($_SERVER["HTTPS"])) {
+		if($this->settings->forceHTTPS == true && !$request->isSecure()) {
 			error_log($request->getURL().": Secure connection forced, redirecting to HTTPS");
 			header("Location: https://" . $request->getURL());
 			die();
