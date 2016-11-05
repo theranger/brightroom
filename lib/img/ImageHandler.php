@@ -3,6 +3,7 @@
 include_once "ImageJPEGRenderer.php";
 include_once "ImagePNGRenderer.php";
 include_once "io/ImageCache.php";
+include_once "net/ContentType.php";
 
 class ImageHandler {
 
@@ -10,13 +11,14 @@ class ImageHandler {
 	private $settings;
 
 	public function __construct(string $mimeType, Settings $settings) {
+	public function __construct(string $mimeType, Settings $settings) {
 		$this->settings = $settings;
 
 		switch($mimeType) {
-			case "image/jpeg":
+			case ContentType::JPEG:
 				$this->imageRenderer = new ImageJPEGRenderer();
 				break;
-			case "image/png":
+			case ContentType::PNG:
 				$this->imageRenderer = new ImagePNGRenderer();
 				break;
 		}
