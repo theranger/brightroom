@@ -4,8 +4,8 @@ include_once "Folder.php";
 
 class ImageCache extends Folder {
 
-	public function __construct($path) {
-		parent::__construct($path);
+	public function __construct(string $base, string $location) {
+		parent::__construct($base, $location);
 		if (!$this->exists()) $this->create(0775);
 	}
 

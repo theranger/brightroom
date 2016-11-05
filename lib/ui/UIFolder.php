@@ -10,14 +10,14 @@ class UIFolder {
 
 	/**
 	 * UIFolder constructor.
-	 * @param File[] $items
+	 * @param DirectoryEntry[] $items
 	 */
 	public function __construct(array &$items) {
 		self::$items = $items;
 	}
 
 	/**
-	 * @return File[]
+	 * @return DirectoryEntry[]
 	 */
 	public static function getItems(): array {
 		return self::$items;
@@ -28,7 +28,7 @@ class UIFolder {
 
 		print '<ul class="sfg-tree">';
 		foreach(self::$items as &$item) {
-			print '<li><a href="'.$item->getPath().'">'.$item->getName().'</a></li>';
+			print '<li><a href="'.$item->getURL().'">'.$item->getName().'</a></li>';
 		}
 		print '</ul>';
 	}
@@ -39,7 +39,7 @@ class UIFolder {
 		print '<ul class="sfg-tree">';
 		foreach(self::$items as &$item) {
 			if(!$item->getType() == "directory") continue;
-			print '<li><a href="'.$item->getPath().'">'.$item->getName().'</a></li>';
+			print '<li><a href="'.$item->getURL().'">'.$item->getName().'</a></li>';
 		}
 		print '</ul>';
 	}
@@ -50,7 +50,7 @@ class UIFolder {
 		print '<ul class="sfg-tree">';
 		foreach(self::$items as &$item) {
 			if($item->getType() == "directory") continue;
-			print '<li><a href="'.$item->getPath().'">'.$item->getName().'</a></li>';
+			print '<li><a href="'.$item->getURL().'">'.$item->getName().'</a></li>';
 		}
 		print '</ul>';
 	}

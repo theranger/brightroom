@@ -6,20 +6,24 @@
  */
 class FileSystem {
 
+	private $base;
+	private $url;
 	private $path;
 
-	public function __construct(string $base, string $path) {
-		$this->path = $base . "/" . $path;
+	public function __construct(string $base, string $url) {
+		$this->base = $base;
+		$this->url = $url;
+		$this->path = $base . "/" . $url;
 	}
 
 	public function createFolder(): Folder {
 		if (!is_dir($this->path)) return null;
-		return new Folder($this->path);
+		return new Folder($this->base, $this->url);
 	}
 
 	public function createFile(): File {
 		if (!is_file($this->path)) return null;
-		return new File(new Folder(dirname($this->path)), basename($this->path));
+		return new File(new Folder($this->base, dirname($this->url)), basename($this->path));
 	}
 
 	public function isDirectory(): bool {

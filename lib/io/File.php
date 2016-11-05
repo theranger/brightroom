@@ -6,7 +6,6 @@ class File {
 	private $folder;
 	private $path;
 	private $fh = null;
-	private $type = null;
 
 	public function __construct(Folder $folder, string $name) {
 		$this->folder = $folder;
@@ -74,17 +73,6 @@ class File {
 		fclose($fp);
 
 		return $ret !== false;
-	}
-
-	public function getType(): string {
-		if ($this->type !== null) return $this->type;
-
-		$fileInfo = @finfo_open(FILEINFO_MIME_TYPE);
-		$this->type = @finfo_file($fileInfo, $this->path);
-		finfo_close($fileInfo);
-
-		if ($this->type === FALSE || empty($this->type)) return ContentType::OCTETSTREAM;
-		return $this->type;
 	}
 
 	public function load(): string {

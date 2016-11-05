@@ -33,7 +33,7 @@ class ImageHandler {
 		$cachedImgName = $size . '_' . basename($path);
 
 		if (!empty($this->settings->cacheFolder)) {
-			$cache = new ImageCache($this->file->getFolder()->getPath() . "/" . $this->settings->cacheFolder);
+			$cache = new ImageCache($this->file->getFolder()->getPath(), $this->settings->cacheFolder);
 			if (!$cache->exists()) return;
 
 			if ($cache->inCache($cachedImgName)) {
@@ -80,7 +80,7 @@ class ImageHandler {
 		$cachedImgName = $bdgH . '_Badge.jpg';
 
 		if (!empty($this->settings->cacheFolder)) {
-			$cache = new ImageCache($this->file->getPath(). '/' . $this->settings->cacheFolder);
+			$cache = new ImageCache($this->file->getPath(), $this->settings->cacheFolder);
 			if (!$cache->exists()) return;
 
 			if ($cache->inCache($cachedImgName)) {

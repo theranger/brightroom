@@ -1,17 +1,14 @@
 <?php
 
+include_once "DirectoryEntry.php";
+
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-11-05
  *
  */
-class Folder {
+class Folder extends DirectoryEntry {
 
-	private $path;
 	private $cachedContents = array();
-
-	public function __construct(string $path) {
-		$this->path = $path[0] == "/" ? $path : getcwd() . "/" . $path;
-	}
 
 	public function getPath(): string {
 		return $this->path;
@@ -22,7 +19,7 @@ class Folder {
 	}
 
 	/**
-	 * @return File[]
+	 * @return DirectoryEntry[]
 	 */
 	public function getContents(): array {
 		//If we are accessing the same URL, show cached results
@@ -34,7 +31,7 @@ class Folder {
 		while (($entry = readdir($dh)) !== false) {
 			if ($entry[0] == '.') continue;
 
-			$file = new File($this, $entry);
+			$file = new DirectoryEntry($this->base, $this->url. "/". $entry);
 			$this->cachedContents[] = $file;
 		}
 
@@ -58,7 +55,7 @@ class Folder {
 		while (($entry = readdir($dh)) !== false) {
 			if ($entry == '.' || $entry == '..') continue;
 			if (is_dir($this->path . "/" . $entry)) {
-				(new Folder($this->path . "/" . $entry))->remove();
+				(new Folder($this->path, $entry))->remove();
 				continue;
 			}
 
