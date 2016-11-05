@@ -46,9 +46,9 @@ class Response {
 		return $this;
 	}
 
-	public function asJpeg(int $responseCode): Response {
+	public function asType(int $responseCode, string $contentType): Response {
 		http_response_code($responseCode);
-		header("Content-Type: " . ContentType::JPEG);
+		header("Content-Type: " . $contentType);
 		return $this;
 	}
 }

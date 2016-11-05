@@ -12,9 +12,8 @@ $cwd = getcwd();
 chdir(dirname(__FILE__));
 
 $settings = new Settings($GLOBALS["settings"]);
-$fileSystemHandler = new FileSystemHandler($settings->dataDirectory);
-$router = new Router($settings, $fileSystemHandler);
-$request = new Request($_SERVER["REQUEST_URI"], $settings, $fileSystemHandler);
+$router = new Router($settings);
+$request = new Request($_SERVER["REQUEST_URI"], $settings);
 
 $router->route($request);
 chdir($cwd);

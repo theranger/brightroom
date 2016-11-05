@@ -13,4 +13,5 @@ abstract class RequestType {
 	const PASSWORD_FILE		= 4;
 	const ACCESS_FILE		= 5;
 	const VETO_FILE			= 6;
+	const THEME_FILE		= 7;
 }

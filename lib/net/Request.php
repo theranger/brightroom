@@ -17,10 +17,8 @@ class Request {
 	private $settings;
 	private $requestType = RequestType::UNKNOWN;
 	private $acceptedType = ContentType::PLAIN;
-	private $fileSystemHandler;
 
-	public function __construct(string $url, Settings $settings, FileSystemHandler $fileSystemHandler) {
-		$this->fileSystemHandler = $fileSystemHandler;
+	public function __construct(string $url, Settings $settings) {
 		$this->urlParser = new URLParser($url, $settings);
 		$this->settings = $settings;
 		$this->parseRequest();
@@ -42,12 +40,26 @@ class Request {
 		return isset($_SERVER["HTTPS"]);
 	}
 
+	public function updateType(FileSystemHandler $fileSystemHandler) {
+		if ($fileSystemHandler->isDirectory($this->urlParser->getURL())) {
+			$this->requestType = RequestType::IMAGE_FOLDER;
+			return;
+		}
+
+		if (!$fileSystemHandler->exists($this->urlParser->getURL())) {
+			$this->requestType = RequestType::INVALID;
+			return;
+		}
+
+		$this->requestType = RequestType::IMAGE_FILE;
+	}
+
 	private function parseRequest() {
 		$this->acceptedType = ContentType::parseAcceptHeader($_SERVER["HTTP_ACCEPT"]);
 		if ($this->acceptedType == ContentType::ANY) $this->acceptedType = ContentType::parseExtension($this->urlParser->getResourceName());
 
-		if ($this->fileSystemHandler->isDirectory($this->urlParser->getURL())) {
-			$this->requestType = RequestType::IMAGE_FOLDER;
+		if (strpos($this->urlParser->getURL(), $this->settings->getThemePrefix()) === 0) {
+			$this->requestType = RequestType::THEME_FILE;
 			return;
 		}
 
@@ -68,12 +80,5 @@ class Request {
 			$this->requestType = RequestType::VETO_FILE;
 			return;
 		}
-
-		if (!$this->fileSystemHandler->exists($this->urlParser->getURL())) {
-			$this->requestType = RequestType::INVALID;
-			return;
-		}
-
-		$this->requestType = RequestType::IMAGE_FILE;
 	}
 }
