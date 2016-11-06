@@ -31,8 +31,15 @@ class Folder extends DirectoryEntry {
 		while (($entry = readdir($dh)) !== false) {
 			if ($entry[0] == '.') continue;
 
-			$file = new DirectoryEntry($this->base, $this->url. "/". $entry);
-			$this->cachedContents[] = $file;
+			if (is_dir($this->path . "/" . $entry)) {
+				$this->cachedContents[] = new Folder($this->base, $this->url. "/". $entry);
+				continue;
+			}
+
+			if (is_file($this->path . "/" . $entry)) {
+				$this->cachedContents[] = new File($this, $entry);
+				continue;
+			}
 		}
 
 		closedir($dh);

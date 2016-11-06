@@ -1,24 +1,19 @@
 <?php
 
-class File {
+include_once "DirectoryEntry.php";
 
-	private $name;
+class File extends DirectoryEntry {
+
 	private $folder;
-	private $path;
 	private $fh = null;
 
 	public function __construct(Folder $folder, string $name) {
+		parent::__construct($folder->getBase(), $folder->getURL() . "/" . $name);
 		$this->folder = $folder;
-		$this->name = $name;
-		$this->path = $folder->getPath() . "/" . $name;
 	}
 
 	public function getPath(): string {
 		return $this->path;
-	}
-
-	public function getName(): string {
-		return $this->name;
 	}
 
 	public function getFolder(): Folder {

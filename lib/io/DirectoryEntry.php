@@ -4,7 +4,7 @@
  * Created by The Ranger (ranger@risk.ee) on 2016-11-06
  *
  */
-class DirectoryEntry {
+abstract class DirectoryEntry {
 
 	protected $base;
 	protected $url;
@@ -34,6 +34,10 @@ class DirectoryEntry {
 
 	public function isFile(): bool {
 		return is_file($this->path);
+	}
+
+	protected function getBase(): string {
+		return $this->base;
 	}
 
 	public function getType(): string {
