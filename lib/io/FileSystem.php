@@ -1,5 +1,8 @@
 <?php
 
+include_once "Folder.php";
+include_once "File.php";
+
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-11-05
  *
