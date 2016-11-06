@@ -59,7 +59,7 @@ class Request {
 		$this->acceptedType = ContentType::parseAcceptHeader($_SERVER["HTTP_ACCEPT"]);
 		if ($this->acceptedType == ContentType::ANY) $this->acceptedType = ContentType::parseExtension($this->urlParser->getResourceName());
 
-		if (strpos($this->urlParser->getURL(), trim($this->settings->getThemePrefix(), "/")) === 0) {
+		if (strpos($this->urlParser->getURL(), $this->settings->getThemePrefix()) === 0) {
 			$this->requestType = RequestType::THEME_FILE;
 			return;
 		}

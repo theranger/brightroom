@@ -2,7 +2,7 @@
 
 class URLParser {
 
-	private static $urlPatterns = array('/index\.php/','/\w+\/\.\.\//');
+	private static $urlPatterns = array('/index\.php\/?/','/\w+\/\.\.\//');
 
 	private $settings;
 	private $url;
@@ -18,7 +18,8 @@ class URLParser {
 			$url = substr($url, strlen($this->settings->documentRoot));
 		}
 
-		$this->url = trim($url, "/");
+		// Do not trim the beginning of URL since it is absolute path
+		$this->url = rtrim($url, "/");
 	}
 
 	public function getURL(): string {
