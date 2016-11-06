@@ -1,7 +1,7 @@
 <?php
 
 include_once "UIAuth.php";
-include_once "UIFolder.php";
+include_once "UICollection.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-14

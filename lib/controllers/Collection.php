@@ -1,6 +1,8 @@
 <?php
 
 include_once "Controller.php";
+include_once "ui/UICollection.php";
+include_once "ui/UI.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-14
@@ -34,7 +36,7 @@ class Collection extends Controller {
 
 			case ContentType::HTML:
 				new UI($this->settings, $this->session);
-				new UIFolder($folders);
+				new UICollection($folders);
 				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/collection.php");
 		}
 

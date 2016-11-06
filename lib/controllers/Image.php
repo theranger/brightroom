@@ -2,6 +2,8 @@
 
 include_once "Controller.php";
 include_once "io/File.php";
+include_once "ui/UI.php";
+include_once "ui/UICollection.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-11-02
@@ -31,7 +33,7 @@ class Image extends Controller {
 			case ContentType::HTML:
 				$folders = $this->file->getFolder()->getContents();
 				new UI($this->settings, $this->session);
-				new UIFolder($folders);
+				new UICollection($folders);
 				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/image.php");
 		}
 

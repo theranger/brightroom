@@ -4,7 +4,7 @@
  * Created by The Ranger (ranger@risk.ee) on 2016-10-14
  *
  */
-class UIFolder {
+class UICollection {
 
 	private static $items;
 
