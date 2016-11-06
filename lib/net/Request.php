@@ -2,7 +2,6 @@
 
 include_once "Session.php";
 include_once "URLParser.php";
-include_once "Layout.php";
 include_once "RequestType.php";
 include_once "ContentType.php";
 

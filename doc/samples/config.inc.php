@@ -31,7 +31,7 @@ define("GALLERY_URL", "http://pics.chimera/photos/sfg");
 
 /**
  * URL prefix if content will not be displayed from web root directory
- * 
+ *
  * Must begin with /. Comment out if content is in web root.
  */
 
@@ -154,12 +154,9 @@ define("SALT", "asdlfkjcv+04sz=)sadlkfdsxcmsdf0+=)(efdksdc+02,LKO");
 
 /**
  * Theme
- * 
+ *
  * Specify custom theme. Name indicates a subfolder in a theme/ directory.
- * 
+ *
  * Default value: default
  */
 define("THEME", "embed");
-
-
-?>

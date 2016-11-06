@@ -28,6 +28,10 @@ abstract class DirectoryEntry {
 		return $this->name;
 	}
 
+	public function getPath(): string {
+		return $this->path;
+	}
+
 	public function isDirectory(): bool {
 		return is_dir($this->path);
 	}

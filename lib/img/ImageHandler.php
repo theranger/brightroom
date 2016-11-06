@@ -72,7 +72,7 @@ class ImageHandler {
 		if ($cache != NULL) $cache->read($cachedImgName);
 	}
 
-	public function assembleImage(string $directoryURL, int $bdgH, string $defaultImage) {
+	public function assembleImage(int $bdgH, string $defaultImage) {
 		if (!$this->imageRenderer) return;
 
 		$cachedImgPath = NULL;
