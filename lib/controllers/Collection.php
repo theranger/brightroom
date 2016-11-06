@@ -35,7 +35,7 @@ class Collection extends Controller {
 			case ContentType::HTML:
 				new UI($this->settings, $this->session);
 				new UIFolder($folders);
-				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/listing.php");
+				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/collection.php");
 		}
 
 		return $response->render(ResponseCode::BAD_REQUEST);
