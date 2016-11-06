@@ -11,7 +11,7 @@
 			<?php
 				foreach (UIFolder::getItems() as &$item) {
 					if ($item->isDirectory()) continue;
-					echo '<img src="'.$item->getURL().'?thumbnail=true" alt="'.$item->getName().'" />';
+					echo '<a href="'.$item->getURL().'"><img src="'.$item->getURL().'?thumbnail=true" alt="'.$item->getName().'" /></a>';
 				}
 			?>
 		</div>
