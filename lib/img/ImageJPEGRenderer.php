@@ -12,8 +12,6 @@ class ImageJPEGRenderer implements ImageRenderer {
 	}
 
 	public function outputImage(string $fileName) {
-		if ($fileName != NULL) header('Content-Type: image/jpeg');
-
 		imagejpeg($this->img, $fileName);
 		imagedestroy($this->img);
 	}
