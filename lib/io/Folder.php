@@ -37,7 +37,7 @@ class Folder extends DirectoryEntry {
 
 		closedir($dh);
 
-		//usort($this->cachedContents, array($this, "sortDirectories"));
+		usort($this->cachedContents, array($this, "sortDirectories"));
 		return $this->cachedContents;
 	}
 
@@ -69,10 +69,10 @@ class Folder extends DirectoryEntry {
 		return rmdir($this->path);
 	}
 
-	private function sortDirectories(array $a, array $b): int {
-		if ($a["type"] == $b["type"]) return strcasecmp($a["name"], $b["name"]);
-		if ($a["type"] == "directory") return -1;
-		if ($b["type"] == "directory") return 1;
+	private function sortDirectories(DirectoryEntry $a, DirectoryEntry $b): int {
+		if ($a->isDirectory() && $b->isDirectory()) return strcasecmp($a->getName(), $b->getName());
+		if ($a->isDirectory()) return -1;
+		if ($b->isDirectory()) return 1;
 
 		return 0;
 	}
