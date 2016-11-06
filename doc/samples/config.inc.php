@@ -2,7 +2,7 @@
 
 // General configuration file
 // Check if some configuration is already loaded.
-if(defined("DATA_DIR")) return;
+if (defined("DATA_DIR")) return;
 
 /**
  * Directory where your image files are located

@@ -1,6 +1,6 @@
 <?php
 
-set_include_path(dirname(__FILE__)."/lib");
+set_include_path(dirname(__FILE__) . "/lib");
 
 include_once "config.php";
 include_once "Settings.php";

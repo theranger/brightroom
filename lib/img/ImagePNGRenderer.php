@@ -12,7 +12,7 @@ class ImagePNGRenderer implements ImageRenderer {
 	}
 
 	public function outputImage(string $fileName) {
-		if($fileName != NULL) header('Content-Type: image/png');
+		if ($fileName != NULL) header('Content-Type: image/png');
 
 		imagepng($this->img, $fileName);
 		imagedestroy($this->img);

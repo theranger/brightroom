@@ -5,7 +5,7 @@
 	<?php
 	foreach (UICollection::getItems() as &$item) {
 		if ($item->isDirectory()) continue;
-		echo '<a href="'.$item->getURL().'"><img src="'.$item->getURL().'?thumbnail=true" alt="'.$item->getName().'" /></a>';
+		echo '<a href="' . $item->getURL() . '"><img src="' . $item->getURL() . '?thumbnail=true" alt="' . $item->getName() . '" /></a>';
 	}
 	?>
 </div>

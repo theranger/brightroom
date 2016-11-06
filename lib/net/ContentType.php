@@ -39,7 +39,7 @@ abstract class ContentType {
 		if ($dot === false) return ContentType::ANY;
 
 		$extension = strtolower(substr($fileName, $dot));
-		switch($extension) {
+		switch ($extension) {
 			case ".jpg":
 			case ".jpeg":
 				return ContentType::JPEG;

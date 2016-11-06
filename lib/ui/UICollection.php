@@ -27,8 +27,8 @@ class UICollection {
 		if (empty(self::$items)) return;
 
 		print '<ul class="sfg-tree">';
-		foreach(self::$items as &$item) {
-			print '<li><a href="'.$item->getURL().'">'.$item->getName().'</a></li>';
+		foreach (self::$items as &$item) {
+			print '<li><a href="' . $item->getURL() . '">' . $item->getName() . '</a></li>';
 		}
 		print '</ul>';
 	}
@@ -37,9 +37,9 @@ class UICollection {
 		if (empty(self::$items)) return;
 
 		print '<ul class="sfg-tree">';
-		foreach(self::$items as &$item) {
-			if($item->isFile()) continue;
-			print '<li><a href="'.$item->getURL().'">'.$item->getName().'</a></li>';
+		foreach (self::$items as &$item) {
+			if ($item->isFile()) continue;
+			print '<li><a href="' . $item->getURL() . '">' . $item->getName() . '</a></li>';
 		}
 		print '</ul>';
 	}
@@ -48,9 +48,9 @@ class UICollection {
 		if (empty(self::$items)) return;
 
 		print '<ul class="sfg-tree">';
-		foreach(self::$items as &$item) {
-			if($item->isDirectory()) continue;
-			print '<li><a href="'.$item->getURL().'">'.$item->getName().'</a></li>';
+		foreach (self::$items as &$item) {
+			if ($item->isDirectory()) continue;
+			print '<li><a href="' . $item->getURL() . '">' . $item->getName() . '</a></li>';
 		}
 		print '</ul>';
 	}

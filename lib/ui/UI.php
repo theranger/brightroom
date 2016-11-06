@@ -25,15 +25,15 @@ class UI {
 	}
 
 	public static function PrintThemeUrl() {
-		print self::$settings->getThemePrefix().'/'.self::$settings->theme;
+		print self::$settings->getThemePrefix() . '/' . self::$settings->theme;
 	}
 
 	public static function PrintHeader() { ?>
 		<title>Simple Folder Gallery</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="author" content="The Ranger (ranger.risk.ee)" />
-		<meta name="description" content="My photo site provided by simple folder based gallery engine" />
-		<meta name="generator" content="Simple Folder Gallery <?php self::$settings->version ?>" />
-		<link rel="stylesheet" type="text/css" href="<?php self::PrintThemeUrl() ?>/style.css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta name="author" content="The Ranger (ranger.risk.ee)"/>
+		<meta name="description" content="My photo site provided by simple folder based gallery engine"/>
+		<meta name="generator" content="Simple Folder Gallery <?php self::$settings->version ?>"/>
+		<link rel="stylesheet" type="text/css" href="<?php self::PrintThemeUrl() ?>/style.css"/>
 	<?php }
 }

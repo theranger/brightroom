@@ -26,7 +26,7 @@ class Image extends Controller {
 			return $response->render(ResponseCode::UNAUTHORIZED);
 		}
 
-		switch($request->getAcceptedType()) {
+		switch ($request->getAcceptedType()) {
 			case ContentType::PNG:
 			case ContentType::JPEG:
 				return $this->handleImage($request, $response);
@@ -35,7 +35,7 @@ class Image extends Controller {
 				$folders = $this->file->getFolder()->getContents();
 				new UI($this->settings, $this->session);
 				new UICollection($folders);
-				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/image.php");
+				return $response->render(ResponseCode::OK, "themes/" . $this->settings->theme . "/image.php");
 		}
 
 		error_log($request->getURL() . ": Invalid request");

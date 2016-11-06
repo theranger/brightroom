@@ -27,7 +27,7 @@ class Collection extends Controller {
 
 		$folders = $this->folder->getContents();
 
-		switch($request->getAcceptedType()) {
+		switch ($request->getAcceptedType()) {
 			case ContentType::JSON:
 				return $response->asJson(ResponseCode::OK, $folders);
 
@@ -37,7 +37,7 @@ class Collection extends Controller {
 			case ContentType::HTML:
 				new UI($this->settings, $this->session);
 				new UICollection($folders);
-				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/collection.php");
+				return $response->render(ResponseCode::OK, "themes/" . $this->settings->theme . "/collection.php");
 		}
 
 		return $response->render(ResponseCode::BAD_REQUEST);

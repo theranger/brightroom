@@ -20,7 +20,7 @@ class Response {
 		if (empty($includeFile)) return $this;
 
 		if (!file_exists($includeFile)) {
-			error_log($includeFile.": File cannot be loaded, working directory " . getcwd());
+			error_log($includeFile . ": File cannot be loaded, working directory " . getcwd());
 			http_response_code(ResponseCode::INTERNAL_SERVER_ERROR);
 			return $this;
 		}

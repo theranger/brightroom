@@ -2,7 +2,7 @@
 
 class URLParser {
 
-	private static $urlPatterns = array('/index\.php\/?/','/\w+\/\.\.\//');
+	private static $urlPatterns = array('/index\.php\/?/', '/\w+\/\.\.\//');
 
 	private $settings;
 	private $url;
@@ -14,7 +14,7 @@ class URLParser {
 		$url = preg_replace(self::$urlPatterns, '', urldecode($url));
 
 		// Strip prefix
-		if(strncmp($url, $this->settings->documentRoot, strlen($this->settings->documentRoot)) == 0) {
+		if (strncmp($url, $this->settings->documentRoot, strlen($this->settings->documentRoot)) == 0) {
 			$url = substr($url, strlen($this->settings->documentRoot));
 		}
 

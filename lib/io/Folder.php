@@ -32,7 +32,7 @@ class Folder extends DirectoryEntry {
 			if ($entry[0] == '.') continue;
 
 			if (is_dir($this->path . "/" . $entry)) {
-				$this->cachedContents[] = new Folder($this->base, $this->url. "/". $entry);
+				$this->cachedContents[] = new Folder($this->base, $this->url . "/" . $entry);
 				continue;
 			}
 
