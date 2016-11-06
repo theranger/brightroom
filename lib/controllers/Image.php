@@ -4,6 +4,7 @@ include_once "Controller.php";
 include_once "io/File.php";
 include_once "ui/UI.php";
 include_once "ui/UICollection.php";
+include_once "img/ImageHandler.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-11-02
