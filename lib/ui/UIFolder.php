@@ -38,7 +38,7 @@ class UIFolder {
 
 		print '<ul class="sfg-tree">';
 		foreach(self::$items as &$item) {
-			if(!$item->getType() == "directory") continue;
+			if($item->isFile()) continue;
 			print '<li><a href="'.$item->getURL().'">'.$item->getName().'</a></li>';
 		}
 		print '</ul>';
@@ -49,7 +49,7 @@ class UIFolder {
 
 		print '<ul class="sfg-tree">';
 		foreach(self::$items as &$item) {
-			if($item->getType() == "directory") continue;
+			if($item->isDirectory()) continue;
 			print '<li><a href="'.$item->getURL().'">'.$item->getName().'</a></li>';
 		}
 		print '</ul>';
