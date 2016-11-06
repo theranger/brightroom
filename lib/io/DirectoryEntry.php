@@ -13,11 +13,11 @@ abstract class DirectoryEntry {
 	protected $type;
 	private $name;
 
-	public function __construct(string $base, string $location) {
-		$this->url = $location;
+	public function __construct(string $base, string $url) {
+		$this->url = $url;
 		$this->base = $base;
-		$this->path = $base[0] == "/" ? $base . "/" . $location : getcwd() . "/" . $base . "/" . $location;
-		$this->name = basename($location);
+		$this->path = $base[0] == "/" ? $base . $url : getcwd() . "/" . $base . $url;
+		$this->name = basename($url);
 	}
 
 	public function getURL(): string {
