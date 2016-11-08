@@ -5,7 +5,7 @@
 </head>
 <body>
 <div class="sfg-sidebar">
-	<?php UICollection::PrintFolders() ?>
+	<?php UICollection::PrintTree() ?>
 </div>
 <div class="sfg-main">
 	<?php

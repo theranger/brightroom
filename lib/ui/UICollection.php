@@ -25,12 +25,7 @@ class UICollection {
 
 	public static function PrintTree() {
 		if (empty(self::$items)) return;
-
-		print '<ul class="sfg-tree">';
-		foreach (self::$items as &$item) {
-			print '<li><a href="' . $item->getURL() . '">' . $item->getName() . '</a></li>';
-		}
-		print '</ul>';
+		self::PrintRecursively(self::$items);
 	}
 
 	public static function PrintFolders() {
@@ -51,6 +46,18 @@ class UICollection {
 		foreach (self::$items as &$item) {
 			if ($item->isDirectory()) continue;
 			print '<li><a href="' . $item->getURL() . '">' . $item->getName() . '</a></li>';
+		}
+		print '</ul>';
+	}
+
+
+	private static function PrintRecursively(array $entries) {
+		if (empty($entries)) return;
+
+		print '<ul class="sfg-tree">';
+		foreach ($entries as &$entry) {
+			print '<li><a href="' . $entry->getURL() . '">' . $entry->getName() . '</a></li>';
+			self::PrintRecursively($entry->getChildren());
 		}
 		print '</ul>';
 	}
