@@ -1,7 +1,7 @@
 <?php
 
 include_once "Controller.php";
-include_once "io/File.php";
+include_once "io/FileSystem.php";
 include_once "ui/UI.php";
 include_once "ui/UICollection.php";
 include_once "img/ImageHandler.php";
@@ -12,11 +12,11 @@ include_once "img/ImageHandler.php";
  */
 class Image extends Controller {
 
-	private $file;
+	private $fileSystem;
 
-	public function __construct(Session $session, Settings $settings, File $file) {
+	public function __construct(Session $session, Settings $settings, FileSystem $fileSystem) {
 		parent::__construct($session, $settings);
-		$this->file = $file;
+		$this->fileSystem = $fileSystem;
 	}
 
 	public function get(Request $request): Response {
@@ -32,9 +32,10 @@ class Image extends Controller {
 				return $this->handleImage($request, $response);
 
 			case ContentType::HTML:
-				$folders = $this->file->getFolder()->getContents();
+				$folders = $this->fileSystem->getFolder()->getContents();
 				new UI($this->settings, $this->session);
 				new UICollection($folders);
+				new UINavigation($this->fileSystem->getRoot()->getChildren());
 				return $response->render(ResponseCode::OK, "themes/" . $this->settings->theme . "/image.php");
 		}
 
@@ -46,7 +47,7 @@ class Image extends Controller {
 		switch ($request->getRequestType()) {
 			case RequestType::IMAGE_FILE:
 				$response->asType(ResponseCode::OK, $request->getAcceptedType());
-				$this->file->read();
+				$this->fileSystem->getFile()->read();
 				return $response;
 
 			case RequestType::THUMBNAIL_FILE:
@@ -59,7 +60,7 @@ class Image extends Controller {
 		}
 
 		// Thumbnail was requested
-		$imageHandler = new ImageHandler($request->getAcceptedType(), $this->settings, $this->file);
+		$imageHandler = new ImageHandler($request->getAcceptedType(), $this->settings, $this->fileSystem->getFile());
 		$imageHandler->resizeImage($this->settings->thumbnailSize, 0);
 		return $response;
 	}

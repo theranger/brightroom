@@ -8,6 +8,7 @@
 	<?php UINavigation::PrintTree() ?>
 </div>
 <div class="sfg-main">
+	<div><?php UINavigation::PrintBreadcrumb(); ?></div>
 	<?php UICollection::PrintThumbnails(); ?>
 </div>
 </body>

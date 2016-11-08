@@ -69,6 +69,11 @@ class Folder extends DirectoryEntry {
 		return $this->children;
 	}
 
+	public function isEqual(Folder $folder): bool {
+		$this->inPath = $this->path == $folder->path;
+		return $this->inPath;
+	}
+
 	/**
 	 * @return Folder
 	 * @throws IOException

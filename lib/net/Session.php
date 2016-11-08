@@ -1,6 +1,7 @@
 <?php
 
 include_once "io/File.php";
+include_once "io/FileSystem.php";
 
 class Session {
 
@@ -9,8 +10,8 @@ class Session {
 	private $settings;
 	private $cachedPath = array();
 
-	public function __construct(Folder $folder, Settings $settings) {
-		$this->folder = $folder;
+	public function __construct(FileSystem $fileSystem, Settings $settings) {
+		$this->folder = $fileSystem->getFolder();
 		$this->settings = $settings;
 		$this->init();
 	}

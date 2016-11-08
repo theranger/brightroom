@@ -12,7 +12,7 @@ div.sfg-head { border-bottom: 1px dashed #e7e7e7; margin-bottom: 10px; }
 div.sfg-content { position: fixed; text-align: center; top: 30px; bottom: 0; left: 220px; right: 5px; }
 div.sfg-content h1 { color: #000; position: relative; margin-top: -80px;}
 
-a.sfg-breadcrumb { color: blue; text-decoration: none; }
+a.sfg-breadcrumb { color: blue; text-decoration: none; margin: 0 5px 0 5px }
 a.sfg-breadcrumb:hover { color: red; text-decoration: underline; }
 
 div.sfg-imagelist { overflow: auto; min-width: 150px; }

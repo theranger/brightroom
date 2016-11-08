@@ -39,25 +39,23 @@ class Router {
 
 			case RequestType::IMAGE_FILE:
 			case RequestType::THUMBNAIL_FILE:
-				$file = $fileSystem->createFile();
-				if ($file == null) $this->renderResponse($request, ResponseCode::BAD_REQUEST);
+				if ($fileSystem->getFile() == null) $this->renderResponse($request, ResponseCode::BAD_REQUEST);
 
-				$session = new Session($file->getFolder(), $this->settings);
-				$imageController = new Image($session, $this->settings, $file);
+				$session = new Session($fileSystem, $this->settings);
+				$imageController = new Image($session, $this->settings, $fileSystem);
 				return $imageController->get($request);
 
 			case RequestType::IMAGE_FOLDER:
-				$folder = $fileSystem->createFolder();
-				$session = new Session($folder, $this->settings);
-				$collectionController = new Collection($session, $this->settings, $folder);
+				$session = new Session($fileSystem, $this->settings);
+				$collectionController = new Collection($session, $this->settings, $fileSystem);
 				return $collectionController->listing($request);
 
 			case RequestType::THEME_FILE:
-				$file = (new FileSystem(getcwd(), $request->getURL()))->createFile();
-				if ($file == null) return $this->renderResponse($request, ResponseCode::BAD_REQUEST);
+				$fileSystem = new FileSystem(getcwd(), $request->getURL());
+				if ($fileSystem->getFile() == null) return $this->renderResponse($request, ResponseCode::BAD_REQUEST);
 
-				$session = new Session($file->getFolder(), $this->settings);
-				$fileController = new Text($session, $this->settings, $file);
+				$session = new Session($fileSystem, $this->settings);
+				$fileController = new Text($session, $this->settings, $fileSystem->getFile());
 				return $fileController->get($request);
 		}
 

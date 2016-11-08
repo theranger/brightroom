@@ -41,14 +41,14 @@ class Request {
 	public function elaborateType(FileSystem $fileSystem) {
 		if ($this->requestType != RequestType::UNKNOWN) return;
 
-		if ($fileSystem->isDirectory()) {
-			$this->requestType = RequestType::IMAGE_FOLDER;
-			return;
-		}
+		switch ($fileSystem->getEntryType()) {
+			case EntryType::FILE:
+				$this->requestType = RequestType::IMAGE_FILE;
+				return;
 
-		if ($fileSystem->isFile()) {
-			$this->requestType = RequestType::IMAGE_FILE;
-			return;
+			case EntryType::FOLDER:
+				$this->requestType = RequestType::IMAGE_FOLDER;
+				return;
 		}
 
 		$this->requestType = RequestType::INVALID;

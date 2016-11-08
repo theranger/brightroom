@@ -4,6 +4,7 @@ include_once "Controller.php";
 include_once "ui/UICollection.php";
 include_once "ui/UI.php";
 include_once "ui/UINavigation.php";
+include_once "io/FileSystem.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-14
@@ -11,15 +12,12 @@ include_once "ui/UINavigation.php";
  */
 class Collection extends Controller {
 
-	private $folder;
-	private $rootFolder;
+	private $fileSystem;
 
-	public function __construct(Session $session, Settings $settings, Folder $folder) {
+	public function __construct(Session $session, Settings $settings, FileSystem $fileSystem) {
 		parent::__construct($session, $settings);
-		$this->folder = $folder;
-		$this->rootFolder = $folder;
+		$this->fileSystem = $fileSystem;
 	}
-
 
 	public function listing(Request $request): Response {
 		$response = new Response($request);
@@ -28,7 +26,7 @@ class Collection extends Controller {
 			return $response->render(ResponseCode::UNAUTHORIZED);
 		}
 
-		$folders = $this->folder->getContents();
+		$folders = $this->fileSystem->getFolder()->getContents();
 
 		switch ($request->getAcceptedType()) {
 			case ContentType::JSON:
@@ -40,31 +38,10 @@ class Collection extends Controller {
 			case ContentType::HTML:
 				new UI($this->settings, $this->session);
 				new UICollection($folders);
-				new UINavigation($this->listFolders($this->folder));
+				new UINavigation($this->fileSystem->getRoot()->getChildren());
 				return $response->render(ResponseCode::OK, "themes/" . $this->settings->theme . "/collection.php");
 		}
 
 		return $response->render(ResponseCode::BAD_REQUEST);
-	}
-
-	/**
-	 * @param Folder $folder
-	 * @return Folder[]
-	 */
-	private function listFolders(Folder $folder): array {
-		try {
-			$entries = $this->listFolders($folder->parentFolder());
-			foreach ($entries as $key => $directoryEntry) {
-				if ($directoryEntry->getPath() != $folder->getPath()) continue;
-				$directoryEntry->getFolders();
-				if ($folder->getURL() == $this->folder->getURL()) return $this->rootFolder->getChildren();
-				return $directoryEntry->getChildren();
-			}
-			return array();	// This should never happen
-		}
-		catch (IOException $ex) {
-			$this->rootFolder = $folder;
-			return $folder->getFolders();
-		}
 	}
 }

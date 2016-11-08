@@ -8,6 +8,7 @@
 	<?php UICollection::PrintThumbnails(); ?>
 </div>
 <div class="sfg-main">
+	<div><?php UINavigation::PrintBreadcrumb(); ?></div>
 	<img src="<?php echo $_SERVER['PHP_SELF']; ?>" alt="Test image"/>
 </div>
 </body>

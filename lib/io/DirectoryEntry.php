@@ -14,6 +14,7 @@ abstract class DirectoryEntry {
 	private $name;
 
 	protected $children = array();
+	protected $inPath = false;
 
 	public function __construct(string $base, string $url) {
 		$this->url = "/" . trim($url, "/");
@@ -40,6 +41,10 @@ abstract class DirectoryEntry {
 
 	public function isFile(): bool {
 		return is_file($this->path);
+	}
+
+	public function isInPath(): bool {
+		return $this->inPath;
 	}
 
 	protected function getBase(): string {

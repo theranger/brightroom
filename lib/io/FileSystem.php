@@ -2,6 +2,7 @@
 
 include_once "Folder.php";
 include_once "File.php";
+include_once "EntryType.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-11-05
@@ -9,31 +10,65 @@ include_once "File.php";
  */
 class FileSystem {
 
-	private $base;
-	private $url;
-	private $path;
+	private $folder;
+	private $root;
+	private $file;
+	private $entryType;
 
 	public function __construct(string $base, string $url) {
-		$this->base = $base;
-		$this->url = $url;
-		$this->path = $base . "/" . $url;
+		$path = $base . "/" . trim($url, "/");
+
+		if (is_dir($path)) {
+			$this->folder = new Folder($base, $url);
+			$this->root = $this->listFolders($this->folder);
+			$this->entryType = EntryType::FOLDER;
+			return;
+		}
+
+		if (is_file($path)) {
+			$this->folder = new Folder($base, dirname($url));
+			$this->root = $this->listFolders($this->folder);
+			$this->file = new File($this->folder, basename($url));
+			$this->entryType = EntryType::FILE;
+			return;
+		}
 	}
 
-	public function createFolder(): Folder {
-		if (!is_dir($this->path)) return null;
-		return new Folder($this->base, $this->url);
+	public function getFolder(): Folder {
+		return $this->folder;
 	}
 
-	public function createFile(): File {
-		if (!is_file($this->path)) return null;
-		return new File(new Folder($this->base, dirname($this->url)), basename($this->path));
+	public function getRoot(): Folder {
+		return $this->root;
 	}
 
-	public function isDirectory(): bool {
-		return is_dir($this->path);
+	public function getFile(): File {
+		return $this->file;
 	}
 
-	public function isFile(): bool {
-		return is_file($this->path);
+	public function getEntryType(): int {
+		return $this->entryType;
+	}
+
+	/**
+	 * @param Folder $folder
+	 * @return Folder
+	 */
+	private function listFolders(Folder $folder): Folder {
+		try {
+			$folders = $this->listFolders($folder->parentFolder())->getFolders();
+			foreach ($folders as $key => $f) {
+				if (!$f->isEqual($folder)) continue;
+				if ($folder->getURL() != $this->folder->getURL()) return $f;
+				$f->getFolders();
+				return $this->root;
+			}
+
+			return $folder; // This should never happen
+		}
+		catch (IOException $ex) {
+			$this->root = $folder;
+			return $folder;
+		}
 	}
 }
