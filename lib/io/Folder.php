@@ -1,6 +1,7 @@
 <?php
 
 include_once "DirectoryEntry.php";
+include_once "IOException.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-11-05
@@ -46,6 +47,35 @@ class Folder extends DirectoryEntry {
 
 		usort($this->cachedContents, array($this, "sortDirectories"));
 		return $this->cachedContents;
+	}
+
+	/**
+	 * @return Folder[]
+	 */
+	public function getFolders(): array {
+		if (!empty($this->children)) return $this->children;
+
+		$dh = opendir($this->path);
+		if ($dh == false) return array();
+
+		while (($entry = readdir($dh)) !== false) {
+			if ($entry[0] == '.') continue;
+
+			if (!is_dir($this->path . "/" . $entry)) continue;
+			$this->children[] = new Folder($this->base, $this->url . "/" . $entry);
+		}
+
+		closedir($dh);
+		return $this->children;
+	}
+
+	/**
+	 * @return Folder
+	 * @throws IOException
+	 */
+	public function parentFolder(): Folder {
+		if (empty($this->url) || $this->url == "/") throw new IOException("Parent folder not found");
+		return new Folder($this->base, dirname($this->url));
 	}
 
 	public function create(int $perms = 0): bool {
