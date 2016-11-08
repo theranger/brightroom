@@ -13,7 +13,7 @@ class FileSystem {
 	private $folder;
 	private $root;
 	private $file;
-	private $entryType;
+	private $entryType = EntryType::UNKNOWN;
 
 	public function __construct(string $base, string $url) {
 		$path = $base . "/" . trim($url, "/");
