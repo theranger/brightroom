@@ -3,6 +3,7 @@
 include_once "Controller.php";
 include_once "ui/UICollection.php";
 include_once "ui/UI.php";
+include_once "ui/UINavigation.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-14
@@ -27,7 +28,7 @@ class Collection extends Controller {
 			return $response->render(ResponseCode::UNAUTHORIZED);
 		}
 
-		$folders = $this->listFolders($this->folder);
+		$folders = $this->folder->getContents();
 
 		switch ($request->getAcceptedType()) {
 			case ContentType::JSON:
@@ -39,6 +40,7 @@ class Collection extends Controller {
 			case ContentType::HTML:
 				new UI($this->settings, $this->session);
 				new UICollection($folders);
+				new UINavigation($this->listFolders($this->folder));
 				return $response->render(ResponseCode::OK, "themes/" . $this->settings->theme . "/collection.php");
 		}
 
