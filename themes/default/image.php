@@ -5,7 +5,7 @@
 </head>
 <body>
 <div class="sfg-sidebar">
-	<?php UICollection::PrintFolders() ?>
+	<?php UICollection::PrintFiles() ?>
 </div>
 <div class="sfg-main">
 	<img src="<?php echo $_SERVER['PHP_SELF']; ?>" alt="Test image"/>
