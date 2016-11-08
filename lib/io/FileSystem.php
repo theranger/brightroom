@@ -68,6 +68,7 @@ class FileSystem {
 		}
 		catch (IOException $ex) {
 			$this->root = $folder;
+			if ($folder->isEqual($this->folder)) $folder->getFolders();		// Gallery root was requested
 			return $folder;
 		}
 	}
