@@ -28,7 +28,9 @@ class UICollection {
 
 		foreach (self::$items as &$item) {
 			if (!$item->isFile()) continue;
-			print '<a href="' . $item->getURL() . '"><img src="' . $item->getURL() . '?thumbnail=true" alt="' . $item->getName() . '" /></a>';
+			print '<a href="' . $item->getURL() . '">';
+			print '<img src="' . $item->getURL() . '?thumbnail=true" alt="' . $item->getName() . '" />';
+			print '</a>';
 		}
 	}
 
