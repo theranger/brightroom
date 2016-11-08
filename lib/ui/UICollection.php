@@ -23,14 +23,13 @@ class UICollection {
 		return self::$items;
 	}
 
-	public static function PrintTree() {
+	public static function PrintThumbnails() {
 		if (empty(self::$items)) return;
 
-		print '<ul class="sfg-tree">';
 		foreach (self::$items as &$item) {
-			print '<li><a href="' . $item->getURL() . '">' . $item->getName() . '</a></li>';
+			if (!$item->isFile()) continue;
+			print '<a href="' . $item->getURL() . '"><img src="' . $item->getURL() . '?thumbnail=true" alt="' . $item->getName() . '" /></a>';
 		}
-		print '</ul>';
 	}
 
 	public static function PrintFolders() {
