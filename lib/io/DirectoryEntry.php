@@ -13,10 +13,12 @@ abstract class DirectoryEntry {
 	protected $type;
 	private $name;
 
+	protected $children = array();
+
 	public function __construct(string $base, string $url) {
-		$this->url = $url;
+		$this->url = "/" . trim($url, "/");
 		$this->base = $base;
-		$this->path = $base[0] == "/" ? $base . "/" . trim($url, "/") : getcwd() . "/" . $base . "/" . trim($url, "/");
+		$this->path = $base[0] == "/" ? $base . $this->url : getcwd() . "/" . $base . $this->url;
 		$this->name = basename($url);
 	}
 
@@ -53,5 +55,12 @@ abstract class DirectoryEntry {
 
 		if ($this->type === FALSE || empty($this->type)) return ContentType::OCTETSTREAM;
 		return $this->type;
+	}
+
+	/**
+	 * @return DirectoryEntry[]
+	 */
+	public function getChildren(): array {
+		return $this->children;
 	}
 }
