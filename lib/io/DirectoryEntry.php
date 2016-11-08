@@ -16,7 +16,7 @@ abstract class DirectoryEntry {
 	public function __construct(string $base, string $url) {
 		$this->url = $url;
 		$this->base = $base;
-		$this->path = $base[0] == "/" ? $base . $url : getcwd() . "/" . $base . $url;
+		$this->path = $base[0] == "/" ? $base . "/" . trim($url, "/") : getcwd() . "/" . $base . "/" . trim($url, "/");
 		$this->name = basename($url);
 	}
 
