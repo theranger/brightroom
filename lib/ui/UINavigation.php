@@ -39,7 +39,7 @@ class UINavigation {
 	private static function doPrintTree(array $folders) {
 		if (empty($folders)) return;
 
-		print '<ul class="sfg-tree">';
+		print '<ul class="br-tree">';
 		foreach ($folders as &$folder) {
 			print '<li><a href="'.$folder->getURL().'">'.$folder->getName().'</a></li>';
 			self::doPrintTree($folder->getChildren());
@@ -60,7 +60,7 @@ class UINavigation {
 
 		foreach ($folders as &$folder) {
 			if (!$folder->isInPath()) continue;
-			print '<a href="'.$folder->getURL().'" class="sfg-breadcrumb">'.$folder->getName().'</a>';
+			print '<a href="'.$folder->getURL().'" class="br-breadcrumb">'.$folder->getName().'</a>';
 			self::doPrintBreadcrumb($folder->getChildren());
 		}
 	}

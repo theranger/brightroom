@@ -4,12 +4,13 @@
 		<?php UI::PrintHeader() ?>
 	</head>
 	<body>
-		<aside>
-			<?php UINavigation::PrintTree() ?>
-		</aside>
-		<main>
-			<nav><?php UINavigation::PrintBreadcrumb(); ?></nav>
-			<?php UICollection::PrintThumbnails(); ?>
+		<main class="br-collection">
+			<aside class="br-collection">
+				<?php UINavigation::PrintTree() ?>
+			</aside>
+			<article class="br-collection">
+				<?php UICollection::PrintThumbnails(); ?>
+			</article>
 		</main>
 	</body>
 </html>

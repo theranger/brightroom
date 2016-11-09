@@ -4,9 +4,11 @@
 		<?php UI::PrintHeader() ?>
 	</head>
 	<body>
-		<main>
-			<nav><?php UINavigation::PrintBreadcrumb(); ?></nav>
-			<img src="<?php echo $_SERVER['PHP_SELF']; ?>" alt="Test image"/>
+		<main class="br-image">
+			<article class="br-image">
+				<nav><?php UINavigation::PrintBreadcrumb(); ?></nav>
+				<img src="<?php echo $_SERVER['PHP_SELF']; ?>" alt="Test image"/>
+			</article>
 		</main>
 	</body>
 </html>

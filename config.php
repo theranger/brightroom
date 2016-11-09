@@ -76,7 +76,7 @@ $settings["cacheFolder"] = ".cache";
  *
  * Image size for folder listings
  */
-$settings["thumbnailSize"] = 70;
+$settings["thumbnailSize"] = 100;
 
 /**
  * Full image size
