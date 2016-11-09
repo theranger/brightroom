@@ -43,12 +43,12 @@ class UI {
 		print self::$settings->getThemePrefix().'/'.self::$settings->theme;
 	}
 
-	public static function PrintHeader() { ?>
-		<title>Simple Folder Gallery</title>
+	public static function PrintHeader(string $title = "BrightRoom Gallery") { ?>
+		<title><?php echo $title; ?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="author" content="The Ranger (ranger.risk.ee)"/>
-		<meta name="description" content="My photo site provided by simple folder based gallery engine"/>
-		<meta name="generator" content="Simple Folder Gallery <?php self::$settings->version ?>"/>
+		<meta name="description" content="Photo site served by BrightRoom PHP gallery"/>
+		<meta name="generator" content="BrightRoom PHP Gallery <?php self::$settings->version ?>"/>
 		<link rel="stylesheet" type="text/css" href="<?php self::PrintThemeUrl() ?>/style.css"/>
 	<?php }
 }
