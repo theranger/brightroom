@@ -37,7 +37,7 @@ class Session {
 		$passwordFile = new File($this->folder, $this->settings->passwordFile);
 		if (!$passwordFile->open()) return true;
 
-		$token = $user . ":{SHA}" . base64_encode(sha1($password, true));
+		$token = $user.":{SHA}".base64_encode(sha1($password, true));
 
 		while ($passwordFile->hasNext()) {
 			$r = $passwordFile->readLine();
@@ -65,8 +65,8 @@ class Session {
 			return false;
 		}
 
-		$accessFile = new File($this->folder, $path . "/" . $this->settings->accessFile);
-		if ($accessFile->open($path . '/' . $this->settings->accessFile) == false) {
+		$accessFile = new File($this->folder, $path."/".$this->settings->accessFile);
+		if ($accessFile->open($path.'/'.$this->settings->accessFile) == false) {
 			$this->cachedPath[$path] = true;
 			return $this->authorize(substr($path, 0, strrpos($path, "/")));
 		}
@@ -130,6 +130,6 @@ class Session {
 	}
 
 	private function makeHash(string $user, string $salt): string {
-		return md5($user . $salt);
+		return md5($user.$salt);
 	}
 }

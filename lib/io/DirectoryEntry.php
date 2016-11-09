@@ -32,9 +32,9 @@ abstract class DirectoryEntry {
 	protected $inPath = false;
 
 	public function __construct(string $base, string $url) {
-		$this->url = "/" . trim($url, "/");
+		$this->url = "/".trim($url, "/");
 		$this->base = $base;
-		$this->path = $base[0] == "/" ? $base . $this->url : getcwd() . "/" . $base . $this->url;
+		$this->path = $base[0] == "/" ? $base.$this->url : getcwd()."/".$base.$this->url;
 		$this->name = basename($url);
 	}
 

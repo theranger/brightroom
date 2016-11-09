@@ -74,14 +74,14 @@ class Settings {
 	}
 
 	public function getImagePrefix(): string {
-		if (!empty($this->galleryURL)) return $this->galleryURL . $this->imagePrefix;
-		if (!empty($this->documentRoot)) return $this->documentRoot . $this->imagePrefix;
+		if (!empty($this->galleryURL)) return $this->galleryURL.$this->imagePrefix;
+		if (!empty($this->documentRoot)) return $this->documentRoot.$this->imagePrefix;
 		return $this->imagePrefix;
 	}
 
 	public function getThemePrefix(): string {
-		if (!empty($this->galleryURL)) return $this->galleryURL . "/themes";
-		if (!empty($this->documentRoot)) return $this->documentRoot . "/themes";
+		if (!empty($this->galleryURL)) return $this->galleryURL."/themes";
+		if (!empty($this->documentRoot)) return $this->documentRoot."/themes";
 		return "/themes";
 	}
 }

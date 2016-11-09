@@ -31,7 +31,7 @@ class FileSystem {
 	private $entryType = EntryType::UNKNOWN;
 
 	public function __construct(string $base, string $url) {
-		$path = $base . "/" . trim($url, "/");
+		$path = $base."/".trim($url, "/");
 
 		if (is_dir($path)) {
 			$this->folder = new Folder($base, $url);
@@ -83,7 +83,7 @@ class FileSystem {
 		}
 		catch (IOException $ex) {
 			$this->root = $folder;
-			if ($folder->isEqual($this->folder)) $folder->getFolders();		// Gallery root was requested
+			if ($folder->isEqual($this->folder)) $folder->getFolders();        // Gallery root was requested
 			return $folder;
 		}
 	}

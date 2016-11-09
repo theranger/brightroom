@@ -35,7 +35,7 @@ class Response {
 		if (empty($includeFile)) return $this;
 
 		if (!file_exists($includeFile)) {
-			error_log($includeFile . ": File cannot be loaded, working directory " . getcwd());
+			error_log($includeFile.": File cannot be loaded, working directory ".getcwd());
 			http_response_code(ResponseCode::INTERNAL_SERVER_ERROR);
 			return $this;
 		}
@@ -46,7 +46,7 @@ class Response {
 
 	public function asJson(int $responseCode, $data): Response {
 		http_response_code($responseCode);
-		header("Content-Type: " . ContentType::JSON);
+		header("Content-Type: ".ContentType::JSON);
 		if (empty($data)) return $this;
 
 		print json_encode($data);
@@ -55,7 +55,7 @@ class Response {
 
 	public function asPlain(int $responseCode, $data): Response {
 		http_response_code($responseCode);
-		header("Content-Type: " . ContentType::PLAIN);
+		header("Content-Type: ".ContentType::PLAIN);
 
 		print_r($data);
 		return $this;
@@ -63,7 +63,7 @@ class Response {
 
 	public function asType(int $responseCode, string $contentType): Response {
 		http_response_code($responseCode);
-		header("Content-Type: " . $contentType);
+		header("Content-Type: ".$contentType);
 		return $this;
 	}
 }

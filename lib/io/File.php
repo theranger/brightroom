@@ -23,7 +23,7 @@ class File extends DirectoryEntry {
 	private $fh = null;
 
 	public function __construct(Folder $folder, string $name) {
-		parent::__construct($folder->getBase(), $folder->getURL() . "/" . $name);
+		parent::__construct($folder->getBase(), $folder->getURL()."/".$name);
 		$this->folder = $folder;
 	}
 

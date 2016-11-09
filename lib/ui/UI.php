@@ -40,7 +40,7 @@ class UI {
 	}
 
 	public static function PrintThemeUrl() {
-		print self::$settings->getThemePrefix() . '/' . self::$settings->theme;
+		print self::$settings->getThemePrefix().'/'.self::$settings->theme;
 	}
 
 	public static function PrintHeader() { ?>

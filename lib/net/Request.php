@@ -96,7 +96,7 @@ class Request {
 			return;
 		}
 
-		if (strpos($this->settings->vetoFolders, '/' . $resourceName . '/') !== false) {
+		if (strpos($this->settings->vetoFolders, '/'.$resourceName.'/') !== false) {
 			$this->requestType = RequestType::VETO_FILE;
 			return;
 		}

@@ -36,8 +36,8 @@ class Router {
 
 	public function route(Request $request): Response {
 		if ($this->settings->forceHTTPS == true && !$request->isSecure()) {
-			error_log($request->getURL() . ": Secure connection forced, redirecting to HTTPS");
-			header("Location: https://" . $request->getURL());
+			error_log($request->getURL().": Secure connection forced, redirecting to HTTPS");
+			header("Location: https://".$request->getURL());
 			die();
 		}
 
@@ -49,7 +49,7 @@ class Router {
 				return $this->route($request);
 
 			case RequestType::INVALID:
-				error_log($request->getURL() . ": Requested file not found");
+				error_log($request->getURL().": Requested file not found");
 				return (new Response($request))->render(ResponseCode::NOT_FOUND);
 
 			case RequestType::IMAGE_FILE:
@@ -74,7 +74,7 @@ class Router {
 				return $fileController->get($request);
 		}
 
-		error_log($request->getURL() . ": Access denied");
+		error_log($request->getURL().": Access denied");
 		return $this->renderResponse($request, ResponseCode::FORBIDDEN);
 	}
 

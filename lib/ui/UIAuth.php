@@ -35,7 +35,7 @@ class UIAuth {
 		if (!self::$session->isLoggedIn()) return;
 
 		print '<form class="sfg-login">';
-		print 'Logged in as ' . self::$session->getLoggedInUser() . '. ';
+		print 'Logged in as '.self::$session->getLoggedInUser().'. ';
 		print '<a href="?logout=true">Log out</a>';
 		print '</form>';
 		return;

@@ -45,7 +45,7 @@ class ImageHandler {
 
 		$cachedImgPath = NULL;
 		$cache = NULL;
-		$cachedImgName = $size . '_' . basename($this->file->getPath());
+		$cachedImgName = $size.'_'.basename($this->file->getPath());
 
 		if (!empty($this->settings->cacheFolder)) {
 			$cache = new ImageCache($this->file->getFolder()->getPath(), $this->settings->cacheFolder);
@@ -53,7 +53,7 @@ class ImageHandler {
 
 			if ($cache->inCache($cachedImgName)) {
 				$imagestat = stat($this->file->getPath());
-				$cachestat = stat(dirname($this->file->getPath()) . '/' . $this->settings->cacheFolder . '/' . $cachedImgName);
+				$cachestat = stat(dirname($this->file->getPath()).'/'.$this->settings->cacheFolder.'/'.$cachedImgName);
 
 				if ($imagestat['mtime'] < $cachestat['mtime']) {
 					$cache->read($cachedImgName);
@@ -62,7 +62,7 @@ class ImageHandler {
 
 				//If we are here, original image mtime was newer than cached image mtime
 				//Invalidate stale cache
-				$cache->invalidateImage('*_' . basename($this->file->getPath()));
+				$cache->invalidateImage('*_'.basename($this->file->getPath()));
 			}
 
 			$cachedImgPath = $cache->getImagePath($cachedImgName);

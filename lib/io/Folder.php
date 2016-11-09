@@ -47,12 +47,12 @@ class Folder extends DirectoryEntry {
 		while (($entry = readdir($dh)) !== false) {
 			if ($entry[0] == '.') continue;
 
-			if (is_dir($this->path . "/" . $entry)) {
-				$this->cachedContents[] = new Folder($this->base, $this->url . "/" . $entry);
+			if (is_dir($this->path."/".$entry)) {
+				$this->cachedContents[] = new Folder($this->base, $this->url."/".$entry);
 				continue;
 			}
 
-			if (is_file($this->path . "/" . $entry)) {
+			if (is_file($this->path."/".$entry)) {
 				$this->cachedContents[] = new File($this, $entry);
 				continue;
 			}
@@ -76,8 +76,8 @@ class Folder extends DirectoryEntry {
 		while (($entry = readdir($dh)) !== false) {
 			if ($entry[0] == '.') continue;
 
-			if (!is_dir($this->path . "/" . $entry)) continue;
-			$this->children[] = new Folder($this->base, $this->url . "/" . $entry);
+			if (!is_dir($this->path."/".$entry)) continue;
+			$this->children[] = new Folder($this->base, $this->url."/".$entry);
 		}
 
 		closedir($dh);
@@ -111,12 +111,12 @@ class Folder extends DirectoryEntry {
 
 		while (($entry = readdir($dh)) !== false) {
 			if ($entry == '.' || $entry == '..') continue;
-			if (is_dir($this->path . "/" . $entry)) {
+			if (is_dir($this->path."/".$entry)) {
 				(new Folder($this->path, $entry))->remove();
 				continue;
 			}
 
-			if (!unlink($this->path . "/" . $entry)) {
+			if (!unlink($this->path."/".$entry)) {
 				closedir($dh);
 				return false;
 			}

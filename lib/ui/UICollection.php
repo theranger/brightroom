@@ -43,8 +43,8 @@ class UICollection {
 
 		foreach (self::$items as &$item) {
 			if (!$item->isFile()) continue;
-			print '<a href="' . $item->getURL() . '">';
-			print '<img src="' . $item->getURL() . '?thumbnail=true" alt="' . $item->getName() . '" />';
+			print '<a href="'.$item->getURL().'">';
+			print '<img src="'.$item->getURL().'?thumbnail=true" alt="'.$item->getName().'" />';
 			print '</a>';
 		}
 	}
@@ -55,7 +55,7 @@ class UICollection {
 		print '<ul class="sfg-tree">';
 		foreach (self::$items as &$item) {
 			if ($item->isFile()) continue;
-			print '<li><a href="' . $item->getURL() . '">' . $item->getName() . '</a></li>';
+			print '<li><a href="'.$item->getURL().'">'.$item->getName().'</a></li>';
 		}
 		print '</ul>';
 	}
@@ -66,7 +66,7 @@ class UICollection {
 		print '<ul class="sfg-tree">';
 		foreach (self::$items as &$item) {
 			if ($item->isDirectory()) continue;
-			print '<li><a href="' . $item->getURL() . '">' . $item->getName() . '</a></li>';
+			print '<li><a href="'.$item->getURL().'">'.$item->getName().'</a></li>';
 		}
 		print '</ul>';
 	}

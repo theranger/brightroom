@@ -51,10 +51,10 @@ class Image extends Controller {
 				new UI($this->settings, $this->session);
 				new UICollection($folders);
 				new UINavigation($this->fileSystem->getRoot()->getChildren());
-				return $response->render(ResponseCode::OK, "themes/" . $this->settings->theme . "/image.php");
+				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/image.php");
 		}
 
-		error_log($request->getURL() . ": Invalid request");
+		error_log($request->getURL().": Invalid request");
 		return $response->render(ResponseCode::BAD_REQUEST);
 	}
 
