@@ -37,7 +37,7 @@ abstract class ContentType {
 		ContentType::HTML,
 		ContentType::CSS,
 		ContentType::PLAIN,
-		ContentType::ANY
+		ContentType::ANY,
 	);
 
 	public static function parseAcceptHeader(string $acceptHeader): string {

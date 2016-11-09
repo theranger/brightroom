@@ -43,8 +43,8 @@ class ImageHandler {
 	public function resizeImage(int $size, int $orientation) {
 		if (!$this->imageRenderer) return;
 
-		$cachedImgPath = NULL;
-		$cache = NULL;
+		$cachedImgPath = null;
+		$cache = null;
 		$cachedImgName = $size.'_'.basename($this->file->getPath());
 
 		if (!empty($this->settings->cacheFolder)) {
@@ -84,7 +84,7 @@ class ImageHandler {
 		$this->imageRenderer->setHandle($img);
 		$this->imageRenderer->outputImage($cachedImgPath);
 
-		if ($cache != NULL) $cache->read($cachedImgName);
+		if ($cache != null) $cache->read($cachedImgName);
 	}
 }
 

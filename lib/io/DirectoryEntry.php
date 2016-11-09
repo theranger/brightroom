@@ -73,7 +73,7 @@ abstract class DirectoryEntry {
 		$this->type = @finfo_file($fileInfo, $this->path);
 		finfo_close($fileInfo);
 
-		if ($this->type === FALSE || empty($this->type)) return ContentType::OCTETSTREAM;
+		if ($this->type === false || empty($this->type)) return ContentType::OCTETSTREAM;
 		return $this->type;
 	}
 
