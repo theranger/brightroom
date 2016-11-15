@@ -49,6 +49,6 @@ class UI {
 		<meta name="author" content="The Ranger (ranger.risk.ee)">
 		<meta name="description" content="Photo site served by BrightRoom PHP gallery">
 		<meta name="generator" content="BrightRoom PHP Gallery <?php self::$settings->version ?>">
-		<link rel="stylesheet" type="text/css" href="<?php self::PrintThemeUrl() ?>/style.css">
+		<link rel="stylesheet" type="text/css" href="<?php self::PrintThemeUrl() ?>/default.css">
 	<?php }
 }

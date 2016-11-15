@@ -2,9 +2,10 @@
 <html>
 	<head>
 		<?php UI::PrintHeader() ?>
+		<link rel="stylesheet" type="text/css" href="<?php UI::PrintThemeUrl() ?>/collection.css">
 	</head>
-	<body class="br-collection">
-		<aside class="br-collection">
+	<body>
+		<aside>
 			<header></header>
 			<nav><?php UINavigation::PrintTree() ?></nav>
 		</aside>
@@ -13,7 +14,7 @@
 			<header>
 
 			</header>
-			<article class="br-collection">
+			<article>
 				<?php UICollection::PrintThumbnails(); ?>
 			</article>
 		</main>
