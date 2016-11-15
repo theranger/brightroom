@@ -42,9 +42,14 @@ aside nav ul {
 	padding: 0;
 }
 
-aside nav ul li {
-	list-style: square inside;
-	margin: 0;
+aside nav ul li:before {
+	content: "+";
+	margin-right: 5px;
+	color: var(--main-font-color);
+}
+
+aside nav ul li.expanded:before {
+	content: "-";
 }
 
 
