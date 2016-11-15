@@ -3,11 +3,16 @@
 	<head>
 		<?php UI::PrintHeader() ?>
 	</head>
-	<body>
-		<main class="br-collection">
-			<aside class="br-collection">
-				<?php UINavigation::PrintTree() ?>
-			</aside>
+	<body class="br-collection">
+		<aside class="br-collection">
+			<header></header>
+			<nav><?php UINavigation::PrintTree() ?></nav>
+		</aside>
+
+		<main>
+			<header>
+
+			</header>
 			<article class="br-collection">
 				<?php UICollection::PrintThumbnails(); ?>
 			</article>
