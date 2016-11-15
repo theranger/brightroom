@@ -3,6 +3,7 @@
 	<head>
 		<?php UI::PrintHeader() ?>
 		<link rel="stylesheet" type="text/css" href="<?php UI::PrintThemeUrl() ?>/collection.css">
+		<link rel="stylesheet" type="text/css" href="<?php UI::PrintThemeUrl() ?>/css/font-awesome.min.css">
 	</head>
 	<body>
 		<aside>
