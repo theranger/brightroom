@@ -46,7 +46,7 @@ abstract class ContentType {
 			$key = array_search($value, ContentType::$supportedTypes);
 			if ($key !== false) return ContentType::$supportedTypes[$key];
 		}
-		return ContentType::PLAIN;
+		return ContentType::ANY;
 	}
 
 	public static function parseExtension(string $fileName): string {
