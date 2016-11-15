@@ -28,11 +28,31 @@ aside {
 	min-width: 50px;
 }
 
+aside nav {
+	margin-top: 5px;
+	text-align: center;
+}
+
 main article img {
 	max-width: 100%;
 }
 
 main header {
 	display: flex;
-	align-items: stretch;
+}
+
+main header nav {
+	flex-grow: 1;
+	text-align: center;
+	align-self: center;
+}
+
+main header nav a.nav {
+	display: inline-block;
+	width: 90%;
+	margin-bottom: -5px;
+}
+
+main header nav a.nav:hover {
+	border-bottom: 5px solid var(--header-link-hover-color);
 }
