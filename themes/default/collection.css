@@ -49,8 +49,13 @@ aside nav ul li:before {
 	color: var(--main-font-color);
 }
 
-aside nav ul li.expanded:before {
+aside nav ul li.selected:before {
 	content: "-";
+	margin-right: 9px;
+}
+
+aside nav ul li.selected {
+	background-color: var(--header-cross-color);
 }
 
 aside header {

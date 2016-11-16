@@ -41,7 +41,7 @@ class UINavigation {
 
 		print '<ul class="br-tree">';
 		foreach ($folders as &$folder) {
-			print '<li><a href="'.$folder->getURL().'">'.$folder->getName().'</a></li>';
+			print '<li'.($folder->isInPath()?' class="selected"':'').'><a href="'.$folder->getURL().'">'.$folder->getName().'</a></li>';
 			self::doPrintTree($folder->getChildren());
 		}
 		print '</ul>';
