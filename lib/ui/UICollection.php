@@ -52,7 +52,7 @@ class UICollection {
 	public static function PrintFolders() {
 		if (empty(self::$items)) return;
 
-		print '<ul class="sfg-tree">';
+		print '<ul class="br-tree">';
 		foreach (self::$items as &$item) {
 			if ($item->isFile()) continue;
 			print '<li><a href="'.$item->getURL().'">'.$item->getName().'</a></li>';
@@ -63,7 +63,7 @@ class UICollection {
 	public static function PrintFiles() {
 		if (empty(self::$items)) return;
 
-		print '<ul class="sfg-tree">';
+		print '<ul class="br-tree">';
 		foreach (self::$items as &$item) {
 			if ($item->isDirectory()) continue;
 			print '<li><a href="'.$item->getURL().'">'.$item->getName().'</a></li>';
