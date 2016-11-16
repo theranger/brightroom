@@ -24,8 +24,9 @@ main {
 }
 
 main header {
-	font-family: "Skia", sans-serif;
-	font-size: 28pt;
+	display: flex;
+	align-items: center;
+	padding-left: 10px;
 }
 
 aside {
@@ -52,6 +53,12 @@ aside nav ul li.expanded:before {
 	content: "-";
 }
 
+aside header {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	padding-right: 10px;
+}
 
 article {
 	overflow-y: auto;

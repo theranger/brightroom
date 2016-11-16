@@ -29,8 +29,14 @@ aside {
 }
 
 aside nav {
-	margin-top: 5px;
+	margin-top: 20px;
 	text-align: center;
+}
+
+aside header {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 main article img {

@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<aside>
-			<header></header>
+			<header><img src="<?php UI::PrintThemeUrl() ?>/images/Icon@30.png" alt="Brightroom Icon"></header>
 			<nav><a href=""><i class="fa fa-backward fa-lg" aria-hidden="true"></i></a></nav>
 		</aside>
 

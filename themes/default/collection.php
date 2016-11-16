@@ -7,14 +7,12 @@
 	</head>
 	<body>
 		<aside>
-			<header></header>
+			<header><img src="<?php UI::PrintThemeUrl() ?>/images/Icon@30.png" alt="Brightroom Icon"></header>
 			<nav><?php UINavigation::PrintTree() ?></nav>
 		</aside>
 
 		<main>
-			<header>
-
-			</header>
+			<header><img src="<?php UI::PrintThemeUrl() ?>/images/Logo@30.png" alt="Brightroom Logo"></header>
 			<article>
 				<?php UICollection::PrintThumbnails(); ?>
 			</article>
