@@ -50,7 +50,7 @@ class Image extends Controller {
 				$folders = $this->fileSystem->getFolder()->getContents();
 				new UI($this->settings, $this->session);
 				new UICollection($folders);
-				new UINavigation($this->fileSystem->getRoot()->getChildren());
+				new UINavigation($this->fileSystem->getRoot()->getChildren(), $this->fileSystem->getFolder());
 				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/image.php");
 		}
 
