@@ -8,7 +8,7 @@
 	<body>
 		<aside>
 			<header><img src="<?php UI::PrintThemeUrl() ?>/images/Icon@30.png" alt="Brightroom Icon"></header>
-			<nav><a href=""><i class="fa fa-backward fa-lg" aria-hidden="true"></i></a></nav>
+			<nav><a href="<?php UINavigation::PrintCurrentFolderURL(); ?>"><i class="fa fa-backward fa-lg" aria-hidden="true"></i></a></nav>
 		</aside>
 
 		<main>
