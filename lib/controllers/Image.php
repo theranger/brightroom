@@ -19,6 +19,7 @@ include_once "Controller.php";
 include_once "io/FileSystem.php";
 include_once "ui/UI.php";
 include_once "ui/UICollection.php";
+include_once "ui/UIImage.php";
 include_once "img/ImageHandler.php";
 
 /**
@@ -49,8 +50,9 @@ class Image extends Controller {
 			case ContentType::HTML:
 				$folders = $this->fileSystem->getFolder()->getContents();
 				new UI($this->settings, $this->session);
-				new UICollection($folders);
-				new UINavigation($this->fileSystem->getRoot()->getChildren(), $this->fileSystem->getFolder());
+				new UICollection($folders, $this->fileSystem->getFolder());
+				new UINavigation($this->fileSystem->getRoot()->getChildren());
+				new UIImage($this->fileSystem->getFile(), $this->fileSystem->getFolder());
 				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/image.php");
 		}
 

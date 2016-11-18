@@ -8,14 +8,25 @@
 	<body>
 		<aside>
 			<header><img src="<?php UI::PrintThemeUrl() ?>/images/Icon@30.png" alt="Brightroom Icon"></header>
-			<nav><a href="<?php UINavigation::PrintCurrentFolderURL(); ?>"><i class="fa fa-backward fa-lg" aria-hidden="true"></i></a></nav>
+			<nav><a href="<?php UICollection::PrintURL(); ?>"><i class="fa fa-backward fa-lg" aria-hidden="true"></i></a></nav>
 		</aside>
 
 		<main>
 			<header>
-				<nav><a href="" class="nav"><i class="fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i></a></nav>
+				<nav>
+				<?php if (UIImage::hasPreviousImage()): ?>
+					<a href="<?php UIImage::PrintPreviousImageURL(); ?>" class="nav"><i class="fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i></a>
+				<?php endif; ?>
+				</nav>
+
 				<nav><?php UINavigation::PrintBreadcrumb(); ?></nav>
-				<nav><a href="" class="nav"><i class="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i></a></nav>
+
+				<nav>
+				<?php if (UIImage::hasNextImage()): ?>
+					<a href="<?php UIImage::PrintNextImageURL(); ?>" class="nav"><i class="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i></a>
+				<?php endif; ?>
+				</nav>
+
 			</header>
 			<article>
 				<img src="<?php echo $_SERVER['PHP_SELF']; ?>" alt="Test image"/>

@@ -22,13 +22,15 @@
 class UICollection {
 
 	private static $items;
+	private static $folder;
 
 	/**
 	 * UIFolder constructor.
 	 * @param DirectoryEntry[] $items
 	 */
-	public function __construct(array &$items) {
+	public function __construct(array &$items, Folder $folder) {
 		self::$items = $items;
+		self::$folder = $folder;
 	}
 
 	/**
@@ -36,6 +38,14 @@ class UICollection {
 	 */
 	public static function getItems(): array {
 		return self::$items;
+	}
+
+	public static function getURL(): string {
+		return self::$folder->getURL();
+	}
+
+	public static function PrintURL() {
+		print self::$folder->getURL();
 	}
 
 	public static function PrintThumbnails() {

@@ -22,25 +22,19 @@
 class UINavigation {
 
 	private static $folders;
-	private static $currentFolder;
 
 	/**
 	 * UINavigation constructor.
 	 * @param Folder[] $folders
 	 * @param Folder $currentFolder
 	 */
-	public function __construct(array $folders, Folder $currentFolder) {
+	public function __construct(array $folders) {
 		self::$folders = $folders;
-		self::$currentFolder = $currentFolder;
 	}
 
 	public static function PrintTree() {
 		if (empty(self::$folders)) return;
 		self::doPrintTree(self::$folders);
-	}
-
-	public static function PrintCurrentFolderURL() {
-		print self::$currentFolder->getURL();
 	}
 
 	private static function doPrintTree(array $folders) {

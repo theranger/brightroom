@@ -52,8 +52,8 @@ class Collection extends Controller {
 
 			case ContentType::HTML:
 				new UI($this->settings, $this->session);
-				new UICollection($folders);
-				new UINavigation($this->fileSystem->getRoot()->getChildren(), $this->fileSystem->getFolder());
+				new UICollection($folders, $this->fileSystem->getFolder());
+				new UINavigation($this->fileSystem->getRoot()->getChildren());
 				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/collection.php");
 		}
 
