@@ -74,14 +74,13 @@ article {
 
 figure {
 	margin: 0;
-	flex-basis: calc(100vh - 50px);
 	text-align: center;
 	line-height: calc(100vh - 50px);
 }
 
 figure img {
 	max-width: 100%;
-	max-height: calc(100% - 50px);
+	max-height: calc(100vh - 50px);
 	vertical-align: middle;
 
 }
