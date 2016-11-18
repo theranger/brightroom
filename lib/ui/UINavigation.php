@@ -22,14 +22,16 @@
 class UINavigation {
 
 	private static $folders;
+	private static $file;
 
 	/**
 	 * UINavigation constructor.
 	 * @param Folder[] $folders
-	 * @param Folder $currentFolder
+	 * @param File $file
 	 */
-	public function __construct(array $folders) {
+	public function __construct(array $folders, File $file = null) {
 		self::$folders = $folders;
+		self::$file = $file;
 	}
 
 	public static function PrintTree() {
@@ -49,8 +51,10 @@ class UINavigation {
 	}
 
 	public static function PrintBreadcrumb() {
-		if (empty(self::$folders)) return;
 		self::doPrintBreadcrumb(self::$folders);
+
+		if (!isset(self::$file)) return;
+		print '<a href="'.self::$file->getURL().'" class="br-breadcrumb-file">'.self::$file->getName().'</a>';
 	}
 
 	/**
@@ -59,9 +63,9 @@ class UINavigation {
 	private static function doPrintBreadcrumb(array $folders) {
 		if (empty($folders)) return;
 
-		foreach ($folders as &$folder) {
+		foreach ($folders as $key => &$folder) {
 			if (!$folder->isInPath()) continue;
-			print '<a href="'.$folder->getURL().'" class="br-breadcrumb">'.$folder->getName().'</a>';
+			print '<a href="'.$folder->getURL().'" class="br-breadcrumb-folder">'.$folder->getName().'</a>';
 			self::doPrintBreadcrumb($folder->getChildren());
 		}
 	}
