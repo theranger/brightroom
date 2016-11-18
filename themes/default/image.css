@@ -22,10 +22,12 @@ body {
 main {
 	background-color: var(--main-background-color);
 	width: 100vw;
+	margin-left: 50px;
 }
 
 aside {
 	min-width: 50px;
+	position: fixed;
 }
 
 aside nav {
@@ -37,10 +39,6 @@ aside header {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
-
-main article img {
-	max-width: 100%;
 }
 
 main header {
@@ -61,4 +59,33 @@ main header nav a.nav {
 
 main header nav a.nav:hover {
 	border-bottom: 5px solid var(--header-link-hover-color);
+}
+
+main section {
+	display: flex;
+	flex-direction: column;
+}
+
+article {
+	background-color: var(--details-background-color);
+	flex-grow: 1;
+	padding: 20px;
+}
+
+figure {
+	margin: 0;
+	flex-basis: calc(100vh - 50px);
+	text-align: center;
+	line-height: calc(100vh - 50px);
+}
+
+figure img {
+	max-width: 100%;
+	max-height: calc(100% - 50px);
+	vertical-align: middle;
+
+}
+
+figcaption {
+	display: none;
 }

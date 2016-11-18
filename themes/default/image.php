@@ -9,9 +9,12 @@
 		<aside>
 			<header><img src="<?php UI::PrintThemeUrl() ?>/images/Icon@30.png" alt="Brightroom Icon"></header>
 			<nav><a href="<?php UICollection::PrintURL(); ?>"><i class="fa fa-backward fa-lg" aria-hidden="true"></i></a></nav>
+			<nav><a href="#image"><i class="fa fa-picture-o fa-lg" aria-hidden="true"></i></a></nav>
+			<nav><a href="#info"><i class="fa fa-camera fa-lg" aria-hidden="true"></i></a></nav>
 		</aside>
 
 		<main>
+			<a name="image"></a>
 			<header>
 				<nav>
 				<?php if (UIImage::hasPreviousImage()): ?>
@@ -26,11 +29,18 @@
 					<a href="<?php UIImage::PrintNextImageURL(); ?>" class="nav"><i class="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i></a>
 				<?php endif; ?>
 				</nav>
-
 			</header>
-			<article>
-				<img src="<?php echo $_SERVER['PHP_SELF']; ?>" alt="Test image"/>
-			</article>
+			<section>
+				<figure>
+					<img src="<?php echo $_SERVER['PHP_SELF']; ?>" alt="Test image"/>
+					<figcaption>Image title goes here</figcaption>
+				</figure>
+
+				<article>
+					<a name="info"></a>
+					<h1>EXIF Information</h1>
+				</article>
+			</section>
 		</main>
 	</body>
 </html>
