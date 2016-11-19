@@ -77,6 +77,10 @@ abstract class DirectoryEntry {
 		return $this->type;
 	}
 
+	public function isEqual(DirectoryEntry $directoryEntry): bool {
+		return $this->path == $directoryEntry->path;
+	}
+
 	/**
 	 * @return DirectoryEntry[]
 	 */

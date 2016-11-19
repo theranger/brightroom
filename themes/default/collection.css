@@ -55,6 +55,11 @@ aside nav ul ul {
 	margin-left: 20px;
 }
 
+aside nav ul li.opened:before {
+	content: "-";
+	margin-right: 9px;
+}
+
 aside nav ul li.selected:before {
 	content: "-";
 	margin-right: 9px;

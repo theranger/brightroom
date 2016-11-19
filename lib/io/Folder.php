@@ -84,8 +84,9 @@ class Folder extends DirectoryEntry {
 		return $this->children;
 	}
 
-	public function isEqual(Folder $folder): bool {
-		$this->inPath = $this->path == $folder->path;
+	public function isEqual(DirectoryEntry $entry): bool {
+		if (!$entry->isDirectory()) return false;
+		$this->inPath = $this->path == $entry->path;
 		return $this->inPath;
 	}
 

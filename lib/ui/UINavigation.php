@@ -22,16 +22,16 @@
 class UINavigation {
 
 	private static $folders;
-	private static $file;
+	private static $currentEntry;
 
 	/**
 	 * UINavigation constructor.
 	 * @param Folder[] $folders
-	 * @param File $file
+	 * @param DirectoryEntry $currentEntry
 	 */
-	public function __construct(array $folders, File $file = null) {
+	public function __construct(array $folders, DirectoryEntry $currentEntry) {
 		self::$folders = $folders;
-		self::$file = $file;
+		self::$currentEntry = $currentEntry;
 	}
 
 	public static function PrintTree() {
@@ -39,12 +39,20 @@ class UINavigation {
 		self::doPrintTree(self::$folders);
 	}
 
+	/**
+	 * @param Folder[] $folders
+	 */
 	private static function doPrintTree(array $folders) {
 		if (empty($folders)) return;
 
 		print '<ul class="br-tree">';
 		foreach ($folders as &$folder) {
-			print '<li'.($folder->isInPath()?' class="selected"':'').'><a href="'.$folder->getURL().'">'.$folder->getName().'</a></li>';
+			if (self::$currentEntry->isEqual($folder)) print '<li class="selected">';
+			elseif ($folder->isInPath()) print '<li class="opened">';
+			else print '<li>';
+
+			print '<a href="'.$folder->getURL().'">'.$folder->getName().'</a>';
+			print '</li>';
 			self::doPrintTree($folder->getChildren());
 		}
 		print '</ul>';
@@ -53,8 +61,8 @@ class UINavigation {
 	public static function PrintBreadcrumb() {
 		self::doPrintBreadcrumb(self::$folders);
 
-		if (!isset(self::$file)) return;
-		print '<a href="'.self::$file->getURL().'" class="br-breadcrumb-file">'.self::$file->getName().'</a>';
+		if (!self::$currentEntry->isFile()) return;
+		print '<a href="'.self::$currentEntry->getURL().'" class="br-breadcrumb-file">'.self::$currentEntry->getName().'</a>';
 	}
 
 	/**
