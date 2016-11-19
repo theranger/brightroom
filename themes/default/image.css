@@ -20,7 +20,7 @@ body {
 }
 
 main {
-	background-color: var(--main-background-color);
+	background-color: #00161d;
 	width: 100vw;
 	margin-left: 50px;
 }
@@ -58,7 +58,7 @@ main header nav a.nav {
 }
 
 main header nav a.nav:hover {
-	border-bottom: 5px solid var(--header-link-hover-color);
+	border-bottom: 5px solid #0049ad;
 }
 
 main section {
@@ -67,7 +67,7 @@ main section {
 }
 
 article {
-	background-color: var(--details-background-color);
+	background-color: #eaf9ff;
 	flex-grow: 1;
 	padding: 20px;
 }

@@ -14,16 +14,6 @@
  * limitations under the License.
  */
 
-:root {
-	--header-dark-color: #000;
-	--header-cross-color: #001c26;
-	--sidebar-color: #19353f;
-	--main-font-color: #dfe1e3;
-	--main-background-color: #00161d;
-	--header-link-hover-color: #0049ad;
-	--details-background-color: #eaf9ff;
-}
-
 body {
 	font-family: "Helvetica Neue", verdana, arial, helvetica, sans-serif;
 	font-size: 1.2em;
@@ -37,26 +27,26 @@ img {
 a {
 	outline: none;
 	text-decoration: none;
-	color: var(--main-font-color);
+	color: #dfe1e3;
 }
 
 aside {
-	background-color: var(--sidebar-color);
+	background-color: #19353f;
 	min-height: 100vh;
 	overflow: auto;
 }
 
 header {
-	color: var(--main-font-color);
+	color: #dfe1e3;
 	height: 50px;
 }
 
 main header {
-	background-color: var(--header-dark-color);
+	background-color: #000;
 }
 
 aside header {
-	background-color: var(--header-cross-color);
+	background-color: #001c26;
 }
 
 a.br-breadcrumb-folder:after {

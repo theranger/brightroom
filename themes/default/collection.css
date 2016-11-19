@@ -46,7 +46,7 @@ aside nav ul {
 aside nav ul li:before {
 	content: "+";
 	margin-right: 5px;
-	color: var(--main-font-color);
+	color: #dfe1e3;
 }
 
 aside nav ul li.selected:before {
@@ -55,7 +55,7 @@ aside nav ul li.selected:before {
 }
 
 aside nav ul li.selected {
-	background-color: var(--header-cross-color);
+	background-color: #001c26;
 }
 
 aside header {
