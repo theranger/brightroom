@@ -27,7 +27,10 @@ chdir(dirname(__FILE__));
 
 $settings = new Settings($GLOBALS["settings"]);
 $router = new Router($settings);
-$request = new Request($_SERVER["PHP_SELF"], $settings);
+
+// When invoking with PHP built-in server using router script, REDIRECT_URL is not set
+// Using Apache mod_rewrite, PHP_SELF would be set to index.php
+$request = new Request(isset($_SERVER["REDIRECT_URL"]) ? $_SERVER["REDIRECT_URL"] : $_SERVER["PHP_SELF"], $settings);
 
 $router->route($request);
 chdir($cwd);
