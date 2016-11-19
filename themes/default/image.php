@@ -10,6 +10,7 @@
 			<header><img src="<?php UI::PrintThemeUrl() ?>/images/Icon@30.png" alt="Brightroom Icon"></header>
 			<nav><a href="<?php UICollection::PrintURL(); ?>"><i class="fa fa-backward fa-lg" aria-hidden="true"></i></a></nav>
 			<nav><a href="#image"><i class="fa fa-picture-o fa-lg" aria-hidden="true"></i></a></nav>
+			<nav><a href="#caption"><i class="fa fa-font fa-lg" aria-hidden="true"></i></a></nav>
 			<nav><a href="#info"><i class="fa fa-camera fa-lg" aria-hidden="true"></i></a></nav>
 		</aside>
 
@@ -32,6 +33,7 @@
 			</header>
 			<section>
 				<figure>
+					<a name="caption"></a>
 					<img src="<?php UIImage::PrintImageURL() ?>" alt="Test image"/>
 					<figcaption>Image title goes here</figcaption>
 				</figure>
