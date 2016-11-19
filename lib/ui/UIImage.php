@@ -54,4 +54,8 @@ class UIImage {
 	public static function hasPreviousImage(): bool {
 		return isset(self::$previous);
 	}
+
+	public static function PrintImageURL() {
+		print self::$file->getURL();
+	}
 }
