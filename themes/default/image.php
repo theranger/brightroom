@@ -32,7 +32,7 @@
 			</header>
 			<section>
 				<figure>
-					<img src="<?php echo $_SERVER['PHP_SELF']; ?>" alt="Test image"/>
+					<img src="<?php UIImage::PrintImageURL() ?>" alt="Test image"/>
 					<figcaption>Image title goes here</figcaption>
 				</figure>
 
