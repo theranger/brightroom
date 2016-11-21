@@ -27,7 +27,8 @@ class ExifParser {
 	}
 
 	public function hasExif(): bool {
-		return isset($this->exifData) && !empty($this->exifData);
+		$keys = array_intersect_key($this->exifData, array_flip(InfoField::$fields));
+		return isset($this->exifData) && !empty($keys);
 	}
 
 	public function getFileSize(): int {

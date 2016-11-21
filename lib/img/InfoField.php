@@ -19,11 +19,20 @@
  * Created by The Ranger (ranger@risk.ee) on 2016-11-21
  *
  */
-abstract class InfoField {
+ abstract class InfoField {
 	const MAKE		= "Make";
 	const MODEL		= "Model";
 	const EXPOSURE	= "ExposureTime";
 	const APERTURE	= "ApertureFNumber";
 	const ISO		= "ISOSpeedRatings";
 	const TIMESTAMP	= "DateTime";
+
+ 	static $fields = array(
+ 		self::MAKE,
+		self::MODEL,
+		self::EXPOSURE,
+		self::APERTURE,
+		self::ISO,
+		self::TIMESTAMP
+	);
 }
