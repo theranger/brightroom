@@ -18,9 +18,12 @@
 class ExifParser {
 
 	private $exifData;
+	private $iptcData;
 
 	public function __construct(File $imageFile) {
 		$this->exifData = exif_read_data($imageFile->getPath());
+		getimagesize($imageFile->getPath(), $info);
+		if (isset($info["APP13"])) $this->iptcData = iptcparse($info["APP13"]);
 	}
 
 	public function getFileSize(): int {
@@ -49,9 +52,9 @@ class ExifParser {
 	}
 
 	public function getTitle(): string {
-		if (!isset($this->exifData["Title"])) return "";
+		if (!isset($this->iptcData["2#005"])) return "";
 
-		return $this->exifData["Title"];
+		return $this->iptcData["2#005"][0];
 	}
 
 	public function getDescription(): string {

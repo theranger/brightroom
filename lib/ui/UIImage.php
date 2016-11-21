@@ -24,9 +24,11 @@ class UIImage {
 	private static $file;
 	private static $next;
 	private static $previous;
+	private static $exifParser;
 
-	public function __construct(File $file) {
+	public function __construct(File $file, ExifParser $exifParser) {
 		self::$file = $file;
+		self::$exifParser = $exifParser;
 
 		$entries = $file->getFolder()->getContents();
 		foreach ($entries as $key => $value) {
@@ -57,5 +59,13 @@ class UIImage {
 
 	public static function PrintImageURL() {
 		print self::$file->getURL();
+	}
+
+	public static function PrintTitle() {
+		print self::$exifParser->getTitle();
+	}
+
+	public static function HasTitle(): bool {
+		return !empty(self::$exifParser->getTitle());
 	}
 }

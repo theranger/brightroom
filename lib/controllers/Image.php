@@ -21,6 +21,7 @@ include_once "ui/UI.php";
 include_once "ui/UICollection.php";
 include_once "ui/UIImage.php";
 include_once "img/ImageHandler.php";
+include_once "img/ExifParser.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-11-02
@@ -52,7 +53,7 @@ class Image extends Controller {
 				new UI($this->settings, $this->session);
 				new UICollection($folders, $this->fileSystem->getFolder());
 				new UINavigation($this->fileSystem->getRoot()->getChildren(), $this->fileSystem->getFile());
-				new UIImage($this->fileSystem->getFile(), $this->fileSystem->getFolder());
+				new UIImage($this->fileSystem->getFile(), new ExifParser($this->fileSystem->getFile()));
 				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/image.php");
 		}
 
