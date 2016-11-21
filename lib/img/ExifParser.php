@@ -26,6 +26,10 @@ class ExifParser {
 		if (isset($info["APP13"])) $this->iptcData = iptcparse($info["APP13"]);
 	}
 
+	public function hasExif(): bool {
+		return isset($this->exifData) && !empty($this->exifData);
+	}
+
 	public function getFileSize(): int {
 		if (!isset($this->exifData["FileSize"])) return -1;
 
@@ -61,5 +65,9 @@ class ExifParser {
 		if (isset($this->exifData["ImageDescription"])) return $this->exifData["ImageDescription"];
 		if (isset($this->exifData["UserComment"])) return $this->exifData["UserComment"];
 		return "";
+	}
+
+	public function getData(): array {
+		return $this->exifData;
 	}
 }

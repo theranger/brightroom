@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+include_once "img/InfoField.php";
+
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-11-18
  *
@@ -67,5 +69,37 @@ class UIImage {
 
 	public static function HasTitle(): bool {
 		return !empty(self::$exifParser->getTitle());
+	}
+
+	public static function HasExif(): bool {
+		return self::$exifParser->hasExif();
+	}
+
+	public static function PrintExif() {
+		$exifInfo = self::$exifParser->getData();
+		if (empty($exifInfo)) return;
+
+		print '<dl>';
+
+		foreach ($exifInfo as $key => $value) {
+			if (empty($value)) continue;
+
+			switch ($key) {
+				case InfoField::MAKE:
+					print '<dt>Manufacturer</dt>';
+					break;
+
+				case InfoField::MODEL:
+					print '<dt>Model</dt>';
+					break;
+
+				default:
+					continue 2;
+			}
+
+			print '<dd>'.$value.'</dd>';
+		}
+
+		print '</dl>';
 	}
 }

@@ -15,7 +15,10 @@
 			<nav><a href="#caption"><i class="fa fa-font fa-lg" aria-hidden="true"></i></a></nav>
 			<?php endif; ?>
 
+			<?php if (UIImage::HasExif()): ?>
 			<nav><a href="#info"><i class="fa fa-camera fa-lg" aria-hidden="true"></i></a></nav>
+			<?php endif; ?>
+
 		</aside>
 
 		<main>
@@ -45,10 +48,14 @@
 					<?php endif; ?>
 				</figure>
 
+				<?php if (UIImage::HasExif()): ?>
 				<article>
 					<a name="info"></a>
-					<h1>EXIF Information</h1>
+					<h1>Image</h1>
+					<?php UIImage::PrintExif(); ?>
 				</article>
+				<?php endif; ?>
+
 			</section>
 		</main>
 	</body>
