@@ -18,21 +18,15 @@
 class ExifParser {
 
 	private $exifData;
-	private $fileName;
 
-	public function __construct(string $imagePath) {
-		$this->exifData = exif_read_data($imagePath);
-		$this->fileName = basename($imagePath);
+	public function __construct(File $imageFile) {
+		$this->exifData = exif_read_data($imageFile->getPath());
 	}
 
 	public function getFileSize(): int {
 		if (!isset($this->exifData["FileSize"])) return -1;
 
 		return $this->exifData["FileSize"];
-	}
-
-	public function printFileSize() {
-		echo $this->getFileSize();
 	}
 
 	public function getOrientation(): int {
@@ -54,27 +48,15 @@ class ExifParser {
 		return $this->exifData["Comments"];
 	}
 
-	public function printComment() {
-		echo $this->getComment();
-	}
-
 	public function getTitle(): string {
-		if (!isset($this->exifData["Title"])) return $this->fileName;
+		if (!isset($this->exifData["Title"])) return "";
 
 		return $this->exifData["Title"];
-	}
-
-	public function printTitle() {
-		echo $this->getTitle();
 	}
 
 	public function getDescription(): string {
 		if (isset($this->exifData["ImageDescription"])) return $this->exifData["ImageDescription"];
 		if (isset($this->exifData["UserComment"])) return $this->exifData["UserComment"];
 		return "";
-	}
-
-	public function printDescription() {
-		echo $this->getDescription();
 	}
 }
