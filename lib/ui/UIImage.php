@@ -79,27 +79,43 @@ class UIImage {
 		$exifInfo = self::$exifParser->getData();
 		if (empty($exifInfo)) return;
 
-		print '<dl>';
+		print '<table>';
 
 		foreach ($exifInfo as $key => $value) {
 			if (empty($value)) continue;
 
 			switch ($key) {
 				case InfoField::MAKE:
-					print '<dt>Manufacturer</dt>';
+					print '<tr><th>Manufacturer</th>';
 					break;
 
 				case InfoField::MODEL:
-					print '<dt>Model</dt>';
+					print '<tr><th>Model</th>';
+					break;
+
+				case InfoField::EXPOSURE:
+					print '<tr><th>Exposure time</th>';
+					break;
+
+				case InfoField::APERTURE:
+					print '<tr><th>Aperture</th>';
+					break;
+
+				case InfoField::ISO:
+					print '<tr><th>ISO Speed</th>';
+					break;
+
+				case InfoField::TIMESTAMP:
+					print '<tr><th>Timestamp</th>';
 					break;
 
 				default:
 					continue 2;
 			}
 
-			print '<dd>'.$value.'</dd>';
+			print '<td>'.$value.'</td></tr>';
 		}
 
-		print '</dl>';
+		print '</table>';
 	}
 }

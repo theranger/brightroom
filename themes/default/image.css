@@ -92,3 +92,8 @@ figcaption {
 	align-self: center;
 	justify-content: center;
 }
+
+article table th {
+	text-align: right;
+	padding-right: 10px;
+}

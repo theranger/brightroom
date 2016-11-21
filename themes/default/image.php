@@ -51,7 +51,6 @@
 				<?php if (UIImage::HasExif()): ?>
 				<article>
 					<a name="info"></a>
-					<h1>Image</h1>
 					<?php UIImage::PrintExif(); ?>
 				</article>
 				<?php endif; ?>

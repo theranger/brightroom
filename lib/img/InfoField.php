@@ -20,6 +20,10 @@
  *
  */
 abstract class InfoField {
-	const MAKE	= "Make";
-	const MODEL = "Model";
+	const MAKE		= "Make";
+	const MODEL		= "Model";
+	const EXPOSURE	= "ExposureTime";
+	const APERTURE	= "ApertureFNumber";
+	const ISO		= "ISOSpeedRatings";
+	const TIMESTAMP	= "DateTime";
 }
