@@ -17,10 +17,10 @@
 body {
 	display: flex;
 	align-items: stretch;
+	background-color: #00161d;
 }
 
 main {
-	background-color: #00161d;
 	width: 100vw;
 	margin-left: 50px;
 }
