@@ -83,6 +83,11 @@ class Request {
 			return;
 		}
 
+		if (isset($_GET["about"])) {
+			$this->requestType = RequestType::ABOUT_PAGE;
+			return;
+		}
+
 		$resourceName = $this->urlParser->getResourceName();
 		if (empty($resourceName)) return;
 

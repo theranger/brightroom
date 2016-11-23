@@ -20,6 +20,7 @@ include_once "Response.php";
 include_once "controllers/Collection.php";
 include_once "controllers/Image.php";
 include_once "controllers/Text.php";
+include_once "controllers/About.php";
 include_once "io/FileSystem.php";
 
 /**
@@ -72,6 +73,10 @@ class Router {
 				$session = new Session($fileSystem, $this->settings);
 				$fileController = new Text($session, $this->settings, $fileSystem->getFile());
 				return $fileController->get($request);
+
+			case RequestType::ABOUT_PAGE:
+				$aboutController = new About(new Session($fileSystem, $this->settings), $this->settings, $fileSystem);
+				return $aboutController->get($request);
 		}
 
 		error_log($request->getURL().": Access denied");

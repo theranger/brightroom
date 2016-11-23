@@ -7,7 +7,9 @@
 	</head>
 	<body>
 		<aside>
-			<header><img src="<?php UI::PrintThemeUrl() ?>/images/Icon@30.png" alt="Brightroom Icon"></header>
+			<header>
+				<a href="/?about=true"><img src="<?php UI::PrintThemeUrl() ?>/images/Icon@30.png" alt="Brightroom Icon"></a>
+			</header>
 			<nav><?php UINavigation::PrintTree() ?></nav>
 		</aside>
 
