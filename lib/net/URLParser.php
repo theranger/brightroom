@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+include_once "system/SystemException.php";
+
 class URLParser {
 
 	private static $urlPatterns = array('/index\.php\/?/', '/\w+\/\.\.\//');
@@ -23,10 +25,12 @@ class URLParser {
 	private $url;
 
 	public function __construct(string $url, Settings &$settings) {
+		if (!function_exists("Normalizer::normalize")) throw new SystemException("PHP Intl library not installed");
+
 		$this->settings = $settings;
 
 		// Cleanup the bad things
-		$url = preg_replace(self::$urlPatterns, '', urldecode($url));
+		$url = preg_replace(self::$urlPatterns, '', Normalizer::normalize(urldecode($url)));
 
 		// Strip prefix
 		if (strncmp($url, $this->settings->documentRoot, strlen($this->settings->documentRoot)) == 0) {

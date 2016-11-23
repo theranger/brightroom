@@ -22,15 +22,21 @@ include_once "Settings.php";
 include_once "net/Request.php";
 include_once "net/Router.php";
 
-$cwd = getcwd();
-chdir(dirname(__FILE__));
+try {
+	$cwd = getcwd();
+	chdir(dirname(__FILE__));
 
-$settings = new Settings($GLOBALS["settings"]);
-$router = new Router($settings);
+	$settings = new Settings($GLOBALS["settings"]);
+	$router = new Router($settings);
 
-// When invoking with PHP built-in server using router script, REDIRECT_URL is not set
-// Using Apache mod_rewrite, PHP_SELF would be set to index.php
-$request = new Request(isset($_SERVER["REDIRECT_URL"]) ? $_SERVER["REDIRECT_URL"] : $_SERVER["PHP_SELF"], $settings);
+	// When invoking with PHP built-in server using router script, REDIRECT_URL is not set
+	// Using Apache mod_rewrite, PHP_SELF would be set to index.php
+	$request = new Request(isset($_SERVER["REDIRECT_URL"]) ? $_SERVER["REDIRECT_URL"] : $_SERVER["PHP_SELF"], $settings);
 
-$router->route($request);
-chdir($cwd);
+	$router->route($request);
+	chdir($cwd);
+}
+catch(Exception $ex) {
+	print $ex->getMessage();
+}
+
