@@ -25,7 +25,7 @@ class ExifParser {
 	public function __construct(File $imageFile) {
 		if ($imageFile->getType() != ContentType::JPEG) return;
 
-		$this->exifData = exif_read_data($imageFile->getPath());
+		$this->exifData = @exif_read_data($imageFile->getPath());
 		getimagesize($imageFile->getPath(), $info);
 		if (isset($info["APP13"])) $this->iptcData = iptcparse($info["APP13"]);
 	}
