@@ -72,7 +72,7 @@ class Folder extends DirectoryEntry {
 
 		$dh = opendir($this->path);
 		if ($dh == false) return array();
-		if (!function_exists("Normalizer::normalize")) throw new SystemException("PHP Intl library not installed");
+		if (!method_exists("Normalizer", "normalize")) throw new SystemException("PHP 'intl' module not installed");
 
 		while (($entry = readdir($dh)) !== false) {
 			if ($entry[0] == '.') continue;

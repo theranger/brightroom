@@ -25,7 +25,7 @@ class URLParser {
 	private $url;
 
 	public function __construct(string $url, Settings &$settings) {
-		if (!function_exists("Normalizer::normalize")) throw new SystemException("PHP Intl library not installed");
+		if (!method_exists("Normalizer", "normalize")) throw new SystemException("PHP 'intl' module not installed");
 
 		$this->settings = $settings;
 
