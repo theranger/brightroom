@@ -30,7 +30,7 @@ class UIAbout implements IStaticModule {
 	}
 
 	function printContent() { ?>
-		<h1>Brightroom Gallery</h1>
+		<h1>Brightroom Gallery <?php echo $this->settings->version ?></h1>
 		<p>
 			Simple folder-based gallery system written in PHP. Brightroom is free and open source.
 		</p>
@@ -38,10 +38,6 @@ class UIAbout implements IStaticModule {
 		<p>
 			For more information, check out the <a href="http://brightroom.eu">official website</a>.
 			Source code is located in <a href="http://github.com/theranger/brightroom">GitHub</a>.
-		</p>
-
-		<p>
-			Currently installed version is <b><?php echo $this->settings->version ?></b>.
 		</p>
 
 		<h2>Credits</h2>
