@@ -63,7 +63,7 @@ class Router {
 			case RequestType::IMAGE_FOLDER:
 				$session = new Session($fileSystem, $this->settings);
 				$collectionController = new Collection($session, $this->settings, $fileSystem);
-				return $collectionController->listing($request);
+				return $collectionController->get($request);
 
 			case RequestType::THEME_FILE:
 				$fileSystem = new FileSystem(getcwd(), $request->getURL());

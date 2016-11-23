@@ -15,19 +15,10 @@
  * limitations under the License.
  */
 
-include_once "IController.php";
-
 /**
- * Created by The Ranger (ranger@risk.ee) on 2016-10-14
+ * Created by The Ranger (ranger@risk.ee) on 2016-11-23
  *
  */
-abstract class Controller implements IController {
-
-	protected $session;
-	protected $settings;
-
-	public function __construct(Session $session, Settings $settings) {
-		$this->session = $session;
-		$this->settings = $settings;
-	}
+interface IController {
+	function get(Request $request): Response;
 }

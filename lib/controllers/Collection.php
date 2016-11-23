@@ -34,7 +34,7 @@ class Collection extends Controller {
 		$this->fileSystem = $fileSystem;
 	}
 
-	public function listing(Request $request): Response {
+	public function get(Request $request): Response {
 		$response = new Response($request);
 
 		if (!$this->session->authorize($request->getURL())) {
