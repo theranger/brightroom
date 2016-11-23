@@ -65,7 +65,8 @@ class Folder extends DirectoryEntry {
 	}
 
 	/**
-	 * @return Folder[]
+	 * @return array|Folder[]
+	 * @throws SystemException
 	 */
 	public function getFolders(): array {
 		if (!empty($this->children)) return $this->children;
