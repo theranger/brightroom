@@ -15,18 +15,24 @@
  * limitations under the License.
  */
 
+include_once "net/ContentType.php";
+
 class ExifParser {
 
 	private $exifData;
 	private $iptcData;
 
 	public function __construct(File $imageFile) {
+		if ($imageFile->getType() != ContentType::JPEG) return;
+
 		$this->exifData = exif_read_data($imageFile->getPath());
 		getimagesize($imageFile->getPath(), $info);
 		if (isset($info["APP13"])) $this->iptcData = iptcparse($info["APP13"]);
 	}
 
 	public function hasExif(): bool {
+		if (!isset($this->exifData)) return false;
+
 		$keys = array_intersect_key($this->exifData, array_flip(InfoField::$fields));
 		return isset($this->exifData) && !empty($keys);
 	}
@@ -69,6 +75,7 @@ class ExifParser {
 	}
 
 	public function getData(): array {
+		if (!isset($this->exifData)) return array();
 		return $this->exifData;
 	}
 }
