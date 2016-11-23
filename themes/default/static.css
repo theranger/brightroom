@@ -17,3 +17,11 @@
 main a {
 	color: #0049ad;
 }
+
+main {
+}
+
+h2 {
+	font-size: 1.2em;
+	margin-top: 2em;
+}
