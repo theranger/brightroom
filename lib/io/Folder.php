@@ -77,7 +77,7 @@ class Folder extends DirectoryEntry {
 			if ($entry[0] == '.') continue;
 
 			if (!is_dir($this->path."/".$entry)) continue;
-			$this->children[] = new Folder($this->base, $this->url."/".$entry);
+			$this->children[] = new Folder($this->base, $this->url."/".Normalizer::normalize($entry));
 		}
 
 		closedir($dh);
