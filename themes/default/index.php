@@ -9,7 +9,7 @@
 	<body>
 		<aside>
 			<header>
-				<a href="/?about=true"><img src="<?php UI::PrintThemeUrl() ?>/images/Icon@30.png" alt="Brightroom Icon"></a>
+				<a href="/?about"><img src="<?php UI::PrintThemeUrl() ?>/images/Icon@30.png" alt="Brightroom Icon"></a>
 			</header>
 			<nav><?php UINavigation::PrintTree() ?></nav>
 		</aside>
