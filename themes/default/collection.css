@@ -42,31 +42,38 @@ aside nav ul {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
-	line-height: 1.5em;
 }
 
-aside nav ul li:before {
-	content: "+";
-	margin-right: 5px;
-	color: #dfe1e3;
+aside nav ul li {
+	padding-left: 16px;
+	margin-bottom: 5px;
+}
+
+aside nav ul li.selected {
+	background-color: #001c26;
 }
 
 aside nav ul ul {
 	margin-left: 20px;
 }
 
+aside nav ul li:before {
+	content: "+";
+	margin-left: -15px;
+	margin-right: 1px;
+	color: #dfe1e3;
+}
+
 aside nav ul li.opened:before {
 	content: "-";
-	margin-right: 9px;
+	margin-left: -15px;
+	margin-right: 5px;
 }
 
 aside nav ul li.selected:before {
 	content: "-";
-	margin-right: 9px;
-}
-
-aside nav ul li.selected {
-	background-color: #001c26;
+	margin-left: -15px;
+	margin-right: 5px;
 }
 
 aside header {
