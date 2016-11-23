@@ -62,7 +62,7 @@ class UINavigation {
 		self::doPrintBreadcrumb(self::$folders);
 
 		if (!self::$currentEntry->isFile()) return;
-		print '<a href="'.self::$currentEntry->getURL().'" class="br-breadcrumb-file">'.self::$currentEntry->getName().'</a>';
+		print '<a href="'.self::$currentEntry->getURL().'" class="br-breadcrumb-file">'.self::abbreviateName(self::$currentEntry->getName(), 30).'</a>';
 	}
 
 	/**
@@ -73,8 +73,16 @@ class UINavigation {
 
 		foreach ($folders as $key => &$folder) {
 			if (!$folder->isInPath()) continue;
-			print '<a href="'.$folder->getURL().'" class="br-breadcrumb-folder">'.$folder->getName().'</a>';
+			print '<a href="'.$folder->getURL().'" class="br-breadcrumb-folder">'.self::abbreviateName($folder->getName()).'</a>';
 			self::doPrintBreadcrumb($folder->getChildren());
 		}
+	}
+
+	private static function abbreviateName(string $name, $count = 20): string {
+		if (strlen($name) < $count) return $name;
+		$pos = strrpos($name, " ", $count - strlen($name));
+		if ($pos === false) $pos = $count;
+
+		return substr($name, 0, $pos)."...";
 	}
 }
