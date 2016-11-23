@@ -18,7 +18,7 @@
 set_include_path(dirname(__FILE__)."/lib");
 
 include_once "config.php";
-include_once "Settings.php";
+include_once "system/Settings.php";
 include_once "net/Request.php";
 include_once "net/Router.php";
 
