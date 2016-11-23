@@ -17,6 +17,7 @@
 
 include_once "UIAuth.php";
 include_once "UICollection.php";
+include_once "IStaticModule.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-14
@@ -24,11 +25,19 @@ include_once "UICollection.php";
  */
 class UI {
 
+	/**
+	 * @var IStaticModule
+	 */
+	private static $staticModule;
 	private static $settings;
 
 	public function __construct(Settings $settings, Session $session) {
 		self::$settings = $settings;
 		new UIAuth($session);
+	}
+
+	public function setStaticModule(IStaticModule $staticModule) {
+		self::$staticModule = $staticModule;
 	}
 
 	public static function Auth(): UIAuth {
@@ -51,4 +60,9 @@ class UI {
 		<meta name="generator" content="BrightRoom PHP Gallery <?php self::$settings->version ?>">
 		<link rel="stylesheet" type="text/css" href="<?php self::PrintThemeUrl() ?>/default.css">
 	<?php }
+
+	public static function PrintContent() {
+		if (!isset(self::$staticModule)) return;
+		self::$staticModule->printContent();
+	}
 }
