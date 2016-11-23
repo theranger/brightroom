@@ -21,7 +21,7 @@
  */
 class Settings {
 
-	public $version = "1.2";
+	public $version = "2.0.0";
 
 	public $thumbnailSize = 100;
 
