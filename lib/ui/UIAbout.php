@@ -41,8 +41,14 @@ class UIAbout implements IStaticModule {
 		</p>
 
 		<p>
-			Currently installed version in this server is <b><?php echo $this->settings->version ?></b>.
+			Currently installed version is <b><?php echo $this->settings->version ?></b>.
 		</p>
+
+		<h2>Credits</h2>
+		This software is created by:
+		<ul>
+			<li>The Ranger (ranger at risk.ee)</li>
+		</ul>
 
 	<?php }
 }
