@@ -49,7 +49,13 @@ class FileSystem {
 		}
 	}
 
+	/**
+	 * @return Folder
+	 * @throws IOException
+	 */
 	public function getFolder(): Folder {
+		if (!isset($this->folder)) throw new IOException("Folder does not exist or is not readable");
+
 		return $this->folder;
 	}
 
@@ -57,7 +63,12 @@ class FileSystem {
 		return $this->root;
 	}
 
+	/**
+	 * @return File
+	 * @throws IOException
+	 */
 	public function getFile(): File {
+		if (!isset($this->file)) throw new IOException("File does not exist or is not readable");
 		return $this->file;
 	}
 
