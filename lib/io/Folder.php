@@ -151,6 +151,6 @@ class Folder extends DirectoryEntry {
 		if ($a->isDirectory()) return -1;
 		if ($b->isDirectory()) return 1;
 
-		return 0;
+		return strcasecmp($a->getName(), $b->getName());
 	}
 }
