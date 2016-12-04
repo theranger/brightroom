@@ -41,7 +41,7 @@
 			<section>
 				<figure>
 					<a name="caption"></a>
-					<img src="<?php UIImage::PrintImageURL() ?>" alt="Test image"/>
+					<img src="<?php UIImage::PrintImageURL() ?>" alt=""/>
 
 					<?php if (UIImage::HasTitle()): ?>
 					<figcaption><?php UIImage::PrintTitle(); ?></figcaption>
