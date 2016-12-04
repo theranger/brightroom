@@ -80,12 +80,7 @@ class ExifParser {
 	}
 
 	public function getTitle(): string {
-		if (!isset($this->iptcData["2#005"])) return "";
-
-		return $this->iptcData["2#005"][0];
-	}
-
-	public function getDescription(): string {
+		if (isset($this->iptcData["2#005"])) return $this->iptcData["2#005"][0];
 		if (isset($this->exifData["ImageDescription"])) return $this->exifData["ImageDescription"];
 		if (isset($this->exifData["UserComment"])) return $this->exifData["UserComment"];
 		return "";
