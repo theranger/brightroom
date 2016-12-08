@@ -105,6 +105,11 @@ class Request {
 			return;
 		}
 
+		if (isset($_GET["login"])) {
+			$this->requestType = RequestType::LOGIN_PAGE;
+			return;
+		}
+
 		$resourceName = $this->urlParser->getResourceName();
 		if (empty($resourceName)) return;
 
