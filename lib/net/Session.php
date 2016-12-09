@@ -16,21 +16,6 @@
  */
 
 declare(strict_types = 1);
-/**
- * Copyright 2016 The Ranger <ranger@risk.ee>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 include_once "io/File.php";
 include_once "io/FileSystem.php";
@@ -62,8 +47,8 @@ class Session {
 				if (!$this->isLoggedIn()) session_start();
 
 				$this->userName = $user;
-				$_SESSION["sfg-user"] = $user;
-				$_SESSION["sfg-hash"] = $this->makeHash($this->userName, $this->settings->salt);
+				$_SESSION["br-user"] = $user;
+				$_SESSION["br-hash"] = $this->makeHash($this->userName, $this->settings->salt);
 
 				$passwordFile->close();
 				return true;
@@ -116,7 +101,7 @@ class Session {
 	}
 
 	public function isLoggedIn(): bool {
-		return isset($_SESSION["sfg-hash"]);
+		return isset($_SESSION["br-hash"]);
 	}
 
 	private function init(): bool {
@@ -132,9 +117,9 @@ class Session {
 		//No session exists, nothing to do
 		if (!session_status() != PHP_SESSION_ACTIVE) return false;
 
-		if (isset($_SESSION["sfg-hash"]) && isset($_SESSION["sfg-user"])) {
-			if ($this->makeHash($_SESSION["sfg-user"], $this->settings->salt) == $_SESSION["sfg-hash"]) {
-				$this->userName = $_SESSION["sfg-user"];
+		if (isset($_SESSION["br-hash"]) && isset($_SESSION["br-user"])) {
+			if ($this->makeHash($_SESSION["br-user"], $this->settings->salt) == $_SESSION["br-hash"]) {
+				$this->userName = $_SESSION["br-user"];
 				return true;
 			}
 		}
