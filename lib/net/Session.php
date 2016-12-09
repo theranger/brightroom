@@ -128,7 +128,7 @@ class Session {
 		}
 
 		//No session exists, nothing to do
-		if (!session_status() != PHP_SESSION_ACTIVE) return false;
+		if (session_status() != PHP_SESSION_ACTIVE) return false;
 
 		if (isset($_SESSION["br-hash"]) && isset($_SESSION["br-user"])) {
 			if ($this->makeHash($_SESSION["br-user"], $this->settings->salt) == $_SESSION["br-hash"]) {
