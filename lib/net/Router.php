@@ -46,6 +46,7 @@ class Router {
 		}
 
 		$fileSystem = new FileSystem($this->settings->dataDirectory, $request->getURL());
+		$session = new Session($fileSystem, $this->settings);
 
 		switch ($request->getRequestType()) {
 			case RequestType::UNKNOWN:
@@ -60,29 +61,27 @@ class Router {
 			case RequestType::THUMBNAIL_FILE:
 				if ($fileSystem->getFile() == null) $this->renderResponse($request, ResponseCode::BAD_REQUEST);
 
-				$session = new Session($fileSystem, $this->settings);
 				$imageController = new Image($session, $this->settings, $fileSystem);
 				return $imageController->get($request);
 
 			case RequestType::IMAGE_FOLDER:
-				$session = new Session($fileSystem, $this->settings);
 				$collectionController = new Collection($session, $this->settings, $fileSystem);
 				return $collectionController->get($request);
 
 			case RequestType::THEME_FILE:
-				$fileSystem = new FileSystem(getcwd(), $request->getURL());
+				$fileSystem = new FileSystem(getcwd(), $request->getURL());	// Override file system object
 				if ($fileSystem->getFile() == null) return $this->renderResponse($request, ResponseCode::BAD_REQUEST);
 
-				$session = new Session($fileSystem, $this->settings);
+				$session = new Session($fileSystem, $this->settings);	// Override session with new filesystem
 				$fileController = new Text($session, $this->settings, $fileSystem->getFile());
 				return $fileController->get($request);
 
 			case RequestType::ABOUT_PAGE:
-				$aboutController = new About(new Session($fileSystem, $this->settings), $this->settings, $fileSystem);
+				$aboutController = new About($session, $this->settings, $fileSystem);
 				return $aboutController->get($request);
 
 			case RequestType::LOGIN_PAGE:
-				$authController = new Auth(new Session($fileSystem, $this->settings), $this->settings, $fileSystem);
+				$authController = new Auth($session, $this->settings, $fileSystem);
 				return $authController->get($request);
 		}
 
