@@ -93,7 +93,9 @@ class Session {
 	public function clear() {
 		if (!$this->isLoggedIn()) return;
 
-		$this->userName = null;
+		$this->userName = "";
+		$_SESSION = array();
+
 		session_destroy();
 	}
 
