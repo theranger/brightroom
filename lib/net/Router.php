@@ -46,9 +46,8 @@ class Router {
 		}
 
 		$fileSystem = new FileSystem($this->settings->dataDirectory, $request->getURL());
-		$session = new Session($fileSystem, $this->settings);
-		if ($request->isLogout()) $session->clear();
 
+		// Handle request types that do not require session
 		switch ($request->getRequestType()) {
 			case RequestType::UNKNOWN:
 				$request->elaborateType($fileSystem);
@@ -57,7 +56,12 @@ class Router {
 			case RequestType::INVALID:
 				error_log($request->getURL().": Requested file not found");
 				return (new Response($request))->render(ResponseCode::NOT_FOUND);
+		}
 
+		$session = new Session($fileSystem, $this->settings);
+		if ($request->isLogout()) $session->clear();
+
+		switch ($request->getRequestType()) {
 			case RequestType::IMAGE_FILE:
 			case RequestType::THUMBNAIL_FILE:
 				if ($fileSystem->getFile() == null) $this->renderResponse($request, ResponseCode::BAD_REQUEST);
