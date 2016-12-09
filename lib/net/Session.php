@@ -24,27 +24,28 @@ include_once "SessionState.php";
 class Session {
 
 	private $userName;
-	private $folder;
+	private $fileSystem;
+	private $passwordFile;
 	private $settings;
 	private $cachedPath = array();
 	private $state = SessionState::GUEST;
 
 	public function __construct(FileSystem $fileSystem, Settings $settings) {
-		$this->folder = $fileSystem->getRoot();
+		$this->fileSystem = $fileSystem;
 		$this->settings = $settings;
+		$this->passwordFile = new File($fileSystem->getRoot(), $this->settings->passwordFile);
 		$this->init();
 	}
 
 	public function authenticate(string $user, string $password): bool {
 		if (empty($user) || empty($password)) return false;
 
-		$passwordFile = new File($this->folder, $this->settings->passwordFile);
-		if (!$passwordFile->open()) return true;
+		if (!$this->passwordFile->open()) return true;
 
 		$token = $user.":{SHA}".base64_encode(sha1($password, true));
 
-		while ($passwordFile->hasNext()) {
-			$r = $passwordFile->readLine();
+		while ($this->passwordFile->hasNext()) {
+			$r = $this->passwordFile->readLine();
 			if (strpos($r, $token) === 0) {
 				if (!$this->isLoggedIn()) session_start();
 
@@ -52,13 +53,13 @@ class Session {
 				$_SESSION["br-user"] = $user;
 				$_SESSION["br-hash"] = $this->makeHash($this->userName, $this->settings->salt);
 
-				$passwordFile->close();
+				$this->passwordFile->close();
 				$this->state = SessionState::LOGGED_IN;
 				return true;
 			}
 		}
 
-		$passwordFile->close();
+		$this->passwordFile->close();
 		$this->state = SessionState::LOGIN_FAILED;
 		return false;
 	}
@@ -71,7 +72,7 @@ class Session {
 			return false;
 		}
 
-		$accessFile = new File($this->folder, $path."/".$this->settings->accessFile);
+		$accessFile = new File($this->fileSystem->getFolder(), $path."/".$this->settings->accessFile);
 		if ($accessFile->open($path.'/'.$this->settings->accessFile) == false) {
 			$this->cachedPath[$path] = true;
 			return $this->authorize(substr($path, 0, strrpos($path, "/")));
@@ -101,8 +102,7 @@ class Session {
 	}
 
 	public function isAuthAvailable(): bool {
-		$passwordFile = new File($this->folder, $this->settings->passwordFile);
-		return $passwordFile->exists();
+		return $this->passwordFile->exists();
 	}
 
 	public function getLoggedInUser(): string {
