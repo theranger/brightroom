@@ -61,6 +61,10 @@ class Request {
 		return isset($_POST["br-username"]) || isset($_POST["br-password"]);
 	}
 
+	public function isLogout(): bool {
+		return isset($_GET["logout"]);
+	}
+
 	public function getUsername(): string {
 		return $this->username;
 	}
