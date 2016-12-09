@@ -47,6 +47,7 @@ class Router {
 
 		$fileSystem = new FileSystem($this->settings->dataDirectory, $request->getURL());
 		$session = new Session($fileSystem, $this->settings);
+		if ($request->isLogout()) $session->clear();
 
 		switch ($request->getRequestType()) {
 			case RequestType::UNKNOWN:
