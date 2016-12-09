@@ -37,7 +37,14 @@ class UIAuth implements IStaticModule {
 
 	public static function PrintLogin() {
 		if (!self::$session->isAuthAvailable()) return;
-		self::isLoggedIn() ? print '<a class="br-auth" href="?logout">Log out</a>' : print '<a class="br-auth" href="?login">Log in</a>';
+
+		if (self::isLoggedIn()) {
+			print '<p class="br-auth">Welcome, ' . self::$session->getLoggedInUser() . '!</p>';
+			print '<a class="br-auth" href="?logout">Log out</a>';
+			return;
+		}
+
+		print '<a class="br-auth" href="?login">Log in</a>';
 	}
 
 	public static function PrintUserName() {

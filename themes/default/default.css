@@ -64,3 +64,8 @@ main header img {
 main header a.br-auth {
 	display: block;
 }
+
+main header p.br-auth {
+	display: block;
+	margin-right: 5px;
+}
