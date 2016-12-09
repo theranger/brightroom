@@ -46,8 +46,8 @@ class UIAuth implements IStaticModule {
 
 	public static function PrintLoginDialog() { ?>
 		<form method="post" class="br-auth">
-			<p><label for="username">Username:</label><input type="text" name="username" id="username" /></p>
-			<p><label for="password">Password:</label><input type="password" name="password" id="password" /></p>
+			<p><label for="br-username">Username:</label><input type="text" name="br-username" id="br-username" /></p>
+			<p><label for="br-password">Password:</label><input type="password" name="br-password" id="br-password" /></p>
 			<p><input type="submit" value="Log In" class="br-button" /></p>
 		</form>
 	<?php }
