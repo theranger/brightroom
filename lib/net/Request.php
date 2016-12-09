@@ -16,21 +16,6 @@
  */
 
 declare(strict_types = 1);
-/**
- * Copyright 2016 The Ranger <ranger@risk.ee>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 include_once "Session.php";
 include_once "URLParser.php";
@@ -47,6 +32,8 @@ class Request {
 	private $settings;
 	private $requestType = RequestType::UNKNOWN;
 	private $acceptedType = ContentType::PLAIN;
+	private $username;
+	private $password;
 
 	public function __construct(string $url, Settings $settings) {
 		$this->urlParser = new URLParser($url, $settings);
@@ -70,6 +57,18 @@ class Request {
 		return isset($_SERVER["HTTPS"]);
 	}
 
+	public function isLogin(): bool {
+		return isset($_POST["br-username"]) || isset($_POST["br-password"]);
+	}
+
+	public function getUsername(): string {
+		return $this->username;
+	}
+
+	public function getPassword(): string {
+		return $this->password;
+	}
+
 	public function elaborateType(FileSystem $fileSystem) {
 		if ($this->requestType != RequestType::UNKNOWN) return;
 
@@ -87,6 +86,9 @@ class Request {
 	}
 
 	private function parseRequest() {
+		if (isset($_POST["br-username"])) $this->username = $_POST["br-username"];
+		if (isset($_POST["br-password"])) $this->password = $_POST["br-password"];
+
 		$this->acceptedType = ContentType::parseAcceptHeader($_SERVER["HTTP_ACCEPT"]);
 		if ($this->acceptedType == ContentType::ANY) $this->acceptedType = ContentType::parseExtension($this->urlParser->getResourceName());
 
