@@ -35,6 +35,8 @@ class Auth extends Controller {
 	function get(Request $request): Response {
 		$response = new Response($request);
 
+		if ($request->isLogin()) $this->session->authenticate($request->getUsername(), $request->getPassword());
+
 		switch ($request->getAcceptedType()) {
 			case ContentType::HTML:
 				(new UI($this->settings, $this->session))->setStaticModule(new UIAuth($this->session));
