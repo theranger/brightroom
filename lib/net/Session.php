@@ -30,7 +30,7 @@ class Session {
 	private $state = SessionState::GUEST;
 
 	public function __construct(FileSystem $fileSystem, Settings $settings) {
-		$this->folder = $fileSystem->getFolder();
+		$this->folder = $fileSystem->getRoot();
 		$this->settings = $settings;
 		$this->init();
 	}
