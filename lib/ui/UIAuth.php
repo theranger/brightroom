@@ -36,6 +36,7 @@ class UIAuth implements IStaticModule {
 	}
 
 	public static function PrintLogin() {
+		if (!self::$session->isAuthAvailable()) return;
 		self::isLoggedIn() ? print '<a class="br-auth" href="?logout">Log out</a>' : print '<a class="br-auth" href="?login">Log in</a>';
 	}
 
@@ -46,6 +47,7 @@ class UIAuth implements IStaticModule {
 
 	public static function PrintLoginDialog() { ?>
 		<form method="post" class="br-auth">
+			<p><?php if(self::$session->getState() == SessionState::LOGIN_FAILED): ?>Login failed<?php endif; ?></p>
 			<p><label for="br-username">Username:</label><input type="text" name="br-username" id="br-username" /></p>
 			<p><label for="br-password">Password:</label><input type="password" name="br-password" id="br-password" /></p>
 			<p><input type="submit" value="Log In" class="br-button" /></p>
