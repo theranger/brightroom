@@ -111,10 +111,6 @@ class Session {
 		return $this->userName;
 	}
 
-	public function printLoggedInUser() {
-		print $this->userName;
-	}
-
 	public function isLoggedIn(): bool {
 		return isset($_SESSION["br-hash"]);
 	}
