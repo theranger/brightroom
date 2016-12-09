@@ -19,6 +19,7 @@ declare(strict_types = 1);
 
 include_once "io/File.php";
 include_once "io/FileSystem.php";
+include_once "SessionState.php";
 
 class Session {
 
@@ -26,6 +27,7 @@ class Session {
 	private $folder;
 	private $settings;
 	private $cachedPath = array();
+	private $state = SessionState::GUEST;
 
 	public function __construct(FileSystem $fileSystem, Settings $settings) {
 		$this->folder = $fileSystem->getFolder();
@@ -51,11 +53,13 @@ class Session {
 				$_SESSION["br-hash"] = $this->makeHash($this->userName, $this->settings->salt);
 
 				$passwordFile->close();
+				$this->state = SessionState::LOGGED_IN;
 				return true;
 			}
 		}
 
 		$passwordFile->close();
+		$this->state = SessionState::LOGIN_FAILED;
 		return false;
 	}
 
@@ -90,6 +94,15 @@ class Session {
 
 		$this->userName = null;
 		session_destroy();
+	}
+
+	public function getState(): int {
+		return $this->state;
+	}
+
+	public function isAuthAvailable(): bool {
+		$passwordFile = new File($this->folder, $this->settings->passwordFile);
+		return $passwordFile->exists();
 	}
 
 	public function getLoggedInUser(): string {
