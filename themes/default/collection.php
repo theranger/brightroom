@@ -14,7 +14,10 @@
 		</aside>
 
 		<main>
-			<header><img src="<?php UI::PrintThemeUrl() ?>/images/Logo@30.png" alt="Brightroom Logo"></header>
+			<header>
+				<img src="<?php UI::PrintThemeUrl() ?>/images/Logo@30.png" alt="Brightroom Logo">
+				<?php UIAuth::PrintLogin(); ?>
+			</header>
 			<article>
 				<?php UICollection::PrintThumbnails(); ?>
 			</article>

@@ -23,12 +23,6 @@ main {
 	width: 80vw;
 }
 
-main header {
-	display: flex;
-	align-items: center;
-	padding-left: 10px;
-}
-
 aside {
 	min-width: 150pt;
 	width: 20vw;
