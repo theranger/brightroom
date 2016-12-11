@@ -86,10 +86,6 @@ class SecuredFolder extends Folder {
 		return new SecuredFolder($this->base, dirname($this->url), $this->settings);
 	}
 
-	public function appendACL(Entity $entity) {
-		$this->acl[] = $entity;
-	}
-
 	public function getACL(string $name): Entity {
 		foreach ($this->acl as $entity) {
 			if ($entity->getName() == $name) return $entity;
