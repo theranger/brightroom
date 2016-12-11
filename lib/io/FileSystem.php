@@ -90,6 +90,9 @@ class FileSystem {
 			foreach ($folders as $key => $f) {
 				if (!$f->isEqual($folder)) continue;
 				if ($folder->getURL() != $this->folder->getURL()) return $f;
+
+				// Found current leaf. Point current folder to this entry and fill sub-folder list.
+				$this->folder = &$f;
 				$f->getFolders();
 				return $this->root;
 			}
