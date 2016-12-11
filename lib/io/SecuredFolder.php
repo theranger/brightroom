@@ -40,10 +40,7 @@ class SecuredFolder extends Folder {
 		$this->settings = $settings;
 		$accessFile = new File($this, $settings->accessFile);
 
-		if (!$accessFile->open()) {
-			$this->acl = array(Entity::DEFAULT => new Group(Entity::DEFAULT, Permission::READ));
-			return;
-		}
+		if (!$accessFile->open()) return;
 
 		while($accessFile->hasNext()) {
 			$entry = $accessFile->readLine();
@@ -87,6 +84,7 @@ class SecuredFolder extends Folder {
 	}
 
 	public function getACL(string $name): Entity {
+		if (empty($this->acl)) return new Group(Entity::DEFAULT, Permission::READ);
 		if (isset($this->acl[$name])) return $this->acl[$name];
 		return new Group();
 	}
