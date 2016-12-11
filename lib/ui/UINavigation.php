@@ -16,21 +16,6 @@
  */
 
 declare(strict_types = 1);
-/**
- * Copyright 2016 The Ranger <ranger@risk.ee>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-11-08
@@ -40,15 +25,18 @@ class UINavigation {
 
 	private static $folders;
 	private static $currentEntry;
+	private static $session;
 
 	/**
 	 * UINavigation constructor.
+	 * @param Session $session
 	 * @param Folder[] $folders
 	 * @param DirectoryEntry $currentEntry
 	 */
-	public function __construct(array $folders, DirectoryEntry $currentEntry) {
+	public function __construct(Session $session, array $folders, DirectoryEntry $currentEntry) {
 		self::$folders = $folders;
 		self::$currentEntry = $currentEntry;
+		self::$session = $session;
 	}
 
 	public static function PrintTree() {
@@ -64,6 +52,8 @@ class UINavigation {
 
 		print '<ul class="br-tree">';
 		foreach ($folders as &$folder) {
+			if (!self::$session->authorize($folder)) continue;
+
 			if (self::$currentEntry->isEqual($folder)) print '<li class="selected">';
 			elseif ($folder->isInPath()) print '<li class="opened">';
 			else print '<li>';

@@ -46,7 +46,7 @@ class Collection extends Controller {
 
 	private $fileSystem;
 
-	public function __construct(Session $session, Settings $settings, FileSystem $fileSystem) {
+	public function __construct(Session $session, Settings $settings, SecuredFileSystem $fileSystem) {
 		parent::__construct($session, $settings);
 		$this->fileSystem = $fileSystem;
 	}
@@ -54,7 +54,7 @@ class Collection extends Controller {
 	public function get(Request $request): Response {
 		$response = new Response($request);
 
-		if (!$this->session->authorize($request)) {
+		if (!$this->session->authorize($this->fileSystem->getSecuredFolder())) {
 			return $response->render(ResponseCode::UNAUTHORIZED);
 		}
 
@@ -70,7 +70,7 @@ class Collection extends Controller {
 			case ContentType::HTML:
 				new UI($this->settings, $this->session);
 				new UICollection($folders, $this->fileSystem->getFolder());
-				new UINavigation($this->fileSystem->getRoot()->getChildren(), $this->fileSystem->getFolder());
+				new UINavigation($this->session, $this->fileSystem->getRoot()->getChildren(), $this->fileSystem->getFolder());
 				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/collection.php");
 		}
 

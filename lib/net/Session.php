@@ -24,14 +24,12 @@ include_once "SessionState.php";
 
 class Session {
 
-	private $fileSystem;
 	private $passwordFile;
 	private $settings;
 	private $state = SessionState::GUEST;
 	private $userName = "";
 
-	public function __construct(SecuredFileSystem $fileSystem, Settings $settings) {
-		$this->fileSystem = $fileSystem;
+	public function __construct(FileSystem $fileSystem, Settings $settings) {
 		$this->settings = $settings;
 		$this->passwordFile = new File($fileSystem->getRoot(), $this->settings->passwordFile);
 
@@ -98,9 +96,7 @@ class Session {
 		return $this->userName;
 	}
 
-	public function authorize(Request $request): bool {
-		$folder = $this->fileSystem->getSecuredFolder();
-
+	public function authorize(SecuredFolder $folder): bool {
 		if ($this->state == SessionState::GUEST) return $folder->getACL(Entity::DEFAULT)->isAccessible();
 		if ($folder->getACL($this->userName)->isAccessible()) return true;
 

@@ -50,7 +50,7 @@ class Text extends Controller {
 	public function get(Request $request): Response {
 		$response = new Response($request);
 
-		if (!$this->session->authorize($request->getURL())) {
+		if (!$this->session->authorize($this->file->getFolder())) {
 			return $response->render(ResponseCode::UNAUTHORIZED);
 		}
 
