@@ -23,7 +23,7 @@ declare(strict_types = 1);
  */
 class Settings {
 
-	public $version = "2.0.0";
+	public $version = "2.1.0";
 
 	public $thumbnailSize = 100;
 
