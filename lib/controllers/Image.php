@@ -56,10 +56,6 @@ class Image extends Controller {
 	public function get(Request $request): Response {
 		$response = new Response($request);
 
-		if (!$this->session->authorize($this->fileSystem->getSecuredFolder())) {
-			return $response->render(ResponseCode::UNAUTHORIZED);
-		}
-
 		switch ($request->getAcceptedType()) {
 			case ContentType::PNG:
 			case ContentType::JPEG:

@@ -61,6 +61,13 @@ class Router {
 		$session = new Session($fileSystem, $this->settings);
 		if ($request->isLogout()) $session->clear();
 
+		if (!$session->authorize($fileSystem->getSecuredFolder())) {
+			$authController = new Auth($session, $this->settings, $fileSystem);
+			$authController->setResponseCode(ResponseCode::UNAUTHORIZED);
+			return $authController->get($request);
+
+		}
+
 		switch ($request->getRequestType()) {
 			case RequestType::IMAGE_FILE:
 			case RequestType::THUMBNAIL_FILE:
