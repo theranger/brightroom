@@ -23,50 +23,51 @@ declare(strict_types = 1);
  */
 class UINavigation {
 
-	private static $folders;
+	private static $entries;
 	private static $currentEntry;
 	private static $session;
 
 	/**
 	 * UINavigation constructor.
 	 * @param Session $session
-	 * @param Folder[] $folders
+	 * @param DirectoryEntry[] $entries
 	 * @param DirectoryEntry $currentEntry
 	 */
-	public function __construct(Session $session, array $folders, DirectoryEntry $currentEntry) {
-		self::$folders = $folders;
+	public function __construct(Session $session, array $entries, DirectoryEntry $currentEntry) {
+		self::$entries = $entries;
 		self::$currentEntry = $currentEntry;
 		self::$session = $session;
 	}
 
 	public static function PrintTree() {
-		if (empty(self::$folders)) return;
-		self::doPrintTree(self::$folders);
+		if (empty(self::$entries)) return;
+		self::doPrintTree(self::$entries);
 	}
 
 	/**
-	 * @param Folder[] $folders
+	 * @param DirectoryEntry[] $entries
 	 */
-	private static function doPrintTree(array $folders) {
-		if (empty($folders)) return;
+	private static function doPrintTree(array $entries) {
+		if (empty($entries)) return;
 
 		print '<ul class="br-tree">';
-		foreach ($folders as &$folder) {
-			if (!self::$session->authorize($folder)) continue;
+		foreach ($entries as &$entry) {
+			if (!$entry->isDirectory()) continue;
+			if (!self::$session->authorize($entry)) continue;
 
-			if (self::$currentEntry->isEqual($folder)) print '<li class="selected">';
-			elseif ($folder->isInPath()) print '<li class="opened">';
+			if (self::$currentEntry->isEqual($entry)) print '<li class="selected">';
+			elseif ($entry->isInPath()) print '<li class="opened">';
 			else print '<li>';
 
-			print '<a href="'.$folder->getURL().'">'.$folder->getName().'</a>';
+			print '<a href="'.$entry->getURL().'">'.$entry->getName().'</a>';
 			print '</li>';
-			self::doPrintTree($folder->getChildren());
+			self::doPrintTree($entry->getChildren());
 		}
 		print '</ul>';
 	}
 
 	public static function PrintBreadcrumb() {
-		self::doPrintBreadcrumb(self::$folders);
+		self::doPrintBreadcrumb(self::$entries);
 
 		if (!self::$currentEntry->isFile()) return;
 		print '<a href="'.self::$currentEntry->getURL().'" class="br-breadcrumb-file">'.self::abbreviateName(self::$currentEntry->getName(), 30).'</a>';
