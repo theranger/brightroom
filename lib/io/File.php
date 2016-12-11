@@ -23,6 +23,7 @@ class File extends DirectoryEntry {
 
 	private $folder;
 	private $fh = null;
+	private $size = -1;
 
 	public function __construct(Folder $folder, string $name) {
 		parent::__construct($folder->getBase(), $folder->getURL()."/".$name);
@@ -106,5 +107,16 @@ class File extends DirectoryEntry {
 		fpassthru($fp);
 		fclose($fp);
 		return true;
+	}
+
+	public function getSize(): int {
+		if ($this->size >= 0) return $this->size;
+		if (empty($this->path)) return -1;
+
+		$size = filesize($this->path);
+		if ($size === false) return -1;
+
+		$this->size = $size;
+		return $size;
 	}
 }
