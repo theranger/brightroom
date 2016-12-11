@@ -33,7 +33,7 @@ declare(strict_types = 1);
  */
 
 include_once "ResponseCode.php";
-include_once "ui/UI.php";
+include_once "io/File.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-12
@@ -64,6 +64,20 @@ class Response {
 	public function redirect(string $url): Response {
 		http_response_code(ResponseCode::SEE_OTHER);
 		header("Location: " . $url);
+		return $this;
+	}
+
+	public function stream(int $responseCode, File $file): Response {
+		http_response_code($responseCode);
+		header("Content-Type: application/octet-stream");
+		header("Content-Disposition: attachment; filename=".$file->getName());
+		header("Expires: 0");
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+		header("Content-Transfer-Encoding: binary");
+		header("Pragma: public");
+		header("Content-Length: ".$file->getSize());
+
+		$file->read();
 		return $this;
 	}
 
