@@ -25,15 +25,18 @@ class UICollection {
 
 	private static $items;
 	private static $folder;
+	private static $settings;
 
 	/**
 	 * UIFolder constructor.
+	 * @param Settings $settings
 	 * @param DirectoryEntry[] $items
 	 * @param Folder $folder
 	 */
-	public function __construct(array &$items, Folder $folder) {
+	public function __construct(Settings $settings, array &$items, Folder $folder) {
 		self::$items = $items;
 		self::$folder = $folder;
+		self::$settings = $settings;
 	}
 
 	/**
@@ -55,7 +58,7 @@ class UICollection {
 		if (empty(self::$items)) return;
 
 		foreach (self::$items as &$item) {
-			if (!$item->isFile()) continue;
+			if (!$item->isFile() || !self::IsAccessible($item)) continue;
 			print '<a href="'.$item->getURL().'">';
 			print '<img src="'.$item->getURL().'?thumbnail=true" alt="'.$item->getName().'" />';
 			print '</a>';
@@ -78,9 +81,20 @@ class UICollection {
 
 		print '<ul class="br-tree">';
 		foreach (self::$items as &$item) {
-			if ($item->isDirectory()) continue;
+			if (!$item->isFile() || !self::IsAccessible($item)) continue;
 			print '<li><a href="'.$item->getURL().'">'.$item->getName().'</a></li>';
 		}
 		print '</ul>';
+	}
+
+	private static function IsAccessible(DirectoryEntry $directoryEntry): bool {
+		switch($directoryEntry->getName()) {
+			case self::$settings->accessFile:
+			case self::$settings->passwordFile:
+				return false;
+
+			default:
+				return true;
+		}
 	}
 }
