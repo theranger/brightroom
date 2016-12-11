@@ -54,7 +54,7 @@ main header nav {
 main header nav a.nav {
 	display: inline-block;
 	width: 90%;
-	margin-bottom: -5px;
+	margin-bottom: -6px;
 }
 
 main header nav a.nav:hover {
