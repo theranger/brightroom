@@ -32,13 +32,13 @@ class UIAuth implements IStaticModule {
 	}
 
 	public static function isLoggedIn(): bool {
-		return self::$session->isLoggedIn();
+		return self::$session->getState() == SessionState::LOGGED_IN;
 	}
 
 	public static function PrintLogin() {
 		if (!self::$session->isAuthAvailable()) return;
 
-		if (self::isLoggedIn()) {
+		if (self::$session->getState() == SessionState::LOGGED_IN) {
 			print '<p class="br-auth">Welcome, ' . self::$session->getLoggedInUser() . '!</p>';
 			print '<a class="br-auth" href="?logout">Log out</a>';
 			return;
@@ -48,7 +48,7 @@ class UIAuth implements IStaticModule {
 	}
 
 	public static function PrintUserName() {
-		if (!self::$session->isLoggedIn()) return;
+		if (self::$session->getState() != SessionState::LOGGED_IN) return;
 		print '<a class="br-auth" href="?profile">'.self::$session->getLoggedInUser().'</a>';
 	}
 
@@ -62,11 +62,11 @@ class UIAuth implements IStaticModule {
 	<?php }
 
 	function printContent() {
-		if (!self::$session->isLoggedIn()) {
-			self::PrintLoginDialog();
+		if (self::$session->getState() == SessionState::LOGGED_IN) {
+			self::PrintUserName();
 			return;
 		}
 
-		self::PrintUserName();
+		self::PrintLoginDialog();
 	}
 }

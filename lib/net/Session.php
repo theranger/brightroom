@@ -23,18 +23,26 @@ include_once "SessionState.php";
 
 class Session {
 
-	private $userName;
 	private $fileSystem;
 	private $passwordFile;
 	private $settings;
-	private $cachedPath = array();
 	private $state = SessionState::GUEST;
+	private $userName = "";
 
 	public function __construct(FileSystem $fileSystem, Settings $settings) {
 		$this->fileSystem = $fileSystem;
 		$this->settings = $settings;
 		$this->passwordFile = new File($fileSystem->getRoot(), $this->settings->passwordFile);
-		$this->init();
+
+		if (!$this->start()) return;
+
+		if (!$this->validate($_SESSION["br-user"] ?? "", $_SESSION["br-hash"] ?? "")) {
+			$this->clear();
+			return;
+		}
+
+		$this->userName = $_SESSION["br-user"];
+		$this->state = SessionState::LOGGED_IN;
 	}
 
 	public function authenticate(string $user, string $password): bool {
@@ -47,56 +55,34 @@ class Session {
 		while ($this->passwordFile->hasNext()) {
 			$r = $this->passwordFile->readLine();
 			if (strpos($r, $token) === 0) {
-				if (!$this->isLoggedIn()) session_start();
+				if (!$this->start()) return false;
+
+				$_SESSION["br-user"] = $user;
+				$_SESSION["br-hash"] = $this->makeHash($user, $this->settings->salt);
 
 				$this->userName = $user;
-				$_SESSION["br-user"] = $user;
-				$_SESSION["br-hash"] = $this->makeHash($this->userName, $this->settings->salt);
+				$this->state = SessionState::LOGGED_IN;
 
 				$this->passwordFile->close();
-				$this->state = SessionState::LOGGED_IN;
 				return true;
 			}
 		}
 
-		$this->passwordFile->close();
 		$this->state = SessionState::LOGIN_FAILED;
-		return false;
-	}
 
-	public function authorize(string $path): bool {
-		if (empty($path)) return true;
-
-		if (isset($this->cachedPath[$path])) {
-			if ($this->cachedPath[$path]) return $this->authorize(substr($path, 0, strrpos($path, "/")));
-			return false;
-		}
-
-		$accessFile = new File($this->fileSystem->getFolder(), $path."/".$this->settings->accessFile);
-		if ($accessFile->open($path.'/'.$this->settings->accessFile) == false) {
-			$this->cachedPath[$path] = true;
-			return $this->authorize(substr($path, 0, strrpos($path, "/")));
-		}
-
-		while ($accessFile->hasNext()) {
-			$r = $accessFile->readLine();
-			if (strpos($r, $this->userName) === 0) {
-				$this->cachedPath[$path] = true;
-				return $this->authorize(substr($path, 0, strrpos($path, "/")));
-			}
-		}
-
-		$this->cachedPath[$path] = false;
+		$this->passwordFile->close();
 		return false;
 	}
 
 	public function clear() {
-		if (!$this->isLoggedIn()) return;
+		if (session_name() != $this->settings->sessionName) return;
+		if (session_status() != PHP_SESSION_ACTIVE) return;
+
+		$_SESSION = array();
+		session_destroy();
 
 		$this->userName = "";
-		$_SESSION = array();
-
-		session_destroy();
+		$this->state = SessionState::GUEST;
 	}
 
 	public function getState(): int {
@@ -111,13 +97,13 @@ class Session {
 		return $this->userName;
 	}
 
-	public function isLoggedIn(): bool {
-		return isset($_SESSION["br-hash"]);
+	public function authorize(Request $request): bool {
+		return true;
 	}
 
-	private function init(): bool {
-		if ($this->isLoggedIn()) return true;
+	private function start(): bool {
 		if ($this->settings->salt === null) return false;
+		if (session_status() == PHP_SESSION_ACTIVE) return true;
 
 		//Try to start the session only if headers have not been sent and session is not already started
 		if (!headers_sent() && session_status() == PHP_SESSION_NONE) {
@@ -126,20 +112,13 @@ class Session {
 		}
 
 		//No session exists, nothing to do
-		if (session_status() != PHP_SESSION_ACTIVE) return false;
+		return session_status() == PHP_SESSION_ACTIVE;
+	}
 
-		if (isset($_SESSION["br-hash"]) && isset($_SESSION["br-user"])) {
-			if ($this->makeHash($_SESSION["br-user"], $this->settings->salt) == $_SESSION["br-hash"]) {
-				$this->userName = $_SESSION["br-user"];
-				return true;
-			}
-		}
+	private function validate(string $user, string $hash): bool {
+		if (empty($user) || empty($hash)) return false;
 
-		$this->userName = "";
-
-		//Destroy only if this is our session
-		if (session_name() == $this->settings->sessionName) session_destroy();
-		return false;
+		return $this->makeHash($user, $this->settings->salt) == $hash;
 	}
 
 	private function makeHash(string $user, string $salt): string {
