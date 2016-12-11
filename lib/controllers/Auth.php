@@ -26,10 +26,15 @@ include_once "Controller.php";
 class Auth extends Controller {
 
 	private $fileSystem;
+	private $responseCode = ResponseCode::OK;
 
 	public function __construct(Session $session, Settings $settings, FileSystem $fileSystem) {
 		parent::__construct($session, $settings);
 		$this->fileSystem = $fileSystem;
+	}
+
+	public function setResponseCode(int $responseCode) {
+		$this->responseCode = $responseCode;
 	}
 
 	function get(Request $request): Response {
@@ -43,7 +48,7 @@ class Auth extends Controller {
 			case ContentType::HTML:
 				(new UI($this->settings, $this->session))->setStaticModule(new UIAuth($this->session));
 				new UINavigation($this->session, $this->fileSystem->getRoot()->getChildren(), $this->fileSystem->getFolder());
-				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/index.php");
+				return $response->render($this->responseCode, "themes/".$this->settings->theme."/index.php");
 				break;
 		}
 
