@@ -35,7 +35,9 @@ class Auth extends Controller {
 	function get(Request $request): Response {
 		$response = new Response($request);
 
-		if ($request->isLogin()) $this->session->authenticate($request->getUsername(), $request->getPassword());
+		if ($request->isLogin() && $this->session->authenticate($request->getUsername(), $request->getPassword())) {
+			return $response->redirect($request->getURL());
+		};
 
 		switch ($request->getAcceptedType()) {
 			case ContentType::HTML:
