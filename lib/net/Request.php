@@ -116,6 +116,11 @@ class Request {
 			return;
 		}
 
+		if (isset($_GET["download"])) {
+			$this->requestType = RequestType::DOWNLOAD;
+			return;
+		}
+
 		$resourceName = $this->urlParser->getResourceName();
 		if (empty($resourceName)) return;
 

@@ -34,4 +34,5 @@ abstract class RequestType {
 	const THUMBNAIL_FILE	= 8;
 	const ABOUT_PAGE		= 9;
 	const LOGIN_PAGE		= 10;
+	const DOWNLOAD			= 11;
 }
