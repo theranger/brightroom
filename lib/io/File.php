@@ -57,7 +57,7 @@ class File extends DirectoryEntry {
 		$r = fgets($this->fh);
 		if ($r === false) return "";
 
-		return $r;
+		return trim($r);
 	}
 
 	public function hasNext(): bool {
