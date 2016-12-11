@@ -122,8 +122,8 @@ class UIImage {
 					print '<tr><th>ISO Speed</th>';
 					break;
 
-				case InfoField::TIMESTAMP:
-					print '<tr><th>Timestamp</th>';
+				case InfoField::SHOT_TIME:
+					print '<tr><th>Date Taken</th>';
 					break;
 
 				default:

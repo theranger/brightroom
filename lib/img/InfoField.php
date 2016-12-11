@@ -42,7 +42,7 @@ declare(strict_types = 1);
 	const EXPOSURE	= "ExposureTime";
 	const APERTURE	= "ApertureFNumber";
 	const ISO		= "ISOSpeedRatings";
-	const TIMESTAMP	= "DateTime";
+	const SHOT_TIME	= "DateTimeOriginal";
 
  	static $fields = array(
  		self::MAKE,
@@ -50,6 +50,6 @@ declare(strict_types = 1);
 		self::EXPOSURE,
 		self::APERTURE,
 		self::ISO,
-		self::TIMESTAMP
+		self::SHOT_TIME
 	);
 }
