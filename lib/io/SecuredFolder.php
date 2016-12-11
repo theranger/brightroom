@@ -88,4 +88,8 @@ class SecuredFolder extends Folder {
 		if (isset($this->acl[$name])) return $this->acl[$name];
 		return new Group();
 	}
+
+	public function aggregateACL(SecuredFolder $securedFolder) {
+		$this->acl = array_merge($this->acl, $securedFolder->acl);
+	}
 }

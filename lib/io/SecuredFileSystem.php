@@ -38,6 +38,7 @@ class SecuredFileSystem extends FileSystem {
 			$this->folder = new SecuredFolder($base, $url, $this->settings);
 			$this->root = $this->listFolders($this->folder);
 			$this->entryType = EntryType::FOLDER;
+			$this->aggregatePermissions($this->root);
 			return;
 		}
 
@@ -46,6 +47,7 @@ class SecuredFileSystem extends FileSystem {
 			$this->root = $this->listFolders($this->folder);
 			$this->file = new File($this->folder, basename($url));
 			$this->entryType = EntryType::FILE;
+			$this->aggregatePermissions($this->root);
 			return;
 		}
 	}
@@ -56,6 +58,9 @@ class SecuredFileSystem extends FileSystem {
 			foreach ($folders as $key => $f) {
 				if (!$f->isEqual($folder)) continue;
 				if ($folder->getURL() != $this->folder->getURL()) return $f;
+
+				// Found current leaf. Point current folder to this entry and fill sub-folder list.
+				$this->folder = &$f;
 				$f->getFolders();
 				return $this->root;
 			}
@@ -70,7 +75,7 @@ class SecuredFileSystem extends FileSystem {
 	}
 
 	/**
-	 * @return Folder
+	 * @return SecuredFolder
 	 * @throws IOException
 	 */
 	public function getSecuredFolder(): SecuredFolder {
@@ -81,5 +86,14 @@ class SecuredFileSystem extends FileSystem {
 
 	public function getSecuredRoot(): SecuredFolder {
 		return $this->root;
+	}
+
+	private function aggregatePermissions(SecuredFolder $folder) {
+		foreach ($folder->getChildren() as $directoryEntry) {
+			if ($directoryEntry instanceof SecuredFolder) {
+				$directoryEntry->aggregateACL($folder);
+				$this->aggregatePermissions($directoryEntry);
+			}
+		}
 	}
 }
