@@ -68,7 +68,7 @@ class Image extends Controller {
 			case ContentType::HTML:
 				$folders = $this->fileSystem->getFolder()->getContents();
 				new UI($this->settings, $this->session);
-				new UICollection($folders, $this->fileSystem->getFolder());
+				new UICollection($this->settings, $folders, $this->fileSystem->getFolder());
 				new UINavigation($this->session, $this->fileSystem->getRoot()->getChildren(), $this->fileSystem->getFile());
 				new UIImage($this->fileSystem->getFile(), new ExifParser($this->fileSystem->getFile()));
 				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/image.php");
