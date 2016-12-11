@@ -29,7 +29,7 @@ include_once "security/Group.php";
 class SecuredFolder extends Folder {
 
 	/**
-	 * @var array|Entity[]
+	 * @var Entity[]
 	 */
 	private $acl = array();
 	private $settings;
@@ -41,7 +41,7 @@ class SecuredFolder extends Folder {
 		$accessFile = new File($this, $settings->accessFile);
 
 		if (!$accessFile->open()) {
-			$this->acl = array(new Group(Entity::DEFAULT, Permission::READ));
+			$this->acl = array(Entity::DEFAULT => new Group(Entity::DEFAULT, Permission::READ));
 			return;
 		}
 
@@ -49,14 +49,14 @@ class SecuredFolder extends Folder {
 			$entry = $accessFile->readLine();
 			if (empty($entry)) continue;
 
-			$this->acl[] = new User($entry, Permission::READ);
+			$this->acl[$entry] = new User($entry, Permission::READ);
 		}
 
 		$accessFile->close();
 	}
 
 	/**
-	 * @return array|SecuredFolder[]
+	 * @return SecuredFolder[]
 	 * @throws SystemException
 	 */
 	public function getFolders(): array {
@@ -87,10 +87,7 @@ class SecuredFolder extends Folder {
 	}
 
 	public function getACL(string $name): Entity {
-		foreach ($this->acl as $entity) {
-			if ($entity->getName() == $name) return $entity;
-		}
-
+		if (isset($this->acl[$name])) return $this->acl[$name];
 		return new Group();
 	}
 }
