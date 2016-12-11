@@ -24,7 +24,7 @@ include_once "controllers/Image.php";
 include_once "controllers/Text.php";
 include_once "controllers/About.php";
 include_once "controllers/Auth.php";
-include_once "io/FileSystem.php";
+include_once "io/SecuredFileSystem.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-12
@@ -45,7 +45,7 @@ class Router {
 			die();
 		}
 
-		$fileSystem = new FileSystem($this->settings->dataDirectory, $request->getURL());
+		$fileSystem = new SecuredFileSystem($this->settings->dataDirectory, $request->getURL(), $this->settings);
 
 		// Handle request types that do not require session
 		switch ($request->getRequestType()) {
@@ -74,7 +74,7 @@ class Router {
 				return $collectionController->get($request);
 
 			case RequestType::THEME_FILE:
-				$fileSystem = new FileSystem(getcwd(), $request->getURL());	// Override file system object
+				$fileSystem = new SecuredFileSystem(getcwd(), $request->getURL(), $this->settings);	// Override file system object
 				if ($fileSystem->getFile() == null) return $this->renderResponse($request, ResponseCode::BAD_REQUEST);
 
 				$session = new Session($fileSystem, $this->settings);	// Override session with new filesystem

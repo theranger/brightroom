@@ -18,7 +18,8 @@
 declare(strict_types = 1);
 
 include_once "io/File.php";
-include_once "io/FileSystem.php";
+include_once "io/SecuredFileSystem.php";
+include_once "io/SecuredFolder.php";
 include_once "SessionState.php";
 
 class Session {
@@ -29,7 +30,7 @@ class Session {
 	private $state = SessionState::GUEST;
 	private $userName = "";
 
-	public function __construct(FileSystem $fileSystem, Settings $settings) {
+	public function __construct(SecuredFileSystem $fileSystem, Settings $settings) {
 		$this->fileSystem = $fileSystem;
 		$this->settings = $settings;
 		$this->passwordFile = new File($fileSystem->getRoot(), $this->settings->passwordFile);
@@ -98,7 +99,12 @@ class Session {
 	}
 
 	public function authorize(Request $request): bool {
-		return true;
+		$folder = $this->fileSystem->getSecuredFolder();
+
+		if ($this->state == SessionState::GUEST) return $folder->getACL(Entity::DEFAULT)->isAccessible();
+		if ($folder->getACL($this->userName)->isAccessible()) return true;
+
+		return $folder->getACL(Entity::DEFAULT)->isAccessible();
 	}
 
 	private function start(): bool {
