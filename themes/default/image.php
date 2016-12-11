@@ -19,6 +19,8 @@
 			<nav><a href="#info"><i class="fa fa-camera fa-lg" aria-hidden="true"></i></a></nav>
 			<?php endif; ?>
 
+			<nav><a href="?download"><i class="fa fa-download fa-lg" aria-hidden="true"></i></a></nav>
+
 		</aside>
 
 		<main>

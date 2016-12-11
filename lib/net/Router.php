@@ -24,6 +24,7 @@ include_once "controllers/Image.php";
 include_once "controllers/Text.php";
 include_once "controllers/About.php";
 include_once "controllers/Auth.php";
+include_once "controllers/Download.php";
 include_once "io/SecuredFileSystem.php";
 
 /**
@@ -95,6 +96,10 @@ class Router {
 			case RequestType::LOGIN_PAGE:
 				$authController = new Auth($session, $this->settings, $fileSystem);
 				return $authController->get($request);
+
+			case RequestType::DOWNLOAD:
+				$downloadController = new Download($session, $this->settings, $fileSystem);
+				return $downloadController->get($request);
 		}
 
 		error_log($request->getURL().": Access denied");
