@@ -38,6 +38,7 @@ declare(strict_types = 1);
  */
 abstract class ResponseCode {
 	const OK						= 200;
+	const SEE_OTHER					= 303;
 	const BAD_REQUEST				= 400;
 	const UNAUTHORIZED				= 401;
 	const NOT_FOUND 				= 404;

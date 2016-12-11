@@ -61,6 +61,12 @@ class Response {
 		return $this;
 	}
 
+	public function redirect(string $url): Response {
+		http_response_code(ResponseCode::SEE_OTHER);
+		header("Location: " . $url);
+		return $this;
+	}
+
 	public function asJson(int $responseCode, $data): Response {
 		http_response_code($responseCode);
 		header("Content-Type: ".ContentType::JSON);
