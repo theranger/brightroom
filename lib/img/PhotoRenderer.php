@@ -20,8 +20,8 @@ declare(strict_types = 1);
 include_once "io/ImageCache.php";
 include_once "net/ContentType.php";
 include_once "GenericRenderer.php";
-include_once "JPEGImage.php";
-include_once "PNGImage.php";
+include_once "types/JPEGImage.php";
+include_once "types/PNGImage.php";
 
 class PhotoRenderer implements GenericRenderer {
 
