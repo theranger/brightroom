@@ -17,31 +17,10 @@
 
 declare(strict_types = 1);
 
-include_once "system/Settings.php";
-include_once "io/Folder.php";
-
 /**
- * Created by The Ranger (ranger@risk.ee) on 2016-12-13
+ * Created by The Ranger (ranger@risk.ee) on 2016-12-16
  *
  */
-class BadgeHandler {
-
-	private $settings;
-	private $folder;
-
-	public function __construct(Settings $settings, Folder $folder) {
-		$this->settings = $settings;
-		$this->folder = $folder;
-	}
-
-	public function render(): File {
-		$entries = $this->folder->getContents();
-		foreach ($entries as $entry) {
-			if ($entry instanceof File) {
-				return $entry;
-			}
-		}
-
-		return NULL;
-	}
+interface GenericRenderer {
+	public function render();
 }

@@ -22,7 +22,7 @@ include_once "io/FileSystem.php";
 include_once "ui/UI.php";
 include_once "ui/UICollection.php";
 include_once "ui/UIImage.php";
-include_once "img/ImageHandler.php";
+include_once "img/PhotoRenderer.php";
 include_once "img/ExifParser.php";
 
 /**
@@ -76,8 +76,8 @@ class Image extends Controller {
 		}
 
 		// Thumbnail was requested
-		$imageHandler = new ImageHandler($this->settings, $this->fileSystem->getFile());
-		$imageHandler->resizeImage($this->settings->thumbnailSize, 0);
+		$photoRenderer = new PhotoRenderer($this->settings, $this->fileSystem->getFile());
+		$photoRenderer->render();
 		return $response;
 	}
 }

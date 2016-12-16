@@ -17,12 +17,13 @@
 
 declare(strict_types = 1);
 
-include_once "JPEGImage.php";
-include_once "PNGImage.php";
 include_once "io/ImageCache.php";
 include_once "net/ContentType.php";
+include_once "GenericRenderer.php";
+include_once "JPEGImage.php";
+include_once "PNGImage.php";
 
-class ImageHandler {
+class PhotoRenderer implements GenericRenderer {
 
 	private $imageRenderer;
 	private $settings;
@@ -40,6 +41,10 @@ class ImageHandler {
 				$this->imageRenderer = new PNGImage();
 				break;
 		}
+	}
+
+	public function render() {
+		// TODO: Implement render() method.
 	}
 
 	public function resizeImage(int $size, int $orientation) {

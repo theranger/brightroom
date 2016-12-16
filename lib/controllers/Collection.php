@@ -22,7 +22,7 @@ include_once "ui/UICollection.php";
 include_once "ui/UI.php";
 include_once "ui/UINavigation.php";
 include_once "io/FileSystem.php";
-include_once "img/BadgeHandler.php";
+include_once "img/BadgeRenderer.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-14
@@ -62,13 +62,8 @@ class Collection extends Controller {
 	}
 
 	private function handleBadge(Request $request, Response $response): Response {
-		$badgeHandler = new BadgeHandler($this->settings, $this->fileSystem->getFolder());
-		$imageFile = $badgeHandler->render();
-
-		if ($imageFile == NULL) return $response;
-
-		$imageHandler = new ImageHandler($this->settings, $imageFile);
-		$imageHandler->resizeImage($this->settings->thumbnailSize, 0);
+		$badgeRenderer = new BadgeRenderer($this->settings, $this->fileSystem->getFolder());
+		$badgeRenderer->render();
 		return $response;
 	}
 }
