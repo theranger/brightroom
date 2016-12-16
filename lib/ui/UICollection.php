@@ -65,6 +65,15 @@ class UICollection {
 		}
 	}
 
+	public static function PrintBadges() {
+		foreach (self::$items as &$item) {
+			if (!$item->isDirectory()) continue;
+			print '<a href="'.$item->getURL().'">';
+			print '<img src="'.$item->getURL().'" alt="'.$item->getName().'" />';
+			print '</a>';
+		}
+	}
+
 	public static function PrintFolders() {
 		if (empty(self::$items)) return;
 

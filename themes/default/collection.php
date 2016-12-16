@@ -19,6 +19,8 @@
 				<?php UIAuth::PrintLogin(); ?>
 			</header>
 			<article>
+				<?php UICollection::PrintBadges(); ?>
+				<hr />
 				<?php UICollection::PrintThumbnails(); ?>
 			</article>
 		</main>

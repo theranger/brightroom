@@ -22,6 +22,7 @@ include_once "ui/UICollection.php";
 include_once "ui/UI.php";
 include_once "ui/UINavigation.php";
 include_once "io/FileSystem.php";
+include_once "img/BadgeHandler.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-10-14
@@ -52,8 +53,22 @@ class Collection extends Controller {
 				new UICollection($this->settings, $folders, $this->fileSystem->getFolder());
 				new UINavigation($this->session, $this->fileSystem->getRoot()->getChildren(), $this->fileSystem->getFolder());
 				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/collection.php");
+
+			case ContentType::ANY:		// Folder badge requested
+				return $this->handleBadge($request, $response);
 		}
 
 		return $response->render(ResponseCode::BAD_REQUEST);
+	}
+
+	private function handleBadge(Request $request, Response $response): Response {
+		$badgeHandler = new BadgeHandler($this->settings, $this->fileSystem->getFolder());
+		$imageFile = $badgeHandler->render();
+
+		if ($imageFile == NULL) return $response;
+
+		$imageHandler = new ImageHandler($this->settings, $imageFile);
+		$imageHandler->resizeImage($this->settings->thumbnailSize, 0);
+		return $response;
 	}
 }
