@@ -28,11 +28,11 @@ class ImageHandler {
 	private $settings;
 	private $file;
 
-	public function __construct(string $mimeType, Settings $settings, File $file) {
+	public function __construct(Settings $settings, File $file) {
 		$this->settings = $settings;
 		$this->file = $file;
 
-		switch ($mimeType) {
+		switch ($file->getType()) {
 			case ContentType::JPEG:
 				$this->imageRenderer = new ImageJPEGRenderer();
 				break;
