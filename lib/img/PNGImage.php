@@ -17,19 +17,19 @@
 
 declare(strict_types = 1);
 
-include_once "ImageRenderer.php";
+include_once "GenericImage.php";
 
-class ImageJPEGRenderer implements ImageRenderer {
+class PNGImage implements GenericImage {
 
 	private $img;
 
 	public function loadFile(string $path) {
-		$this->img = imagecreatefromjpeg($path);
+		$this->img = imagecreatefrompng($path);
 		return $this->img;
 	}
 
 	public function outputImage(string $fileName) {
-		imagejpeg($this->img, $fileName);
+		imagepng($this->img, $fileName);
 		imagedestroy($this->img);
 	}
 

@@ -17,8 +17,8 @@
 
 declare(strict_types = 1);
 
-include_once "ImageJPEGRenderer.php";
-include_once "ImagePNGRenderer.php";
+include_once "JPEGImage.php";
+include_once "PNGImage.php";
 include_once "io/ImageCache.php";
 include_once "net/ContentType.php";
 
@@ -34,10 +34,10 @@ class ImageHandler {
 
 		switch ($file->getType()) {
 			case ContentType::JPEG:
-				$this->imageRenderer = new ImageJPEGRenderer();
+				$this->imageRenderer = new JPEGImage();
 				break;
 			case ContentType::PNG:
-				$this->imageRenderer = new ImagePNGRenderer();
+				$this->imageRenderer = new PNGImage();
 				break;
 		}
 	}

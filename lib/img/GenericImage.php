@@ -21,7 +21,7 @@ declare(strict_types = 1);
  * Created by The Ranger (ranger@risk.ee) on 2016-10-08
  *
  */
-interface ImageRenderer {
+interface GenericImage {
 	public function loadFile(string $path);
 
 	public function outputImage(string $fileName);
