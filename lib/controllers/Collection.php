@@ -63,7 +63,7 @@ class Collection extends Controller {
 
 	private function handleBadge(Request $request, Response $response): Response {
 		$badgeRenderer = new BadgeRenderer($this->settings, $this->fileSystem->getFolder());
-		$badgeRenderer->render();
+		$badgeRenderer->render($this->settings->thumbnailSize);
 		return $response;
 	}
 }

@@ -19,30 +19,23 @@ declare(strict_types = 1);
 
 include_once "system/Settings.php";
 include_once "io/Folder.php";
-include_once "GenericRenderer.php";
+include_once "ThumbnailRenderer.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-12-13
  *
  */
-class BadgeRenderer implements GenericRenderer {
-
-	private $settings;
-	private $folder;
+class BadgeRenderer extends ThumbnailRenderer {
 
 	public function __construct(Settings $settings, Folder $folder) {
-		$this->settings = $settings;
-		$this->folder = $folder;
-	}
-
-	public function render(int $size) {
-		$entries = $this->folder->getContents();
+		$entries = $folder->getContents();
 		foreach ($entries as $entry) {
 			if ($entry instanceof File) {
-				return $entry;
+				parent::__construct($settings, $entry);
+				return;
 			}
 		}
 
-		return NULL;
+		parent::__construct($settings, NULL);
 	}
 }
