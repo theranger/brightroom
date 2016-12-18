@@ -35,7 +35,7 @@ class BadgeRenderer implements GenericRenderer {
 		$this->folder = $folder;
 	}
 
-	public function render() {
+	public function render(int $size) {
 		$entries = $this->folder->getContents();
 		foreach ($entries as $entry) {
 			if ($entry instanceof File) {

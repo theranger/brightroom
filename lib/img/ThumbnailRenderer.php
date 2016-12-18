@@ -43,11 +43,7 @@ class ThumbnailRenderer implements GenericRenderer {
 		}
 	}
 
-	public function render() {
-		// TODO: Implement render() method.
-	}
-
-	public function resizeImage(int $size, int $orientation) {
+	public function render(int $size) {
 		if (!$this->imageRenderer) return;
 
 		$cachedImgPath = null;
@@ -76,7 +72,6 @@ class ThumbnailRenderer implements GenericRenderer {
 		}
 
 		$orig = $this->imageRenderer->loadFile($this->file->getPath());
-		if ($orientation != 0) $orig = imagerotate($orig, $orientation, 0);
 
 		$origH = imagesx($orig);
 		$origW = imagesy($orig);

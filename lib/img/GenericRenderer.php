@@ -22,5 +22,5 @@ declare(strict_types = 1);
  *
  */
 interface GenericRenderer {
-	public function render();
+	public function render(int $size);
 }

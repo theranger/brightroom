@@ -77,7 +77,7 @@ class Image extends Controller {
 
 		// Thumbnail was requested
 		$thumbnailRenderer = new ThumbnailRenderer($this->settings, $this->fileSystem->getFile());
-		$thumbnailRenderer->render();
+		$thumbnailRenderer->render($this->settings->thumbnailSize);
 		return $response;
 	}
 }
