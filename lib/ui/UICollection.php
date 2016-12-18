@@ -26,17 +26,20 @@ class UICollection {
 	private static $items;
 	private static $folder;
 	private static $settings;
+	private static $session;
 
 	/**
 	 * UIFolder constructor.
+	 * @param Session $session
 	 * @param Settings $settings
 	 * @param DirectoryEntry[] $items
 	 * @param Folder $folder
 	 */
-	public function __construct(Settings $settings, array &$items, Folder $folder) {
+	public function __construct(Session $session, Settings $settings, array &$items, Folder $folder) {
 		self::$items = $items;
 		self::$folder = $folder;
 		self::$settings = $settings;
+		self::$session = $session;
 	}
 
 	/**
@@ -66,8 +69,10 @@ class UICollection {
 	}
 
 	public static function PrintBadges() {
-		foreach (self::$items as &$item) {
+		foreach (self::$folder->getChildren() as &$item) {
 			if (!$item->isDirectory()) continue;
+			if ($item instanceof SecuredFolder && !self::$session->authorize($item)) continue;
+
 			print '<a href="'.$item->getURL().'">';
 			print '<img src="'.$item->getURL().'" alt="'.$item->getName().'" />';
 			print '</a>';
@@ -75,11 +80,13 @@ class UICollection {
 	}
 
 	public static function PrintFolders() {
-		if (empty(self::$items)) return;
+		if (empty(self::$folder->getChildren())) return;
 
 		print '<ul class="br-tree">';
-		foreach (self::$items as &$item) {
+		foreach (self::$folder->getChildren() as &$item) {
 			if ($item->isFile()) continue;
+			if ($item instanceof SecuredFolder && !self::$session->authorize($item)) continue;
+
 			print '<li><a href="'.$item->getURL().'">'.$item->getName().'</a></li>';
 		}
 		print '</ul>';
