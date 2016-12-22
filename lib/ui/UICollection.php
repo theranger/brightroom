@@ -73,7 +73,7 @@ class UICollection {
 			if (!$item->isDirectory()) continue;
 			if ($item instanceof SecuredFolder && !self::$session->authorize($item)) continue;
 
-			print '<a href="'.$item->getURL().'">';
+			print '<a class="br-badge" href="'.$item->getURL().'" title="'.$item->getName().'">';
 			print '<img src="'.$item->getURL().'" alt="'.$item->getName().'" />';
 			print '</a>';
 		}
