@@ -27,7 +27,7 @@ class Settings {
 
 	public $thumbnailSize = 100;
 
-	public $imageSize = 600;
+	public $imageSize = 0;
 
 	public $badgeWidth = 200;
 
