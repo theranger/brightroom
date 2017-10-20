@@ -81,8 +81,23 @@ class Image extends Controller {
 			$this->fileSystem->getFile()->read();
 			return $response;
 		}
+		$exif = exif_read_data($this->fileSystem->getFile()->getPath());
+		$orientation = 0;
+		if ($exif !== FALSE && !empty($exif['Orientation'])) {
+			switch ($exif['Orientation']) {
+			case 3:
+				$orientation = 180;
+				break;
+			case 6:
+				$orientation = -90;
+				break;
+			case 8:
+				$orientation = 90;
+				break;
+			}
+		}
 		$imageHandler = new ImageHandler($request->getAcceptedType(), $this->settings, $this->fileSystem->getFile());
-		$imageHandler->resizeImage($resizeTo, 0);
+		$imageHandler->resizeImage($resizeTo, $orientation);
 		return $response;
 	}
 }
