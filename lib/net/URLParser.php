@@ -38,7 +38,7 @@ class URLParser {
 		$this->settings = $settings;
 
 		// Cleanup the bad things
-		$url = preg_replace(self::$urlPatterns, '', Normalizer::normalize(urldecode($url)));
+		$url = preg_replace(self::$urlPatterns, '', Normalizer::normalize(rawurldecode($url)));
 
 		// Strip prefix
 		if (strncmp($url, $this->settings->documentRoot, strlen($this->settings->documentRoot)) == 0) {
