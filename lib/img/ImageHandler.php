@@ -50,12 +50,25 @@ class ImageHandler {
 		$cachedImgName = $size.'_'.basename($this->file->getPath());
 
 		if (!empty($this->settings->cacheFolder)) {
-			$cache = new ImageCache($this->file->getFolder()->getPath(), $this->settings->cacheFolder);
+			if ($this->settings->cacheFolder[0] === '/') {
+				$cachePath = $this->settings->cacheFolder .
+					preg_replace(
+						'/^'.preg_quote($this->settings->dataDirectory, '/').'/',
+						'',
+						$this->file->getFolder()->getPath()
+						);
+				$cacheFolder = '.cache';
+				if (!is_dir($cachePath)) mkdir($cachePath, 0777, true);
+			} else {
+				$cachePath = $this->file->getFolder()->getPath();
+				$cacheFolder = $this->settings->cacheFolder;
+			}
+			$cache = new ImageCache($cachePath, $cacheFolder);
 			if (!$cache->exists()) return;
 
 			if ($cache->inCache($cachedImgName)) {
 				$imagestat = stat($this->file->getPath());
-				$cachestat = stat(dirname($this->file->getPath()).'/'.$this->settings->cacheFolder.'/'.$cachedImgName);
+				$cachestat = stat($cache->getPath().'/'.$cachedImgName);
 
 				if ($imagestat['mtime'] < $cachestat['mtime']) {
 					$cache->read($cachedImgName);
