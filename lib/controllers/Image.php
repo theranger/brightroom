@@ -63,11 +63,12 @@ class Image extends Controller {
 		switch ($request->getRequestType()) {
 			case RequestType::IMAGE_FILE:
 				$response->asType(ResponseCode::OK, $request->getAcceptedType());
-				$this->fileSystem->getFile()->read();
-				return $response;
+				$resizeTo = $this->settings->imageSize;
+				break;
 
 			case RequestType::THUMBNAIL_FILE:
 				$response->asType(ResponseCode::OK, $request->getAcceptedType());
+				$resizeTo = $this->settings->thumbnailSize;
 				break;
 
 			default:
@@ -76,8 +77,27 @@ class Image extends Controller {
 		}
 
 		// Thumbnail was requested
+		if ($resizeTo == 0) {
+			$this->fileSystem->getFile()->read();
+			return $response;
+		}
+		$exif = exif_read_data($this->fileSystem->getFile()->getPath());
+		$orientation = 0;
+		if ($exif !== FALSE && !empty($exif['Orientation'])) {
+			switch ($exif['Orientation']) {
+			case 3:
+				$orientation = 180;
+				break;
+			case 6:
+				$orientation = -90;
+				break;
+			case 8:
+				$orientation = 90;
+				break;
+			}
+		}
 		$imageHandler = new ImageHandler($request->getAcceptedType(), $this->settings, $this->fileSystem->getFile());
-		$imageHandler->resizeImage($this->settings->thumbnailSize, 0);
+		$imageHandler->resizeImage($resizeTo, $orientation);
 		return $response;
 	}
 }
