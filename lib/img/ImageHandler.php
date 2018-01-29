@@ -50,20 +50,14 @@ class ImageHandler {
 		$cachedImgName = $size.'_'.basename($this->file->getPath());
 
 		if (!empty($this->settings->cacheFolder)) {
-			if ($this->settings->cacheFolder[0] === '/') {
-				$cachePath = $this->settings->cacheFolder .
-					preg_replace(
-						'/^'.preg_quote($this->settings->dataDirectory, '/').'/',
-						'',
-						$this->file->getFolder()->getPath()
-						);
-				$cacheFolder = '.cache';
-				if (!is_dir($cachePath)) mkdir($cachePath, 0777, true);
-			} else {
-				$cachePath = $this->file->getFolder()->getPath();
-				$cacheFolder = $this->settings->cacheFolder;
-			}
-			$cache = new ImageCache($cachePath, $cacheFolder);
+
+			// If cache folder path is absolute, treat it as out of tree location
+			if ($this->settings->cacheFolder[0] === '/')
+				// Use image folder URL for out of tree caching since this maps 1:1 to actual relative path anyway
+				$cache = new ImageCache($this->settings->cacheFolder, $this->file->getFolder()->getURL());
+			else
+				$cache = new ImageCache($this->file->getFolder()->getPath(), $this->settings->cacheFolder);
+
 			if (!$cache->exists()) return;
 
 			if ($cache->inCache($cachedImgName)) {
