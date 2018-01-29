@@ -85,7 +85,9 @@ $settings["thumbnailSize"] = 100;
  * Full image size
  *
  * Image size for full image preview
- * Uncomment to always return the original image.
+ * Comment out to always return the original image.
+ *
+ * Default value: 0 (disable resize)
  */
 $settings["imageSize"] = 600;
 

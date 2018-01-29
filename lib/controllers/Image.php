@@ -78,12 +78,13 @@ class Image extends Controller {
 				return $response;
 		}
 
-		// Thumbnail was requested
 		if ($resizeTo == 0) {
+			// Resize was not requested, return original image
 			$this->fileSystem->getFile()->read();
 			return $response;
 		}
 
+		// Resize (result is returned and stored in cache)
 		$imageHandler = new ImageHandler($request->getAcceptedType(), $this->settings, $this->fileSystem->getFile());
 		$imageHandler->resizeImage($resizeTo, $this->exifParser->getOrientation());
 		return $response;
