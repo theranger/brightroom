@@ -32,10 +32,12 @@ include_once "img/ExifParser.php";
 class Image extends Controller {
 
 	private $fileSystem;
+	private $exifParser;
 
 	public function __construct(Session $session, Settings $settings, SecuredFileSystem $fileSystem) {
 		parent::__construct($session, $settings);
 		$this->fileSystem = $fileSystem;
+		$this->exifParser = new ExifParser($fileSystem->getFile());
 	}
 
 	public function get(Request $request): Response {
@@ -51,7 +53,7 @@ class Image extends Controller {
 				new UI($this->settings, $this->session);
 				new UICollection($this->settings, $folders, $this->fileSystem->getFolder());
 				new UINavigation($this->session, $this->fileSystem->getRoot()->getChildren(), $this->fileSystem->getFile());
-				new UIImage($this->fileSystem->getFile(), new ExifParser($this->fileSystem->getFile()));
+				new UIImage($this->fileSystem->getFile(), $this->exifParser);
 				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/image.php");
 		}
 
@@ -81,23 +83,9 @@ class Image extends Controller {
 			$this->fileSystem->getFile()->read();
 			return $response;
 		}
-		$exif = exif_read_data($this->fileSystem->getFile()->getPath());
-		$orientation = 0;
-		if ($exif !== FALSE && !empty($exif['Orientation'])) {
-			switch ($exif['Orientation']) {
-			case 3:
-				$orientation = 180;
-				break;
-			case 6:
-				$orientation = -90;
-				break;
-			case 8:
-				$orientation = 90;
-				break;
-			}
-		}
+
 		$imageHandler = new ImageHandler($request->getAcceptedType(), $this->settings, $this->fileSystem->getFile());
-		$imageHandler->resizeImage($resizeTo, $orientation);
+		$imageHandler->resizeImage($resizeTo, $this->exifParser->getOrientation());
 		return $response;
 	}
 }
