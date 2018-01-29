@@ -49,6 +49,8 @@ class ExifParser {
 		if (!key_exists("Orientation", $this->exifData)) return 0;
 
 		switch ($this->exifData["Orientation"]) {
+			case 3;
+				return 180;
 			case 6:
 				return -90;
 			case 8:
