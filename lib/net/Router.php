@@ -50,6 +50,14 @@ class Router {
 
 		// Handle request types that do not require session
 		switch ($request->getRequestType()) {
+			case RequestType::THEME_FILE:
+				$fileSystem = new SecuredFileSystem(getcwd(), $request->getURL(), $this->settings);	// Override file system object
+				if ($fileSystem->getFile() == null) return $this->renderResponse($request, ResponseCode::BAD_REQUEST);
+
+				$session = new Session($fileSystem, $this->settings);	// Override session with new filesystem
+				$fileController = new Text($session, $this->settings, $fileSystem->getFile());
+				return $fileController->get($request);
+
 			case RequestType::UNKNOWN:
 				$request->elaborateType($fileSystem);
 				return $this->route($request);
@@ -80,14 +88,6 @@ class Router {
 			case RequestType::IMAGE_FOLDER:
 				$collectionController = new Collection($session, $this->settings, $fileSystem);
 				return $collectionController->get($request);
-
-			case RequestType::THEME_FILE:
-				$fileSystem = new SecuredFileSystem(getcwd(), $request->getURL(), $this->settings);	// Override file system object
-				if ($fileSystem->getFile() == null) return $this->renderResponse($request, ResponseCode::BAD_REQUEST);
-
-				$session = new Session($fileSystem, $this->settings);	// Override session with new filesystem
-				$fileController = new Text($session, $this->settings, $fileSystem->getFile());
-				return $fileController->get($request);
 
 			case RequestType::ABOUT_PAGE:
 				$aboutController = new About($session, $this->settings, $fileSystem);
