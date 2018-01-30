@@ -43,10 +43,10 @@ class ThumbnailRenderer implements GenericRenderer {
 		}
 	}
 
-	public function render(int $size = -1, int $orientation = 0) {
+	public function render(int $size = 0, int $orientation = 0) {
 
-		// Image size not set, return file as-is
-		if ($size < 0) {
+		// Image size not set and orientation matches, return file as-is
+		if ($size == 0 && $orientation == 0) {
 			$this->file->read();
 			return;
 		}
@@ -88,6 +88,15 @@ class ThumbnailRenderer implements GenericRenderer {
 		$orig = $this->imageRenderer->loadFile($this->file->getPath());
 		if ($orientation != 0) $orig = imagerotate($orig, $orientation, 0);
 
+		// Nothing to resize, but image has been rotated.
+		// Do not save this in cache as it might not be cleaned up properly when EXIF info changes
+		// as cache is not invalidated when orientation is set to zero
+		if ($size == 0) {
+			$this->imageRenderer->setHandle($orig);
+			$this->imageRenderer->outputImage();
+			return;
+		}
+
 		$origH = imagesx($orig);
 		$origW = imagesy($orig);
 		$ratio = $origW / $origH;
@@ -99,7 +108,7 @@ class ThumbnailRenderer implements GenericRenderer {
 		imagecopyresampled($img, $orig, 0, 0, 0, 0, $newH, $newW, $origH, $origW);
 
 		$this->imageRenderer->setHandle($img);
-		$this->imageRenderer->outputImage($cachedImgPath);
+		$this->imageRenderer->saveImage($cachedImgPath);
 
 		if ($cache != null) $cache->read($cachedImgName);
 	}
