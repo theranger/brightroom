@@ -19,13 +19,13 @@ declare(strict_types = 1);
 
 include_once "system/Settings.php";
 include_once "io/Folder.php";
-include_once "ThumbnailRenderer.php";
+include_once "ImageRenderer.php";
 
 /**
  * Created by The Ranger (ranger@risk.ee) on 2016-12-13
  *
  */
-class BadgeRenderer extends ThumbnailRenderer {
+class BadgeRenderer extends ImageRenderer {
 
 	public function __construct(Settings $settings, Folder $folder) {
 		$entries = $folder->getContents();

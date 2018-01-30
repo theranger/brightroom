@@ -23,7 +23,7 @@ include_once "GenericRenderer.php";
 include_once "types/JPEGImage.php";
 include_once "types/PNGImage.php";
 
-class ThumbnailRenderer implements GenericRenderer {
+class ImageRenderer implements GenericRenderer {
 
 	private $image;
 	private $settings;

@@ -22,7 +22,7 @@ include_once "io/FileSystem.php";
 include_once "ui/UI.php";
 include_once "ui/UICollection.php";
 include_once "ui/UIImage.php";
-include_once "img/ThumbnailRenderer.php";
+include_once "img/ImageRenderer.php";
 include_once "img/ExifParser.php";
 
 /**
@@ -65,14 +65,14 @@ class Image extends Controller {
 		switch ($request->getRequestType()) {
 			case RequestType::IMAGE_FILE:
 				$response->asType(ResponseCode::OK, $request->getAcceptedType());
-				$thumbnailRenderer = new ThumbnailRenderer($this->settings, $this->fileSystem->getFile());
-				$thumbnailRenderer->render($this->settings->imageSize, $this->exifParser->getOrientation());
+				$imageRenderer = new ImageRenderer($this->settings, $this->fileSystem->getFile());
+				$imageRenderer->render($this->settings->imageSize, $this->exifParser->getOrientation());
 				return $response;
 
 			case RequestType::THUMBNAIL_FILE:
 				$response->asType(ResponseCode::OK, $request->getAcceptedType());		// Resize (result is returned and stored in cache)
-				$thumbnailRenderer = new ThumbnailRenderer($this->settings, $this->fileSystem->getFile());
-				$thumbnailRenderer->render($this->settings->thumbnailSize, $this->exifParser->getOrientation());
+				$imageRenderer = new ImageRenderer($this->settings, $this->fileSystem->getFile());
+				$imageRenderer->render($this->settings->thumbnailSize, $this->exifParser->getOrientation());
 				return $response;
 
 			default:
