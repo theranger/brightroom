@@ -25,7 +25,7 @@ include_once "types/PNGImage.php";
 
 class ThumbnailRenderer implements GenericRenderer {
 
-	private $imageRenderer;
+	private $image;
 	private $settings;
 	private $file;
 
@@ -35,10 +35,10 @@ class ThumbnailRenderer implements GenericRenderer {
 
 		switch ($file->getType()) {
 			case ContentType::JPEG:
-				$this->imageRenderer = new JPEGImage();
+				$this->image = new JPEGImage();
 				break;
 			case ContentType::PNG:
-				$this->imageRenderer = new PNGImage();
+				$this->image = new PNGImage();
 				break;
 		}
 	}
@@ -51,7 +51,7 @@ class ThumbnailRenderer implements GenericRenderer {
 			return;
 		}
 
-		if (!$this->imageRenderer) return;
+		if (!$this->image) return;
 
 		$cachedImgPath = null;
 		$cache = null;
@@ -85,15 +85,15 @@ class ThumbnailRenderer implements GenericRenderer {
 			$cachedImgPath = $cache->getImagePath($cachedImgName);
 		}
 
-		$orig = $this->imageRenderer->loadFile($this->file->getPath());
+		$orig = $this->image->loadFile($this->file->getPath());
 		if ($orientation != 0) $orig = imagerotate($orig, $orientation, 0);
 
 		// Nothing to resize, but image has been rotated.
 		// Do not save this in cache as it might not be cleaned up properly when EXIF info changes
 		// as cache is not invalidated when orientation is set to zero
 		if ($size == 0) {
-			$this->imageRenderer->setHandle($orig);
-			$this->imageRenderer->outputImage();
+			$this->image->setHandle($orig);
+			$this->image->outputImage();
 			return;
 		}
 
@@ -107,8 +107,8 @@ class ThumbnailRenderer implements GenericRenderer {
 		$img = imagecreatetruecolor($newH, $newW);
 		imagecopyresampled($img, $orig, 0, 0, 0, 0, $newH, $newW, $origH, $origW);
 
-		$this->imageRenderer->setHandle($img);
-		$this->imageRenderer->saveImage($cachedImgPath);
+		$this->image->setHandle($img);
+		$this->image->saveImage($cachedImgPath);
 
 		if ($cache != null) $cache->read($cachedImgName);
 	}
