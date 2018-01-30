@@ -65,28 +65,19 @@ class Image extends Controller {
 		switch ($request->getRequestType()) {
 			case RequestType::IMAGE_FILE:
 				$response->asType(ResponseCode::OK, $request->getAcceptedType());
-				$resizeTo = $this->settings->imageSize;
-				break;
+				$thumbnailRenderer = new ThumbnailRenderer($this->settings, $this->fileSystem->getFile());
+				$thumbnailRenderer->render($this->settings->imageSize);
+				return $response;
 
 			case RequestType::THUMBNAIL_FILE:
-				$response->asType(ResponseCode::OK, $request->getAcceptedType());
-				$resizeTo = $this->settings->thumbnailSize;
-				break;
+				$response->asType(ResponseCode::OK, $request->getAcceptedType());		// Resize (result is returned and stored in cache)
+				$thumbnailRenderer = new ThumbnailRenderer($this->settings, $this->fileSystem->getFile());
+				$thumbnailRenderer->render($this->settings->thumbnailSize);
+				return $response;
 
 			default:
 				$response->asType(ResponseCode::INTERNAL_SERVER_ERROR, $request->getAcceptedType());
 				return $response;
 		}
-
-		if ($resizeTo == 0) {
-			// Resize was not requested, return original image
-			$this->fileSystem->getFile()->read();
-			return $response;
-		}
-
-		// Resize (result is returned and stored in cache)
-		$imageHandler = new ImageHandler($request->getAcceptedType(), $this->settings, $this->fileSystem->getFile());
-		$imageHandler->resizeImage($resizeTo, $this->exifParser->getOrientation());
-		return $response;
 	}
 }
