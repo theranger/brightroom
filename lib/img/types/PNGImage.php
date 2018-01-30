@@ -28,8 +28,13 @@ class PNGImage implements GenericImage {
 		return $this->img;
 	}
 
-	public function outputImage(string $fileName) {
+	public function saveImage(string $fileName) {
 		imagepng($this->img, $fileName);
+		imagedestroy($this->img);
+	}
+
+	public function outputImage() {
+		imagepng($this->img);
 		imagedestroy($this->img);
 	}
 

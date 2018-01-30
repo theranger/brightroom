@@ -28,8 +28,13 @@ class JPEGImage implements GenericImage {
 		return $this->img;
 	}
 
-	public function outputImage(string $fileName) {
+	public function saveImage(string $fileName) {
 		imagejpeg($this->img, $fileName);
+		imagedestroy($this->img);
+	}
+
+	public function outputImage() {
+		imagejpeg($this->img);
 		imagedestroy($this->img);
 	}
 

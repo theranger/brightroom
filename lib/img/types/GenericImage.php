@@ -24,7 +24,9 @@ declare(strict_types = 1);
 interface GenericImage {
 	public function loadFile(string $path);
 
-	public function outputImage(string $fileName);
+	public function saveImage(string $fileName);
+
+	public function outputImage();
 
 	public function getHandle();
 
