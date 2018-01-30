@@ -51,12 +51,19 @@ class ThumbnailRenderer implements GenericRenderer {
 		$cachedImgName = $size.'_'.basename($this->file->getPath());
 
 		if (!empty($this->settings->cacheFolder)) {
-			$cache = new ImageCache($this->file->getFolder()->getPath(), $this->settings->cacheFolder);
+
+			// If cache folder path is absolute, treat it as out of tree location
+			if ($this->settings->cacheFolder[0] === '/')
+				// Use image folder URL for out of tree caching since this maps 1:1 to actual relative path anyway
+				$cache = new ImageCache($this->settings->cacheFolder, $this->file->getFolder()->getURL());
+			else
+				$cache = new ImageCache($this->file->getFolder()->getPath(), $this->settings->cacheFolder);
+
 			if (!$cache->exists()) return;
 
 			if ($cache->inCache($cachedImgName)) {
 				$imagestat = stat($this->file->getPath());
-				$cachestat = stat(dirname($this->file->getPath()).'/'.$this->settings->cacheFolder.'/'.$cachedImgName);
+				$cachestat = stat($cache->getPath().'/'.$cachedImgName);
 
 				if ($imagestat['mtime'] < $cachestat['mtime']) {
 					$cache->read($cachedImgName);

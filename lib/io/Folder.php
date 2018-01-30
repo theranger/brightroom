@@ -104,7 +104,7 @@ class Folder extends DirectoryEntry {
 	}
 
 	public function create(int $perms = 0): bool {
-		if (!mkdir($this->path)) return false;
+		if (!mkdir($this->path, $perms, true)) return false;
 
 		if ($perms == 0) return true;
 		return chmod($this->path, $perms);

@@ -58,8 +58,9 @@ $settings["imagePrefix"] = "/img";
 /**
  * Directory to store thumbnails and other resized images
  *
- * Created in every gallery folder
- * Therefore the gallery folder must be writable to the webserver
+ * Name of a folder which will be created in every gallery folder
+ * (which means the gallery folder must be writable to the webserver)
+ * or an absolute path to another folder which will be used.
  * Comment out to disable caching.
  */
 $settings["cacheFolder"] = ".cache";
@@ -84,6 +85,9 @@ $settings["thumbnailSize"] = 100;
  * Full image size
  *
  * Image size for full image preview
+ * Comment out to always return the original image.
+ *
+ * Default value: 0 (disable resize)
  */
 $settings["imageSize"] = 600;
 

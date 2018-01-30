@@ -43,9 +43,9 @@ class UIAbout implements IStaticModule {
 		</p>
 
 		<h2>Credits</h2>
-		This software is created by:
 		<ul>
-			<li>The Ranger (ranger at risk.ee)</li>
+			<li><a href="https://github.com/theranger">The Ranger</a> - ranger at risk.ee (maintainer, repository holder)</li>
+			<li><a href="https://github.com/tribut">Felix Eckhofer</a></li>
 		</ul>
 
 	<?php }

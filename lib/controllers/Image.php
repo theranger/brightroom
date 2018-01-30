@@ -32,10 +32,12 @@ include_once "img/ExifParser.php";
 class Image extends Controller {
 
 	private $fileSystem;
+	private $exifParser;
 
 	public function __construct(Session $session, Settings $settings, SecuredFileSystem $fileSystem) {
 		parent::__construct($session, $settings);
 		$this->fileSystem = $fileSystem;
+		$this->exifParser = new ExifParser($fileSystem->getFile());
 	}
 
 	public function get(Request $request): Response {
@@ -51,7 +53,7 @@ class Image extends Controller {
 				new UI($this->settings, $this->session);
 				new UICollection($this->session, $this->settings, $folders, $this->fileSystem->getFolder());
 				new UINavigation($this->session, $this->fileSystem->getRoot()->getChildren(), $this->fileSystem->getFile());
-				new UIImage($this->fileSystem->getFile(), new ExifParser($this->fileSystem->getFile()));
+				new UIImage($this->fileSystem->getFile(), $this->exifParser);
 				return $response->render(ResponseCode::OK, "themes/".$this->settings->theme."/image.php");
 		}
 
@@ -63,11 +65,12 @@ class Image extends Controller {
 		switch ($request->getRequestType()) {
 			case RequestType::IMAGE_FILE:
 				$response->asType(ResponseCode::OK, $request->getAcceptedType());
-				$this->fileSystem->getFile()->read();
-				return $response;
+				$resizeTo = $this->settings->imageSize;
+				break;
 
 			case RequestType::THUMBNAIL_FILE:
 				$response->asType(ResponseCode::OK, $request->getAcceptedType());
+				$resizeTo = $this->settings->thumbnailSize;
 				break;
 
 			default:
@@ -75,9 +78,15 @@ class Image extends Controller {
 				return $response;
 		}
 
-		// Thumbnail was requested
-		$thumbnailRenderer = new ThumbnailRenderer($this->settings, $this->fileSystem->getFile());
-		$thumbnailRenderer->render($this->settings->thumbnailSize);
+		if ($resizeTo == 0) {
+			// Resize was not requested, return original image
+			$this->fileSystem->getFile()->read();
+			return $response;
+		}
+
+		// Resize (result is returned and stored in cache)
+		$imageHandler = new ImageHandler($request->getAcceptedType(), $this->settings, $this->fileSystem->getFile());
+		$imageHandler->resizeImage($resizeTo, $this->exifParser->getOrientation());
 		return $response;
 	}
 }
