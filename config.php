@@ -89,7 +89,7 @@ $settings["thumbnailSize"] = 100;
  *
  * Default value: 0 (disable resize)
  */
-$settings["imageSize"] = 600;
+//$settings["imageSize"] = 0;
 
 /**
  * Badge width
