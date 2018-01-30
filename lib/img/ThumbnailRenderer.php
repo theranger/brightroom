@@ -43,7 +43,7 @@ class ThumbnailRenderer implements GenericRenderer {
 		}
 	}
 
-	public function render(int $size = -1) {
+	public function render(int $size = -1, int $orientation = 0) {
 
 		// Image size not set, return file as-is
 		if ($size < 0) {
@@ -86,6 +86,7 @@ class ThumbnailRenderer implements GenericRenderer {
 		}
 
 		$orig = $this->imageRenderer->loadFile($this->file->getPath());
+		if ($orientation != 0) $orig = imagerotate($orig, $orientation, 0);
 
 		$origH = imagesx($orig);
 		$origW = imagesy($orig);

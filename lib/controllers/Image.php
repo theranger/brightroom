@@ -66,13 +66,13 @@ class Image extends Controller {
 			case RequestType::IMAGE_FILE:
 				$response->asType(ResponseCode::OK, $request->getAcceptedType());
 				$thumbnailRenderer = new ThumbnailRenderer($this->settings, $this->fileSystem->getFile());
-				$thumbnailRenderer->render($this->settings->imageSize);
+				$thumbnailRenderer->render($this->settings->imageSize, $this->exifParser->getOrientation());
 				return $response;
 
 			case RequestType::THUMBNAIL_FILE:
 				$response->asType(ResponseCode::OK, $request->getAcceptedType());		// Resize (result is returned and stored in cache)
 				$thumbnailRenderer = new ThumbnailRenderer($this->settings, $this->fileSystem->getFile());
-				$thumbnailRenderer->render($this->settings->thumbnailSize);
+				$thumbnailRenderer->render($this->settings->thumbnailSize, $this->exifParser->getOrientation());
 				return $response;
 
 			default:
