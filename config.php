@@ -87,9 +87,9 @@ $settings["thumbnailSize"] = 100;
  * Image size for full image preview
  * Comment out to always return the original image.
  *
- * Default value: 0 (disable resize)
+ * Default value: -1 (disable resize)
  */
-//$settings["imageSize"] = 0;
+//$settings["imageSize"] = -1;
 
 /**
  * Badge width

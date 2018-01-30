@@ -43,7 +43,14 @@ class ThumbnailRenderer implements GenericRenderer {
 		}
 	}
 
-	public function render(int $size) {
+	public function render(int $size = -1) {
+
+		// Image size not set, return file as-is
+		if ($size < 0) {
+			$this->file->read();
+			return;
+		}
+
 		if (!$this->imageRenderer) return;
 
 		$cachedImgPath = null;
