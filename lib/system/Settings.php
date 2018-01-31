@@ -29,6 +29,8 @@ class Settings {
 
 	public $imageSize = 0;
 
+	public $badgeFile = ".badge";
+
 	public $badgeWidth = 200;
 
 	public $badgeElementCount = 3;

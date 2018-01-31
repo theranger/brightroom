@@ -92,6 +92,16 @@ $settings["thumbnailSize"] = 100;
 //$settings["imageSize"] = 0;
 
 /**
+ * Badge file
+ *
+ * Name of the custom per-directory badge file. This file is used when no suitable
+ * images were found for badge rendering.
+ *
+ * Default value: .badge
+ */
+//$settings["badgeFile"] = ".badge";
+
+/**
  * Badge width
  *
  * Width of the directory badge. Badge height is the same as THUMBNAIL_SIZE

@@ -28,14 +28,24 @@ include_once "ImageRenderer.php";
 class BadgeRenderer extends ImageRenderer {
 
 	public function __construct(Settings $settings, Folder $folder) {
+		$file = $this->getBadge($folder);
+
+		// No suitable badge found. Try with per-directory badge
+		if ($file === NULL) $file = new File($folder, $settings->badgeFile);
+		parent::__construct($settings, $file);
+	}
+
+	private function getBadge(Folder $folder) {
 		$entries = $folder->getContents();
 		foreach ($entries as $entry) {
-			if ($entry instanceof File) {
-				parent::__construct($settings, $entry);
-				return;
-			}
+			if ($entry instanceof File) return $entry;
 		}
 
-		parent::__construct($settings, NULL);
+		foreach ($entries as $entry) {
+			if (!($entry instanceof Folder)) continue;
+			if (($file = $this->getBadge($entry)) !== NULL) return $file;
+		}
+
+		return NULL;
 	}
 }
