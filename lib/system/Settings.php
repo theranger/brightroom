@@ -29,7 +29,7 @@ class Settings {
 
 	public $imageSize = 0;
 
-	public $badgeFile = ".badge";
+	public $badgeFile = "Badge.png";
 
 	public $badgeWidth = 200;
 

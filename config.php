@@ -94,12 +94,12 @@ $settings["thumbnailSize"] = 100;
 /**
  * Badge file
  *
- * Name of the custom per-directory badge file. This file is used when no suitable
+ * Name of the badge file located in theme image assets folder. This file is used when no suitable
  * images were found for badge rendering.
  *
- * Default value: .badge
+ * Default value: Badge.png
  */
-//$settings["badgeFile"] = ".badge";
+//$settings["badgeFile"] = "Badge.png";
 
 /**
  * Badge width
