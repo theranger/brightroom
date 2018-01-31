@@ -89,17 +89,19 @@ a.br-badge {
 }
 
 a.br-badge img {
-	border-right: 5px double black;
-	border-bottom: 5px double black;
+	border: 1px solid #19353f;
+	border-radius: 7px;
+	border-bottom-width: 2px;
+	border-right-width: 2px;
 }
 
 a.br-badge:after {
 	content: attr(title);
 	position: absolute;
 	z-index: 100;
-	bottom: 7px;
+	bottom: 5px;
 	left: 0;
-	right: 5px;
+	right: 1px;
 	background-color:rgba(0, 0, 0, 0.5);
 	padding: 2px;
 	text-transform: capitalize;
