@@ -31,10 +31,12 @@ include_once "img/BadgeRenderer.php";
 class Collection extends Controller {
 
 	private $fileSystem;
+	private $themeFileSystem;
 
-	public function __construct(Session $session, Settings $settings, SecuredFileSystem $fileSystem) {
+	public function __construct(Session $session, Settings $settings, SecuredFileSystem $fileSystem, SecuredFileSystem $themeFileSystem) {
 		parent::__construct($session, $settings);
 		$this->fileSystem = $fileSystem;
+		$this->themeFileSystem = $themeFileSystem;
 	}
 
 	public function get(Request $request): Response {
@@ -62,8 +64,11 @@ class Collection extends Controller {
 	}
 
 	private function handleBadge(Request $request, Response $response): Response {
-		$badgeRenderer = new BadgeRenderer($this->settings, $this->fileSystem->getFolder());
-		$badgeRenderer->render($this->settings->badgeWidth);
-		return $response;
+		$badgeFile = new File($this->themeFileSystem->getFolder(), "images/" . $this->settings->badgeFile);
+
+		$badgeRenderer = new BadgeRenderer($this->settings, $this->fileSystem->getFolder(), $badgeFile);
+		if ($badgeRenderer->render($this->settings->badgeWidth)) return $response;
+
+		return $response->asType(ResponseCode::NOT_FOUND, $request->getAcceptedType());
 	}
 }
