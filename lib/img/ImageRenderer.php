@@ -43,21 +43,22 @@ class ImageRenderer implements GenericRenderer {
 		}
 	}
 
-	public function render(int $size = 0, int $orientation = 0) {
+	public function render(int $size = 0, int $orientation = 0, bool $disableCache = false): bool {
+
+		// Check that image exist, before trying anything
+		if (!$this->image) return false;
 
 		// Image size not set and orientation matches, return file as-is
 		if ($size == 0 && $orientation == 0) {
 			$this->file->read();
-			return;
+			return true;
 		}
-
-		if (!$this->image) return;
 
 		$cachedImgPath = null;
 		$cache = null;
 		$cachedImgName = $size.'_'.basename($this->file->getPath());
 
-		if (!empty($this->settings->cacheFolder)) {
+		if (!empty($this->settings->cacheFolder) && !$disableCache) {
 
 			// If cache folder path is absolute, treat it as out of tree location
 			if ($this->settings->cacheFolder[0] === '/')
@@ -66,7 +67,7 @@ class ImageRenderer implements GenericRenderer {
 			else
 				$cache = new ImageCache($this->file->getFolder()->getPath(), $this->settings->cacheFolder);
 
-			if (!$cache->exists()) return;
+			if (!$cache->exists()) return false;
 
 			if ($cache->inCache($cachedImgName)) {
 				$imagestat = stat($this->file->getPath());
@@ -74,7 +75,7 @@ class ImageRenderer implements GenericRenderer {
 
 				if ($imagestat['mtime'] < $cachestat['mtime']) {
 					$cache->read($cachedImgName);
-					return;
+					return true;
 				}
 
 				//If we are here, original image mtime was newer than cached image mtime
@@ -94,7 +95,7 @@ class ImageRenderer implements GenericRenderer {
 		if ($size == 0) {
 			$this->image->setHandle($orig);
 			$this->image->outputImage();
-			return;
+			return true;
 		}
 
 		$origH = imagesx($orig);
@@ -108,9 +109,16 @@ class ImageRenderer implements GenericRenderer {
 		imagecopyresampled($img, $orig, 0, 0, 0, 0, $newH, $newW, $origH, $origW);
 
 		$this->image->setHandle($img);
-		$this->image->saveImage($cachedImgPath);
 
-		if ($cache != null) $cache->read($cachedImgName);
+		// Caching is disabled, output image immediately
+		if ($cache == null) {
+			$this->image->outputImage();
+			return true;
+		}
+
+		$this->image->saveImage($cachedImgPath);
+		$cache->read($cachedImgName);
+		return true;
 	}
 }
 

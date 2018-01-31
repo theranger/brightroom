@@ -27,12 +27,11 @@ include_once "ImageRenderer.php";
  */
 class BadgeRenderer extends ImageRenderer {
 
-	public function __construct(Settings $settings, Folder $folder) {
-		$file = $this->getBadge($folder);
+	private $folderBadge;
 
-		// No suitable badge found. Try with per-directory badge
-		if ($file === NULL) $file = new File($folder, $settings->badgeFile);
-		parent::__construct($settings, $file);
+	public function __construct(Settings $settings, Folder $folder, File $defaultBadge) {
+		$this->folderBadge = $this->getBadge($folder);
+		parent::__construct($settings, $this->folderBadge === NULL ? $defaultBadge : $this->folderBadge);
 	}
 
 	private function getBadge(Folder $folder) {
@@ -47,5 +46,9 @@ class BadgeRenderer extends ImageRenderer {
 		}
 
 		return NULL;
+	}
+
+	public function render(int $size = 0, int $orientation = 0, bool $disableCache = false): bool {
+		return parent::render($size, $orientation, $this->folderBadge === NULL);
 	}
 }
